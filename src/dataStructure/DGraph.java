@@ -1,6 +1,11 @@
 package dataStructure;
 
-import java.io.Serializable;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import utils.*;
+
+import java.io.*;
 import java.util.*;
 
 
@@ -11,8 +16,49 @@ public class DGraph implements graph, Serializable {
 	public int EdgeSize = 0;
 	public int keyCounter = 1 ;
 	public int MC;
-
+//	public void drawFunctions(String json_file) {
+//		Gson json = new Gson();
+//		try{
+////			FileReader filereader = new FileReader(json_file);
+////			JsonParametrs parm = json.fromJson(filereader,JsonParametrs.class);
+////			Range rx = new Range(parm.Range_X[0],parm.Range_X[1]);
+////			Range ry = new Range(parm.Range_Y[0],parm.Range_Y[1]);
+////			drawFunctions(parm.Width,parm.Height,rx,ry,parm.Resolution);
+////		}
+//		catch(FileNotFoundException|IllegalArgumentException |com.google.gson.JsonSyntaxException|com.google.gson.JsonIOException e){
+//			System.out.println("The Json file is not correct, drawing diff");
+//			this.drawFunctions();
+//		}
+//	}
 	public void init(String jsonFile){
+		Gson json = new Gson();
+		try{
+			FileReader filereader = new FileReader(jsonFile);
+			JsonParametrs parm = json.fromJson(filereader,JsonParametrs.class);
+			this.GraphMap = parm.GraphMap;
+			this.edgeHM = parm.edgeHM;
+			this.EdgeSize = parm.EdgeSize;
+			this.keyCounter = parm.keyCounter;
+			this.MC = parm.MC;
+		}
+		catch(IllegalArgumentException | JsonSyntaxException | JsonIOException | FileNotFoundException e){
+			System.out.println("The Json file is not correct, drawing diff");
+		}
+	}
+	public void SaveToJson(String file_name) throws IOException {
+		Gson gson = new Gson();
+
+		JsonParametrs obj = new JsonParametrs();
+		obj.MC = 3 ;
+		obj.EdgeSize = 8 ;
+		obj.GraphMap = new HashMap<Integer, node_data>();
+		obj.GraphMap.put(1,new NodeData(1,1,1));
+		// 1. Java object to JSON file
+
+		gson.toJson(obj, new FileWriter(file_name));
+
+		// 2. Java object to JSON string
+		String jsonInString = gson.toJson(obj);
 
 	}
 	/**
@@ -193,8 +239,11 @@ public class DGraph implements graph, Serializable {
 	}
 
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws IOException {
+		DGraph p = new DGraph() ;
+		NodeData q = new NodeData(1,1,1);
+		p.addNode(q);
+		p.SaveToJson("YALA");
 	}
 
 }
