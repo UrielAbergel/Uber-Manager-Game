@@ -1,27 +1,24 @@
 package gameClient;
 
+import algorithms.*;
+import utils.Point3D;
 
-import dataStructure.*;
-import utils.*;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Fruits implements objects_on_the_map {
+public class Player implements objects_on_the_map {
+    int key, tag=0;
+    double weight = 0;
+    Point3D location;
+    String pic = "", info = "";
 
-    // Amazon = -1
-    // Ebay = -2
-
-    private Point3D location;
-    int key,type,tag=0;
-    static int keyCounter = 1;
-    double value;
-    String info = "";
-    String pic = "";
-    public Fruits(Point3D loc){
-        this.location = loc;
-        this.key = keyCounter++;
+    public void InsertAPicture(String file_name) {
+        this.pic = file_name;
     }
 
-    public int getType(){
-        return this.type;
+    @Override
+    public boolean WhatTypeAreYOU() {
+        return true;
     }
 
     @Override
@@ -41,12 +38,12 @@ public class Fruits implements objects_on_the_map {
 
     @Override
     public double getWeight() {
-        return this.value;
+        return this.weight;
     }
 
     @Override
     public void setWeight(double w) {
-        this.value = w;
+        this.weight = w;
     }
 
     @Override
@@ -67,15 +64,5 @@ public class Fruits implements objects_on_the_map {
     @Override
     public void setTag(int t) {
         this.tag = t;
-    }
-
-    @Override
-    public void InsertAPicture(String file_name) {
-        this.pic = file_name;
-    }
-
-    @Override
-    public boolean WhatTypeAreYOU() {
-        return false;
     }
 }

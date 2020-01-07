@@ -27,8 +27,10 @@ package utils;
  *
  ******************************************************************************/
 
-import gui.GUI;
+import gameClient.MyGameGUI;
 import dataStructure.*;
+import gameClient.MyGameGUI;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -472,7 +474,7 @@ import javax.swing.*;
  *  @author Kevin Wayne
  */
 public class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
-	public static GUI thisGui = new GUI();
+	public static MyGameGUI thisGui = new MyGameGUI();
 	/**
 	 *  The color black.
 	 */
@@ -1692,7 +1694,6 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int src = Integer.parseInt(Src);
 			double weight = Integer.parseInt(Weight);
 			thisGui.AlgoGraph.getGraph().connect(src,dest,weight);
-			thisGui.update();
 		}
 		if (e.getActionCommand().equals("isConnected")){
 			JFrame f = new JFrame();
@@ -1749,7 +1750,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			String filename = chooser.getFile();
 			if (filename != null) {
 				StdDraw.load(chooser.getDirectory() + File.separator + chooser.getFile());
-				//thisGui.update();
+
 			}
 		}
 	}
@@ -1817,7 +1818,6 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			double y = mouseY;
 			node_data newNode = new NodeData(x,y,0);
 			thisGui.AlgoGraph.getGraph().addNode(newNode);
-			thisGui.update();
 			flag1 = false;
 		}
 		else if(flag2){
@@ -1827,7 +1827,6 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int y = Integer.parseInt(Y);
 			node_data newNode = new NodeData(x,y,0);
 			thisGui.AlgoGraph.getGraph().addNode(newNode);
-			thisGui.update();
 			flag2 = false;
 		}
 		else if(flag3){
@@ -1836,7 +1835,6 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			String Weight = JOptionPane.showInputDialog("Weight");
 			double weight = Integer.parseInt(Weight);
 			thisGui.AlgoGraph.getGraph().connect((int)x,(int)y,weight);
-			thisGui.update();
 			flag3 = false;
 		}
 	}

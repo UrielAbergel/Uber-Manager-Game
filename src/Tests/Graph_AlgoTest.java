@@ -5,7 +5,7 @@ import dataStructure.DGraph;
 import dataStructure.NodeData;
 import dataStructure.graph;
 import dataStructure.node_data;
-import gui.GUI;
+import gameClient.*;
 import org.junit.Test;
 import utils.Point3D;
 import algorithms.graph_algorithms;
@@ -329,7 +329,7 @@ public class Graph_AlgoTest {
         r.add(6);
         r.add(5);
         List<node_data> ans = p.TSP(r);
-        GUI q = new GUI();
+        MyGameGUI q = new MyGameGUI();
         q.init(p);
         q.MainDraw();
         assertEquals(ans.get(0).getKey(),1);
