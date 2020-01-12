@@ -74,7 +74,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/GameServer_v0.21.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/GameServer_v0.27.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
