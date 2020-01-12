@@ -4,14 +4,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import dataStructure.edge_data;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import dataStructure.*;
 import Server.Game_Server;
 import Server.game_service;
-import oop_dataStructure.OOP_DGraph;
-import oop_dataStructure.oop_edge_data;
-import oop_dataStructure.oop_graph;
 /**
  * This class represents a simple example for using the GameServer API:
  * the main file performs the following tasks:
@@ -31,12 +29,13 @@ import oop_dataStructure.oop_graph;
  */
 public class SimpleGameClient {
     public static void main(String[] a) {
-        test1();}
+        test1();
+    }
     public static void test1() {
         int scenario_num = 2;
         game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
         String g = game.getGraph();
-        OOP_DGraph gg = new OOP_DGraph();
+        DGraph gg = new DGraph();
         gg.init(g);
         String info = game.toString();
         JSONObject line;
@@ -70,7 +69,7 @@ public class SimpleGameClient {
      * @param gg
      * @param
      */
-    private static void moveRobots(game_service game, oop_graph gg) {
+    private static void moveRobots(game_service game, graph gg) {
         List<String> log = game.move();
         if(log!=null) {
             long t = game.timeToEnd();
@@ -100,10 +99,10 @@ public class SimpleGameClient {
      * @param src
      * @return
      */
-    private static int nextNode(oop_graph g, int src) {
+    private static int nextNode(graph g, int src) {
         int ans = -1;
-        Collection<oop_edge_data> ee = g.getE(src);
-        Iterator<oop_edge_data> itr = ee.iterator();
+        Collection<edge_data> ee = g.getE(src);
+        Iterator<edge_data> itr = ee.iterator();
         int s = ee.size();
         int r = (int)(Math.random()*s);
         int i=0;

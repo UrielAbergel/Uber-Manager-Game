@@ -6,6 +6,9 @@ import com.google.gson.JsonSyntaxException;
 import gameClient.Fruits;
 import gameClient.Player;
 import gameClient.*;
+import oop_elements.OOP_NodeData;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.*;
 import java.io.*;
 import java.util.*;
@@ -18,58 +21,122 @@ public class DGraph implements graph, Serializable {
 	public int EdgeSize = 0;
 	public int keyCounter = 1;
 	public int MC;
+	private int type;
+	private int count;
 	public HashMap<Integer, objects_on_the_map> PlayerMap = new HashMap<>();
 	public HashMap<Integer , objects_on_the_map> FruitsMap = new HashMap<>();
+	public DGraph(int type) {
+		this.init();
+		this.type = type;
+		this.count = 0;
+		this.MC = 0;
+	}
+	private void init() {
+		this.GraphMap = new HashMap();
+		this.edgeHM = new HashMap();
+	}
+	public void init(String jsonSTR) {
+		try {
+			OOP_NodeData.resetCount();
+			this.init();
+			this.count = 0;
+			JSONObject graph = new JSONObject(jsonSTR);
+			JSONArray nodes = graph.getJSONArray("Nodes");
+			JSONArray edges = graph.getJSONArray("Edges");
 
+			int i;
+			int s;
+			for(i = 0; i < nodes.length(); ++i) {
+				s = nodes.getJSONObject(i).getInt("id");
+				String pos = nodes.getJSONObject(i).getString("pos");
+				Point3D p = new Point3D(pos);
+				this.addNode(new NodeData(p));
+			}
 
-//	public void drawFunctions(String json_file) {
-//		Gson json = new Gson();
-//		try{
-////			FileReader filereader = new FileReader(json_file);
-////			JsonParametrs parm = json.fromJson(filereader,JsonParametrs.class);
-////			Range rx = new Range(parm.Range_X[0],parm.Range_X[1]);
-////			Range ry = new Range(parm.Range_Y[0],parm.Range_Y[1]);
-////			drawFunctions(parm.Width,parm.Height,rx,ry,parm.Resolution);
-////		}
-//		catch(FileNotFoundException|IllegalArgumentException |com.google.gson.JsonSyntaxException|com.google.gson.JsonIOException e){
-//			System.out.println("The Json file is not correct, drawing diff");
-//			this.drawFunctions();
-//		}
-//	}
-//	public void init(String jsonFile){
-//		Gson json = new Gson();
-//		try{
-//			FileReader filereader = new FileReader(jsonFile);
-//			JsonParametrs parm = json.fromJson(filereader,JsonParametrs.class);
-//			this.GraphMap = parm.GraphMap;
-//			this.edgeHM = parm.edgeHM;
-//			this.EdgeSize = parm.EdgeSize;
-//			this.keyCounter = parm.keyCounter;
-//			this.MC = parm.MC;
-//		}
-//		catch(IllegalArgumentException | JsonSyntaxException | JsonIOException | FileNotFoundException e){
-//			System.out.println("The Json file is not correct, drawing diff");
-//		}
-//	}
-//	public void SaveToJson(String file_name) throws IOException {
-//		Gson gson = new Gson();
-//
-//		JsonParametrs obj = new JsonParametrs();
-//		obj.MC = 3 ;
-//		obj.EdgeSize = 8 ;
-//		obj.GraphMap = new HashMap<Integer, node_data>();
-//		obj.GraphMap.put(1,new NodeData(1,1,1));
-//		// 1. Java object to JSON file
-//
-//		gson.toJson(obj, new FileWriter(file_name));
-//
-//		// 2. Java object to JSON string
-//		String jsonInString = gson.toJson(obj);
-//
-//	}
+			for(i = 0; i < edges.length(); ++i) {
+				s = edges.getJSONObject(i).getInt("src");
+				int d = edges.getJSONObject(i).getInt("dest");
+				double w = edges.getJSONObject(i).getDouble("w");
+				this.connect(s, d, w);
+			}
+		} catch (Exception var10) {
+			var10.printStackTrace();
+		}
 
+	}
+	public String toJSON() {
+		JSONObject allEmps = new JSONObject();
+		JSONArray VArray = new JSONArray();
+		JSONArray EArray = new JSONArray();
+		Collection<node_data> V = this.getV();
+		Iterator<node_data> iter = V.iterator();
+		Collection<edge_data> E = null;
+		Iterator itr = null;
 
+		try {
+			while(iter.hasNext()) {
+				node_data nn = (node_data) iter.next();
+				int n = nn.getKey();
+				String p = nn.getLocation().toString();
+				JSONObject node = new JSONObject();
+				node.put("id", n);
+				node.put("pos", p);
+				VArray.put(node);
+				itr = this.getE(n).iterator();
 
+				while(itr.hasNext()) {
+					edge_data ee = (edge_data)itr.next();
+					JSONObject edge = new JSONObject();
+					edge.put("src", ee.getSrc());
+					edge.put("dest", ee.getDest());
+					edge.put("w", ee.getWeight());
+					EArray.put(edge);
+				}
+			}
+
+			allEmps.put("Nodes", VArray);
+			allEmps.put("Edges", EArray);
+		} catch (Exception var14) {
+			var14.printStackTrace();
+		}
+
+		return allEmps.toString();
+	}
+
+	public DGraph(String file_name) {
+		try {
+			this.init();
+			OOP_NodeData.resetCount();
+			Scanner scanner = new Scanner(new File(file_name));
+			String jsonString = scanner.useDelimiter("\\A").next();
+			scanner.close();
+			JSONObject graph = new JSONObject(jsonString);
+			JSONArray nodes = graph.getJSONArray("Nodes");
+			JSONArray edges = graph.getJSONArray("Edges");
+
+			int i;
+			int s;
+			for(i = 0; i < nodes.length(); ++i) {
+				//s = nodes.getJSONObject(i).getInt("id");
+				String pos = nodes.getJSONObject(i).getString("pos");
+				Point3D p = new Point3D(pos);
+				this.addNode(new NodeData(p));
+			}
+
+			for(i = 0; i < edges.length(); ++i) {
+				s = edges.getJSONObject(i).getInt("src");
+				int d = edges.getJSONObject(i).getInt("dest");
+				double w = edges.getJSONObject(i).getDouble("w");
+				this.connect(s, d, w);
+			}
+		} catch (Exception var12) {
+			var12.printStackTrace();
+		}
+
+	}
+	public DGraph() {
+		this(1);
+	}
 	/**
 	 * reset use only for test!!!
 	 */
