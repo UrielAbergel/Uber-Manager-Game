@@ -1,7 +1,9 @@
 package gameClient;
 
 
-import dataStructure.*;
+import netscape.javascript.JSObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import utils.*;
 
 public class Fruit implements Fruits {
@@ -18,9 +20,18 @@ public class Fruit implements Fruits {
 
 
 
-    public Fruit(Point3D loc){
+    public Fruit(Point3D loc , int type){
+        this.type = type;
         this.location = loc;
         this.key = keyCounter++;
+    }
+    public Fruit(String json) throws JSONException {
+        JSONObject fruit = new JSONObject(json);
+        JSONObject newFruit = fruit.getJSONObject("Fruit");
+        this.type = newFruit.getInt("type");
+        this.value = newFruit.getInt("value");
+        this.location = new Point3D(newFruit.getString("pos"));
+        setPicture(this.type);
     }
 
 
@@ -72,12 +83,24 @@ public class Fruit implements Fruits {
 
 
     @Override
-    public void InsertAPicture(String file_name) {
-
+    public void setPicture(int type) {
+        if (type == -1) {
+            this.pic = "pic//Ebay.png";
+            return;
+        }
+        if(type == 1) {
+            this.pic = "pic//Amazon.png";
+            return ;
+        }
     }
-
     @Override
     public int getType() {
         return  this.type ;
+    }
+
+
+    @Override
+    public String getPicture() {
+        return this.pic;
     }
 }

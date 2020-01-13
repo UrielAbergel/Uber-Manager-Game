@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import utils.*;
 import java.io.*;
 import java.util.*;
+import java.util.Scanner;
 
 
 public class DGraph implements graph, Serializable {
@@ -15,7 +16,7 @@ public class DGraph implements graph, Serializable {
 	public HashMap<Integer,node_data> GraphMap = new HashMap<>();
 	public HashMap<Integer,HashMap<Integer,edge_data>> edgeHM = new HashMap<Integer, HashMap<Integer, edge_data>>();
 	public int EdgeSize = 0;
-	public int keyCounter = 1;
+	public int keyCounter = 0;
 	public int MC;
 	private int type;
 	private int count;

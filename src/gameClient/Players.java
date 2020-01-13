@@ -11,9 +11,9 @@ public interface Players extends node_data {
      * The player will be given an option not to insert a picture at all and this will be taken from the project
      * */
 
-    public void InsertAPicture(String file_name);
+    public void setPicture(int key);
 
-
+    public String getPicture();
 
     public int getSpeed();
 
@@ -26,4 +26,5 @@ public interface Players extends node_data {
     public int getSrc();
 
     public void setSrc(int src);
+    public void MoveRobotToNextDest(int dest);
 }

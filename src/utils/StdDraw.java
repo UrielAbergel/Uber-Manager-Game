@@ -27,6 +27,8 @@ package utils;
  *
  ******************************************************************************/
 
+import Server.Game_Server;
+import Server.game_service;
 import gameClient.MyGameGUI;
 import dataStructure.*;
 import gameClient.MyGameGUI;
@@ -41,6 +43,9 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import algorithms.*;
+import gameClient.Player;
+import gameClient.Players;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,6 +74,9 @@ import java.util.TreeSet;
 import java.util.NoSuchElementException;
 
 import javax.swing.*;
+
+import static java.lang.Thread.sleep;
+
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -711,12 +719,15 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	public static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
+		JMenu menu4 = new JMenu("Game");
 		JMenu menu2 = new JMenu("Algo");
 		JMenu menu3 = new JMenu("Actions");
 
 		menuBar.add(menu);
+		menuBar.add(menu4);
 		menuBar.add(menu2);
 		menuBar.add(menu3);
+
 		JMenuItem menuItem1 = new JMenuItem("Save...");
 		JMenuItem menuItem6 = new JMenuItem("Load...");
 		menuItem1.addActionListener(std);
@@ -759,6 +770,16 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		point4.addActionListener(std);
 		removeEdge.addActionListener(std);
 		removeNode.addActionListener(std);
+		JMenuItem newGame = new JMenuItem("Game Scenario");
+		menu4.add(newGame);
+		JMenuItem Start = new JMenuItem("Start Game");
+		JMenuItem MoveRobot = new JMenuItem("Move Robot");
+		menu4.add(newGame);
+		menu4.add(Start);
+		menu4.add(MoveRobot);
+		MoveRobot.addActionListener(std);
+		Start.addActionListener(std);
+		newGame.addActionListener(std);
 		return menuBar;
 	}
 
@@ -1592,7 +1613,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	 */
 	public static void pause(int t) {
 		try {
-			Thread.sleep(t);
+			sleep(t);
 		}
 		catch (InterruptedException e) {
 			System.out.println("Error sleeping");
@@ -1648,11 +1669,11 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	public static void load(String filename) {
 		System.out.println(filename);
 		if (filename == null) throw new IllegalArgumentException();
-		theMain.AlgoGraph.init(filename);
+		theMain.fullGame.getAlgo().init(filename);
 		theMain.MainDraw();
 	}
 	public static void save(String filename) {
-		StdDraw.theMain.AlgoGraph.save(filename);
+		StdDraw.theMain.fullGame.getAlgo().save(filename);
 	}
 
 
@@ -1667,12 +1688,12 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	public void actionPerformed(ActionEvent e) {//menu bar
 		if(e.getActionCommand().equals("Remove Node")){
 			String key = JOptionPane.showInputDialog("Key");
-			theMain.AlgoGraph.getGraph().removeNode(Integer.parseInt(key));
+			theMain.fullGame.getGraphM().removeNode(Integer.parseInt(key));
 		}
 		if(e.getActionCommand().equals("Remove Edge")){
 			String src = JOptionPane.showInputDialog("src");
 			String dest = JOptionPane.showInputDialog("dest");
-			theMain.AlgoGraph.getGraph().removeEdge(Integer.parseInt(src),Integer.parseInt(dest));
+			theMain.fullGame.getGraphM().removeEdge(Integer.parseInt(src),Integer.parseInt(dest));
 		}
 		if(e.getActionCommand().equals("Node with mouse")){
 			flag1 = true;
@@ -1693,25 +1714,25 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int dest = Integer.parseInt(Dest);
 			int src = Integer.parseInt(Src);
 			double weight = Integer.parseInt(Weight);
-			theMain.AlgoGraph.getGraph().connect(src,dest,weight);
+			theMain.fullGame.getGraphM().connect(src,dest,weight);
 		}
 		if (e.getActionCommand().equals("isConnected")){
 			JFrame f = new JFrame();
-			System.out.println(theMain.AlgoGraph.isConnected());
-			JOptionPane.showMessageDialog(f,""+theMain.AlgoGraph.isConnected());
+			System.out.println(theMain.fullGame.getAlgo().isConnected());
+			JOptionPane.showMessageDialog(f,""+theMain.fullGame.getAlgo().isConnected());
 		}
 		if(e.getActionCommand().equals("shortestPathDist")){
 			JFrame f = new JFrame();
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			double ans = theMain.AlgoGraph.shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
+			double ans = theMain.fullGame.getAlgo().shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
 			JOptionPane.showMessageDialog(f,"the shortestPath is: "+ans);
 		}
 		if(e.getActionCommand().equals("shortestPath")){
 			JFrame f = new JFrame();
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			List<node_data> ans = theMain.AlgoGraph.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
+			List<node_data> ans = theMain.fullGame.getAlgo().shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
 			theMain.update(ans);
 		}
 		if (e.getActionCommand().equals("TSP")){
@@ -1722,8 +1743,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			for (int i = 0; i < points.length; i++) {
 				IntList.add(Integer.parseInt(points[i]));
 			}
-			List<node_data> ans = theMain.AlgoGraph.TSP(IntList);
-			List<Integer> intList = theMain.AlgoGraph.MakeListInt(ans);
+			List<node_data> ans = theMain.fullGame.getAlgo().TSP(IntList);
+			//need to fix this to here
+			//List<Integer> intList = theMain.fullGame.getAlgo().MakeListInt(ans);
 			String intListString = "the Travel Sales man Travel to :||";
 			for(node_data p : ans){
 				intListString += ""+p.getKey()+"-";
@@ -1753,6 +1775,33 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 			}
 		}
+		if(e.getActionCommand().equals("Game Scenario"))
+		{
+			JFrame f = new JFrame();
+			String scenario_num  = JOptionPane.showInputDialog(f,"please enter a the scenario number");
+			StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num));
+			DGraph r = new DGraph();
+			r.init(StdDraw.theMain.fullGame.getGame().getGraph());
+			StdDraw.theMain.fullGame.setGraphM(r);
+			theMain.update();
+		}
+		if(e.getActionCommand().equals("Start Game"))
+		{
+			System.out.println(StdDraw.theMain.fullGame.getGame().isRunning());
+			StdDraw.theMain.fullGame.getGame().startGame();
+			System.out.println(StdDraw.theMain.fullGame.getGame().isRunning());
+		}
+		if(e.getActionCommand().equals("Move Robot")) {
+			JFrame f = new JFrame();
+			String Robot = JOptionPane.showInputDialog(f, "please enter a the Robot id");
+			String dest = JOptionPane.showInputDialog(f, "please enter a dest");
+			//int index = StdDraw.theMain.fullGame.findIDplayer(Integer.parseInt(Robot));
+			Players tempP = StdDraw.theMain.fullGame.getP().get(Integer.parseInt(Robot));
+			tempP.MoveRobotToNextDest(Integer.parseInt(dest));
+			StdDraw.theMain.fullGame.getGame().chooseNextEdge(Integer.parseInt(Robot), Integer.parseInt(dest));
+			List<String> qq = StdDraw.theMain.fullGame.getGame().move();
+		}
+
 	}
 
 
@@ -1817,7 +1866,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			double x = mouseX;
 			double y = mouseY;
 			node_data newNode = new NodeData(x,y,0);
-			theMain.AlgoGraph.getGraph().addNode(newNode);
+			theMain.fullGame.getGraphM().addNode(newNode);
 			flag1 = false;
 		}
 		else if(flag2){
@@ -1826,7 +1875,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int x = Integer.parseInt(X);
 			int y = Integer.parseInt(Y);
 			node_data newNode = new NodeData(x,y,0);
-			theMain.AlgoGraph.getGraph().addNode(newNode);
+			theMain.fullGame.getGraphM().addNode(newNode);
 			flag2 = false;
 		}
 		else if(flag3){
@@ -1834,7 +1883,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			double y = mouseY;
 			String Weight = JOptionPane.showInputDialog("Weight");
 			double weight = Integer.parseInt(Weight);
-			theMain.AlgoGraph.getGraph().connect((int)x,(int)y,weight);
+			theMain.fullGame.getGraphM().connect((int)x,(int)y,weight);
 			flag3 = false;
 		}
 	}

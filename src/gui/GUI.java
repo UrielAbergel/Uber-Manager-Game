@@ -14,12 +14,12 @@
 //    int CurrentMc = 0;
 //    public Graph_Algo AlgoGraph = new Graph_Algo();
 //    public GUI(){
-//        StdDraw.theMain = this;
-//        StdDraw.theMain.AlgoGraph = this.AlgoGraph;
+//        StdDraw.fullGame = this;
+//        StdDraw.fullGame.AlgoGraph = this.AlgoGraph;
 //        this.start();
 //    }
 //    public Range returnTheX(){
-//        graph current = StdDraw.theMain.AlgoGraph.getGraph();
+//        graph current = StdDraw.fullGame.fullGame.getGraphM();
 //        double MaxX = Integer.MIN_VALUE;
 //        double MinX = Integer.MAX_VALUE;
 //        Iterator<node_data> iter =current.getV().iterator();
@@ -33,7 +33,7 @@
 //        return ans;
 //    }
 //    public Range returnTheY(){
-//        graph current = StdDraw.theMain.AlgoGraph.getGraph();
+//        graph current = StdDraw.fullGame.fullGame.getGraphM();
 //        double MaxY = Integer.MIN_VALUE;
 //        double MinY = Integer.MAX_VALUE;
 //        Iterator<node_data> iter =current.getV().iterator();
@@ -57,20 +57,20 @@
 //        double TheYUp = (y.get_max()-y.get_min())*0.03;
 //        double rightScaleX = ((x.get_max()-x.get_min())*0.04);
 //        double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
-//        Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
+//        Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
 //        while (iterNodes.hasNext()) {
 //            node_data theCurrent = iterNodes.next();
 //            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
 //            Point3D tempP = theCurrent.getLocation();
 //            StdDraw.setPenColor(Color.black);
 //            StdDraw.text(tempP.x(), tempP.y()+TheYUp, "" + theCurrent.getKey());
-//            if (this.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
-//                Iterator<edge_data> iterEdge = this.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
+//            if (this.fullGame.getGraphM().getE(theCurrent.getKey()) != null) {
+//                Iterator<edge_data> iterEdge = this.fullGame.getGraphM().getE(theCurrent.getKey()).iterator();
 //                while (iterEdge.hasNext()) {
 //                    edge_data tempEdge = iterEdge.next();
-//                    node_data src = this.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
+//                    node_data src = this.fullGame.getGraphM().getNode(tempEdge.getSrc());
 //                    Point3D srcP = src.getLocation();
-//                    node_data dest = this.AlgoGraph.getGraph().getNode(tempEdge.getDest());
+//                    node_data dest = this.fullGame.getGraphM().getNode(tempEdge.getDest());
 //                    Point3D destP = dest.getLocation();
 //                    StdDraw.setPenColor(Color.black);
 //                    StdDraw.setPenRadius(0.003);
@@ -86,7 +86,7 @@
 //            }
 //        }
 //        StdDraw.createMenuBar();
-//        StdDraw.theMain.AlgoGraph = this.AlgoGraph;
+//        StdDraw.fullGame.AlgoGraph = this.AlgoGraph;
 //    }
 //    public ArrayList<Integer> MakeListInt(List<node_data> p ){
 //        ArrayList<Integer> ans = new ArrayList<>();
@@ -108,20 +108,20 @@
 //        double TheYUp = (y.get_max()-y.get_min())*0.03;
 //        double rightScaleX = ((x.get_max()-x.get_min())*0.04);
 //        double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
-//        Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
+//        Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
 //        while (iterNodes.hasNext()) {
 //            node_data theCurrent = iterNodes.next();
 //            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
 //            Point3D tempP = theCurrent.getLocation();
 //            StdDraw.setPenColor(Color.black);
 //            StdDraw.text(tempP.x(), tempP.y()+TheYUp, "" + theCurrent.getKey());
-//            if (this.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
-//                Iterator<edge_data> iterEdge = this.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
+//            if (this.fullGame.getGraphM().getE(theCurrent.getKey()) != null) {
+//                Iterator<edge_data> iterEdge = this.fullGame.getGraphM().getE(theCurrent.getKey()).iterator();
 //                while (iterEdge.hasNext()) {
 //                    edge_data tempEdge = iterEdge.next();
-//                    node_data src = this.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
+//                    node_data src = this.fullGame.getGraphM().getNode(tempEdge.getSrc());
 //                    Point3D srcP = src.getLocation();
-//                    node_data dest = this.AlgoGraph.getGraph().getNode(tempEdge.getDest());
+//                    node_data dest = this.fullGame.getGraphM().getNode(tempEdge.getDest());
 //                    Point3D destP = dest.getLocation();
 //                    StdDraw.setPenColor(Color.black);
 //                    StdDraw.setPenRadius(0.003);
@@ -142,8 +142,8 @@
 //            int src = save.get(i);
 //            int dest = save.get(i+1);
 //            StdDraw.setPenColor(Color.GREEN);
-//            StdDraw.line(this.AlgoGraph.getGraph().getNode(src).getLocation().x(),this.AlgoGraph.getGraph().getNode(src).getLocation().y(),this.AlgoGraph.getGraph().getNode(dest).getLocation().x(),this.AlgoGraph.getGraph().getNode(dest).getLocation().y());
-//            StdDraw.picture((this.AlgoGraph.getGraph().getNode(src).getLocation().x()+this.AlgoGraph.getGraph().getNode(dest).getLocation().x())/2 ,(this.AlgoGraph.getGraph().getNode(src).getLocation().y()+this.AlgoGraph.getGraph().getNode(dest).getLocation().y())/2 , "PostmanPat.jpg" , rightScaleX,rightScaleY);
+//            StdDraw.line(this.fullGame.getGraphM().getNode(src).getLocation().x(),this.fullGame.getGraphM().getNode(src).getLocation().y(),this.fullGame.getGraphM().getNode(dest).getLocation().x(),this.fullGame.getGraphM().getNode(dest).getLocation().y());
+//            StdDraw.picture((this.fullGame.getGraphM().getNode(src).getLocation().x()+this.fullGame.getGraphM().getNode(dest).getLocation().x())/2 ,(this.fullGame.getGraphM().getNode(src).getLocation().y()+this.fullGame.getGraphM().getNode(dest).getLocation().y())/2 , "PostmanPat.jpg" , rightScaleX,rightScaleY);
 //        }
 //        StdDraw.createMenuBar();
 //
@@ -160,20 +160,20 @@
 //        double TheYUp = (y.get_max()-y.get_min())*0.03;
 //        double rightScaleX = ((x.get_max()-x.get_min())*0.04);
 //        double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
-//        Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
+//        Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
 //        while (iterNodes.hasNext()) {
 //            node_data theCurrent = iterNodes.next();
 //            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
 //            Point3D tempP = theCurrent.getLocation();
 //            StdDraw.setPenColor(Color.black);
 //            StdDraw.text(tempP.x(), tempP.y()+TheYUp, "" + theCurrent.getKey());
-//            if (this.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
-//                Iterator<edge_data> iterEdge = this.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
+//            if (this.fullGame.getGraphM().getE(theCurrent.getKey()) != null) {
+//                Iterator<edge_data> iterEdge = this.fullGame.getGraphM().getE(theCurrent.getKey()).iterator();
 //                while (iterEdge.hasNext()) {
 //                    edge_data tempEdge = iterEdge.next();
-//                    node_data src = this.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
+//                    node_data src = this.fullGame.getGraphM().getNode(tempEdge.getSrc());
 //                    Point3D srcP = src.getLocation();
-//                    node_data dest = this.AlgoGraph.getGraph().getNode(tempEdge.getDest());
+//                    node_data dest = this.fullGame.getGraphM().getNode(tempEdge.getDest());
 //                    Point3D destP = dest.getLocation();
 //                    StdDraw.setPenColor(Color.black);
 //                    StdDraw.setPenRadius(0.003);
@@ -201,8 +201,8 @@
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-//            if (this.AlgoGraph.getGraph().getMC() != CurrentMc) {
-//                CurrentMc = this.AlgoGraph.getGraph().getMC();
+//            if (this.fullGame.getGraphM().getMC() != CurrentMc) {
+//                CurrentMc = this.fullGame.getGraphM().getMC();
 //                update();
 //            }
 //        }

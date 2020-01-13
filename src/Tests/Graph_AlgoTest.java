@@ -330,7 +330,7 @@ public class Graph_AlgoTest {
         r.add(5);
         List<node_data> ans = p.TSP(r);
         MyGameGUI q = new MyGameGUI();
-        q.init(p);
+        //q.init(p);
         q.MainDraw();
         assertEquals(ans.get(0).getKey(),1);
         assertEquals(ans.get(1).getKey(),5);

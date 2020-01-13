@@ -1,7 +1,11 @@
 package gameClient;
 
 import algorithms.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 import utils.Point3D;
+import utils.StdDraw;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,11 +16,26 @@ public class Player implements Players {
     String pic = "", info = "";
 
 
-    @Override
-    public void InsertAPicture(String file_name) {
-        this.pic = file_name;
+    public Player(String json) throws JSONException {
+        JSONObject fruit = new JSONObject(json);
+        JSONObject newFruit = fruit.getJSONObject("Robot");
+        this.key = newFruit.getInt("id");
+        this.src = newFruit.getInt("src");
+        this.dest = newFruit.getInt("dest");
+        this.location = new Point3D(newFruit.getString("pos"));
+        setPicture(this.key);
     }
 
+
+    @Override
+    public void setPicture(int key) {
+        this.pic = "pic//"+((key%5)+1)+".jfif";
+    }
+
+    @Override
+    public String getPicture() {
+        return this.pic;
+    }
 
     @Override
     public int getSpeed() {
@@ -35,7 +54,7 @@ public class Player implements Players {
 
     @Override
     public void setDest(int dest) {
-    this.dest = dest;
+        this.dest = dest;
     }
 
     @Override
@@ -91,5 +110,15 @@ public class Player implements Players {
     @Override
     public void setTag(int t) {
         this.tag = t;
+    }
+
+    public void MoveRobotToNextDest(int dest)
+    {
+        StdDraw.theMain.fullGame.getGame().chooseNextEdge(this.key, dest);
+    }
+
+    public static void main(String[] args) throws JSONException {
+        Player p = new Player("{\"Robot\":{\"id\":0,\"value\":0.0,\"src\":1,\"dest\":-1,\"speed\":1.0,\"pos\":\"35.18958953510896,32.10785303529412,0.0\"}}");
+
     }
 }
