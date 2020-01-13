@@ -2,23 +2,50 @@ package gameClient;
 
 import algorithms.*;
 import utils.Point3D;
-
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player implements objects_on_the_map {
-    int key, tag=0;
+public class Player implements Players {
+    int key, tag=0,speed = 0 ,dest,src;
     double weight = 0;
     Point3D location;
     String pic = "", info = "";
 
+
+    @Override
     public void InsertAPicture(String file_name) {
         this.pic = file_name;
     }
 
+
     @Override
-    public boolean WhatTypeAreYOU() {
-        return true;
+    public int getSpeed() {
+        return this.speed;
+    }
+
+    @Override
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    @Override
+    public int getDest() {
+        return this.dest;
+    }
+
+    @Override
+    public void setDest(int dest) {
+    this.dest = dest;
+    }
+
+    @Override
+    public int getSrc() {
+        return this.src;
+    }
+
+    @Override
+    public void setSrc(int src) {
+        this.src = src ;
     }
 
     @Override

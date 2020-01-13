@@ -1,10 +1,6 @@
 package dataStructure;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-import gameClient.Fruits;
-import gameClient.Player;
+
 import gameClient.*;
 import oop_elements.OOP_NodeData;
 import org.json.JSONArray;
@@ -23,8 +19,7 @@ public class DGraph implements graph, Serializable {
 	public int MC;
 	private int type;
 	private int count;
-	public HashMap<Integer, objects_on_the_map> PlayerMap = new HashMap<>();
-	public HashMap<Integer , objects_on_the_map> FruitsMap = new HashMap<>();
+
 	public DGraph(int type) {
 		this.init();
 		this.type = type;
@@ -193,17 +188,7 @@ public class DGraph implements graph, Serializable {
 		((NodeData) n).setKey(keyCounter++);
 
 	}
-	public void addObj(objects_on_the_map p){
-		// Player
-		if(p.WhatTypeAreYOU()){
-			this.PlayerMap.put(p.getKey(),p);
 
-		}
-		// Fruit
-		if(!p.WhatTypeAreYOU()){
-			this.FruitsMap.put(p.getKey(),p);
-		}
-	}
 
 	/**
 	 * function thar connect between 2 nodes

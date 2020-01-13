@@ -474,7 +474,7 @@ import javax.swing.*;
  *  @author Kevin Wayne
  */
 public class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
-	public static MyGameGUI thisGui = new MyGameGUI();
+	public static MyGameGUI theMain = new MyGameGUI();
 	/**
 	 *  The color black.
 	 */
@@ -1648,11 +1648,11 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	public static void load(String filename) {
 		System.out.println(filename);
 		if (filename == null) throw new IllegalArgumentException();
-		thisGui.AlgoGraph.init(filename);
-		thisGui.MainDraw();
+		theMain.AlgoGraph.init(filename);
+		theMain.MainDraw();
 	}
 	public static void save(String filename) {
-		StdDraw.thisGui.AlgoGraph.save(filename);
+		StdDraw.theMain.AlgoGraph.save(filename);
 	}
 
 
@@ -1667,12 +1667,12 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	public void actionPerformed(ActionEvent e) {//menu bar
 		if(e.getActionCommand().equals("Remove Node")){
 			String key = JOptionPane.showInputDialog("Key");
-			thisGui.AlgoGraph.getGraph().removeNode(Integer.parseInt(key));
+			theMain.AlgoGraph.getGraph().removeNode(Integer.parseInt(key));
 		}
 		if(e.getActionCommand().equals("Remove Edge")){
 			String src = JOptionPane.showInputDialog("src");
 			String dest = JOptionPane.showInputDialog("dest");
-			thisGui.AlgoGraph.getGraph().removeEdge(Integer.parseInt(src),Integer.parseInt(dest));
+			theMain.AlgoGraph.getGraph().removeEdge(Integer.parseInt(src),Integer.parseInt(dest));
 		}
 		if(e.getActionCommand().equals("Node with mouse")){
 			flag1 = true;
@@ -1693,26 +1693,26 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int dest = Integer.parseInt(Dest);
 			int src = Integer.parseInt(Src);
 			double weight = Integer.parseInt(Weight);
-			thisGui.AlgoGraph.getGraph().connect(src,dest,weight);
+			theMain.AlgoGraph.getGraph().connect(src,dest,weight);
 		}
 		if (e.getActionCommand().equals("isConnected")){
 			JFrame f = new JFrame();
-			System.out.println(thisGui.AlgoGraph.isConnected());
-			JOptionPane.showMessageDialog(f,""+thisGui.AlgoGraph.isConnected());
+			System.out.println(theMain.AlgoGraph.isConnected());
+			JOptionPane.showMessageDialog(f,""+theMain.AlgoGraph.isConnected());
 		}
 		if(e.getActionCommand().equals("shortestPathDist")){
 			JFrame f = new JFrame();
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			double ans = thisGui.AlgoGraph.shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
+			double ans = theMain.AlgoGraph.shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
 			JOptionPane.showMessageDialog(f,"the shortestPath is: "+ans);
 		}
 		if(e.getActionCommand().equals("shortestPath")){
 			JFrame f = new JFrame();
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			List<node_data> ans = thisGui.AlgoGraph.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
-			thisGui.update(ans);
+			List<node_data> ans = theMain.AlgoGraph.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
+			theMain.update(ans);
 		}
 		if (e.getActionCommand().equals("TSP")){
 			JFrame f = new JFrame();
@@ -1722,8 +1722,8 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			for (int i = 0; i < points.length; i++) {
 				IntList.add(Integer.parseInt(points[i]));
 			}
-			List<node_data> ans = thisGui.AlgoGraph.TSP(IntList);
-			List<Integer> intList = thisGui.AlgoGraph.MakeListInt(ans);
+			List<node_data> ans = theMain.AlgoGraph.TSP(IntList);
+			List<Integer> intList = theMain.AlgoGraph.MakeListInt(ans);
 			String intListString = "the Travel Sales man Travel to :||";
 			for(node_data p : ans){
 				intListString += ""+p.getKey()+"-";
@@ -1732,7 +1732,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			JOptionPane.showMessageDialog(f,intListString);
 
 
-			if(ans!=null) thisGui.update(ans);
+			if(ans!=null) theMain.update(ans);
 			
 		}
 
@@ -1817,7 +1817,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			double x = mouseX;
 			double y = mouseY;
 			node_data newNode = new NodeData(x,y,0);
-			thisGui.AlgoGraph.getGraph().addNode(newNode);
+			theMain.AlgoGraph.getGraph().addNode(newNode);
 			flag1 = false;
 		}
 		else if(flag2){
@@ -1826,7 +1826,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int x = Integer.parseInt(X);
 			int y = Integer.parseInt(Y);
 			node_data newNode = new NodeData(x,y,0);
-			thisGui.AlgoGraph.getGraph().addNode(newNode);
+			theMain.AlgoGraph.getGraph().addNode(newNode);
 			flag2 = false;
 		}
 		else if(flag3){
@@ -1834,7 +1834,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			double y = mouseY;
 			String Weight = JOptionPane.showInputDialog("Weight");
 			double weight = Integer.parseInt(Weight);
-			thisGui.AlgoGraph.getGraph().connect((int)x,(int)y,weight);
+			theMain.AlgoGraph.getGraph().connect((int)x,(int)y,weight);
 			flag3 = false;
 		}
 	}

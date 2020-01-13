@@ -1,81 +1,22 @@
 package gameClient;
 
 
-import dataStructure.*;
-import utils.*;
+import dataStructure.node_data;
 
-public class Fruits implements objects_on_the_map {
+public interface Fruits extends node_data {
 
-    // Amazon = -1
-    // Ebay = -2
 
-    private Point3D location;
-    int key,type,tag=0;
-    static int keyCounter = 1;
-    double value;
-    String info = "";
-    String pic = "";
-    public Fruits(Point3D loc){
-        this.location = loc;
-        this.key = keyCounter++;
-    }
+    /**
+     *To create a player in the game gave an option to insert a picture of that player
+     * The player will be given an option not to insert a picture at all and this will be taken from the project
+     * */
 
-    public int getType(){
-        return this.type;
-    }
+    public void InsertAPicture(String file_name);
+    /***
+     * if the object is a player the function return true if the object is fruit the function return false ;
+     */
 
-    @Override
-    public int getKey() {
-        return this.key;
-    }
+    public int getType();
 
-    @Override
-    public Point3D getLocation() {
-        return this.location;
-    }
 
-    @Override
-    public void setLocation(Point3D p) {
-        this.location = p;
-    }
-
-    @Override
-    public double getWeight() {
-        return this.value;
-    }
-
-    @Override
-    public void setWeight(double w) {
-        this.value = w;
-    }
-
-    @Override
-    public String getInfo() {
-        return this.info;
-    }
-
-    @Override
-    public void setInfo(String s) {
-        this.info = s;
-    }
-
-    @Override
-    public int getTag() {
-        return this.tag;
-    }
-
-    @Override
-    public void setTag(int t) {
-        this.tag = t;
-    }
-
-    @Override
-    public void InsertAPicture(String file_name) {
-        this.pic = file_name;
-    }
-
-    @Override
-    public boolean WhatTypeAreYOU() {
-        return false;
-    }
 }

@@ -4,7 +4,7 @@ import dataStructure.node_data;
 
 import java.util.List;
 
-public interface objects_on_the_map extends node_data {
+public interface Players extends node_data {
 
     /**
      *To create a player in the game gave an option to insert a picture of that player
@@ -13,11 +13,17 @@ public interface objects_on_the_map extends node_data {
 
     public void InsertAPicture(String file_name);
 
-    /***
-     * if the object is a player the function return true if the object is fruit the function return false ;
-     */
-
-    public boolean WhatTypeAreYOU();
 
 
+    public int getSpeed();
+
+    public void setSpeed(int speed);
+
+    public int getDest();
+
+    public void setDest(int dest);
+
+    public int getSrc();
+
+    public void setSrc(int src);
 }

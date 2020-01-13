@@ -12,14 +12,14 @@ import utils.*;
 
 public class MyGameGUI extends Thread {
     int CurrentMc = 0;
-    public Graph_Algo AlgoGraph = new Graph_Algo();
+    public FullGameGraph theMain= new FullGameGraph();
     public MyGameGUI(){
-        StdDraw.thisGui = this;
-        StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
+        StdDraw.theMain = this;
+
         this.start();
     }
     public Range returnTheX(){
-        graph current = StdDraw.thisGui.AlgoGraph.getGraph();
+        graph current = StdDraw.theMain.AlgoGraph.getGraph();
         double MaxX = Integer.MIN_VALUE;
         double MinX = Integer.MAX_VALUE;
         Iterator<node_data> iter =current.getV().iterator();
@@ -33,7 +33,7 @@ public class MyGameGUI extends Thread {
         return ans;
     }
     public Range returnTheY(){
-        graph current = StdDraw.thisGui.AlgoGraph.getGraph();
+        graph current = StdDraw.theMain.AlgoGraph.getGraph();
         double MaxY = Integer.MIN_VALUE;
         double MinY = Integer.MAX_VALUE;
         Iterator<node_data> iter =current.getV().iterator();
@@ -86,7 +86,7 @@ public class MyGameGUI extends Thread {
             }
         }
         StdDraw.createMenuBar();
-        StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
+        StdDraw.theMain.AlgoGraph = this.AlgoGraph;
     }
     public ArrayList<Integer> MakeListInt(List<node_data> p ){
         ArrayList<Integer> ans = new ArrayList<>();
