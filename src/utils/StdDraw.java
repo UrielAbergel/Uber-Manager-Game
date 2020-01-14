@@ -73,7 +73,7 @@ import java.util.NoSuchElementException;
 
 import javax.swing.*;
 
-import static algorithms.GameAlgo.checkTheNearestFruits;
+
 import static java.lang.Thread.sleep;
 
 
@@ -1806,11 +1806,11 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		if(e.getActionCommand().equals("checkNearBanaa"))
 		{
 			JFrame f = new JFrame();
-			edge_data temp = new EdgeData(0,0,0);
-			List<Fruits> fruList = StdDraw.theMain.fullGame.getF();
-			for(Fruits fru : fruList){
-				temp = checkTheNearestFruits(fru);
-				JOptionPane.showMessageDialog(f,""+temp.getSrc()+","+temp.getDest());
+			String temp = "new EdgeData(0,0,0)";
+			List<Players> fruList = StdDraw.theMain.fullGame.getP();
+			for(Players fru : fruList){
+				temp = StdDraw.theMain.fullGame.getTheGameAlgo().findTheNearestBanana(fru);
+				JOptionPane.showMessageDialog(f,temp);
 			}
 		}
 

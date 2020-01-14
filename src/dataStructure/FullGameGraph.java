@@ -13,10 +13,11 @@ import java.util.List;
 
 public class FullGameGraph {
     private graph graphM = new DGraph();
-    private graph_algorithms algo = new Graph_Algo();
+    private Graph_Algo algo = new Graph_Algo();
     private ArrayList<Players> PlayersList = new ArrayList<>();
     private ArrayList<Fruits> FruitList = new ArrayList<>();
     private game_service game ;
+    private GameAlgo gameAlgo = new GameAlgo();
 
     public void NewGAME(int sen){
         this.game = Game_Server.getServer(sen);
@@ -24,12 +25,12 @@ public class FullGameGraph {
 
     public FullGameGraph(){}
 
-    public FullGameGraph(graph g , ArrayList<Players> p , ArrayList<Fruits> f, graph_algorithms a)
+    public FullGameGraph(graph g , ArrayList<Players> p , ArrayList<Fruits> f, Graph_Algo a)
     {
        init(g,p,f,a);
 
     }
-    public void init(graph g, ArrayList<Players> p, ArrayList<Fruits> f,graph_algorithms algo) {
+    public void init(graph g, ArrayList<Players> p, ArrayList<Fruits> f,Graph_Algo algo) {
         this.graphM = g ;
         this.PlayersList = p ;
         this.FruitList = f ;
@@ -56,7 +57,9 @@ public class FullGameGraph {
         this.graphM = g;
     }
 
-    public void setAlgo(graph_algorithms g){
+    public void setAlgo(Graph_Algo g)
+    {
+        g.init(this.graphM);
         this.algo = g ;
     }
 
@@ -104,5 +107,12 @@ public class FullGameGraph {
         this.FruitList = f ;
     }
 
+    public GameAlgo getTheGameAlgo(){
+        return this.gameAlgo;
+    }
+
+    public void setTheGameAlgo(GameAlgo g){
+        this.gameAlgo = g;
+    }
 
 }

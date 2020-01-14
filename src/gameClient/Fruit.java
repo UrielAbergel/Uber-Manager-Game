@@ -19,7 +19,9 @@ public class Fruit implements Fruits {
     String pic = "";
 
 
-
+    public Fruit(){
+        //for the algo not for use of the user
+    }
     public Fruit(Point3D loc , int type){
         this.type = type;
         this.location = loc;
