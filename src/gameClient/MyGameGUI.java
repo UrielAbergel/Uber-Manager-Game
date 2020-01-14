@@ -224,9 +224,20 @@ public class MyGameGUI extends Thread {
         StdDraw.show();
     }
 
+    public void movePlayerAUTO()
+    {
+        ArrayList<Players> PlaList = StdDraw.theMain.fullGame.getP();
+        for(Players pla : PlaList)
+        {
+            StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(pla);
+        }
+    }
 
+    private int prevCounter = 0 ;
+    private int counter = 0 ;
     @Override
     public void run() {
+
         while (true) {
             try {
                 sleep(1);
@@ -255,13 +266,23 @@ public class MyGameGUI extends Thread {
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateRobots();
                     updateFruits();
+                    movePlayerAUTO();
                     update();
                     //  StdDraw.show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                    counter++;
 
+                }
+              if(!StdDraw.theMain.fullGame.getGame().isRunning()){
+                  if(counter>prevCounter){
+                      prevCounter = counter;
+                      counter++;
+                      System.out.println(StdDraw.theMain.fullGame.getGame().toString());
+                  }
+
+              }
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -284,7 +305,6 @@ public class MyGameGUI extends Thread {
         playerList = StdDraw.theMain.fullGame.getGame().move();
         ArrayList<Players> tempArr = new ArrayList<>();
         for (String s : playerList) {
-            System.out.println(s);
             Player tempPla = new Player(s);
             tempArr.add(tempPla);
         }
@@ -322,12 +342,15 @@ public class MyGameGUI extends Thread {
 //        fullgame.init(EEEE,players,banana,p);
 //
 //        StdDraw.theMain.fullGame = fullgame;
+//        fullgame.getAlgo().shortestPath(8,4);
 //        String temp = "new EdgeData(0,0,0)";
-        //   List<Players> fruList = StdDraw.theMain.fullGame.getP();
-//        for(Players fru : players){
-//            temp = fullgame.getTheGameAlgo().findTheNearestBanana(fru);
+//           List<Players> fruList = StdDraw.theMain.fullGame.getP();
+//           newgame.startGame();
+//        for(Players fru : players) {
+//
+//            fullgame.getTheGameAlgo().NavigateAUTO(fru);
 //            System.out.println(temp);
-
+//        }
         //fullgame.setGame(newgame);
 
 //        fullgame.NewGAME(1);

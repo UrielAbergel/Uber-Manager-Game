@@ -229,7 +229,7 @@ public class Graph_Algo implements graph_algorithms{
 			if(flag == Integer.MAX_VALUE || flag == -1) return null;
 			graph CopyGraph = this.copy();
 			CopyGraph = changeDir(CopyGraph);
-			SPArrays = ReturnTheSPway(dest, src, CopyGraph);
+			SPArrays = ReturnTheSPway(dest, src, CopyGraph,this.graph);
 			SPArrays = ReverseArrays(SPArrays);
 			ChangeTheTag();
 			ChangeTheTagToEdge();
@@ -240,6 +240,9 @@ public class Graph_Algo implements graph_algorithms{
 			return null;
 		}
 	}
+
+
+
 
 	/**
 	 * function that revers the array list
@@ -261,7 +264,7 @@ public class Graph_Algo implements graph_algorithms{
 	 * @param copyGraph
 	 * @return
 	 */
-	private ArrayList<node_data> ReturnTheSPway(int src, int dest, graph copyGraph) {
+	private ArrayList<node_data> ReturnTheSPway(int src, int dest, graph copyGraph , graph thiss) {
 		ArrayList<node_data> SaveTheWay = new ArrayList<>();
 		node_data source = copyGraph.getNode(src);
 		while(src!=dest){
@@ -272,7 +275,7 @@ public class Graph_Algo implements graph_algorithms{
 			while (iteEd.hasNext()){
 				edge_data tempEdge = iteEd.next();
 				node_data tempNode = this.getGraph().getNode(tempEdge.getDest());
-				if(source.getWeight()+tempEdge.getWeight()< weight && source.getWeight()-tempEdge.getWeight()==tempNode.getWeight())
+				if(source.getWeight()+tempEdge.getWeight()< weight && Math.abs(source.getWeight()-tempEdge.getWeight()-tempNode.getWeight())<0.001)
 				{
 					weight = source.getWeight()+tempEdge.getWeight();
 					src = tempEdge.getDest();

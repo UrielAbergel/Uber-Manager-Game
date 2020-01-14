@@ -1789,9 +1789,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		}
 		if(e.getActionCommand().equals("Start Game"))
 		{
-			System.out.println(StdDraw.theMain.fullGame.getGame().isRunning());
 			StdDraw.theMain.fullGame.getGame().startGame();
-			System.out.println(StdDraw.theMain.fullGame.getGame().isRunning());
 		}
 		if(e.getActionCommand().equals("Move Robot")) {
 			JFrame f = new JFrame();
@@ -1809,8 +1807,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			String temp = "new EdgeData(0,0,0)";
 			List<Players> fruList = StdDraw.theMain.fullGame.getP();
 			for(Players fru : fruList){
-				temp = StdDraw.theMain.fullGame.getTheGameAlgo().findTheNearestBanana(fru);
-				JOptionPane.showMessageDialog(f,temp);
+
+				StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(fru);
+//				JOptionPane.showMessageDialog(f,temp);
 			}
 		}
 

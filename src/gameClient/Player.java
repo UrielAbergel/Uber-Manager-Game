@@ -22,6 +22,7 @@ public class Player implements Players {
         this.key = newFruit.getInt("id");
         this.src = newFruit.getInt("src");
         this.dest = newFruit.getInt("dest");
+        this.speed = newFruit.getInt("speed");
         this.location = new Point3D(newFruit.getString("pos"));
         setPicture(this.key);
     }

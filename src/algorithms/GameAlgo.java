@@ -4,15 +4,19 @@ package algorithms;
 import dataStructure.*;
 import gameClient.Fruit;
 import gameClient.Fruits;
+import gameClient.Player;
 import gameClient.Players;
 import utils.Point3D;
 import utils.StdDraw;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class GameAlgo {
+
+    private final double  EPS = 0.000000000000001;
 
     public  edge_data checkWhereTheFruit(Fruits p)
     {
@@ -33,7 +37,7 @@ public class GameAlgo {
                   double disSD = returnDis(dest.getLocation().x(),src.getLocation().x(),dest.getLocation().y(),src.getLocation().y());
                   double disSF = returnDis(p.getLocation().x(),src.getLocation().x(),p.getLocation().y(),src.getLocation().y());
                  double disDF = returnDis(p.getLocation().x(),dest.getLocation().x(),p.getLocation().y(),dest.getLocation().y());
-                 if(((disDF+disSF)-disSD)<=0.000000000000001) {ans =temp ;}
+                 if(((disDF+disSF)-disSD)<=EPS) {return temp ;}
              }
          }
          return ans ;
@@ -48,43 +52,69 @@ public class GameAlgo {
 
     public String findTheNearestBanana(Players p)
     {
-        Graph_Algo newAlgo = new Graph_Algo();
-        StdDraw.theMain.fullGame.setAlgo(newAlgo);
-        StdDraw.theMain.fullGame.getAlgo().init((StdDraw.theMain.fullGame.getGraphM()));
-        ArrayList<Fruits> FruList = StdDraw.theMain.fullGame.getF();
-        double min = Double.MAX_VALUE;
-        double goToDest = -1 ;
-        double NextStep = -1 ;
-        for(Fruits f : FruList)
-        {
+        double goToDest = -1;
+        double NextStep = -1;
 
-            if(f.getType() == -1)
-            {
-                int dest = checkWhereTheFruit(f).getSrc();
-                int Next = checkWhereTheFruit(f).getDest();
-                if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) < min)
-                {
-                    min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) ;
-                    goToDest = dest ;
-                    NextStep = Next;
+            Graph_Algo newAlgo = new Graph_Algo();
+            StdDraw.theMain.fullGame.setAlgo(newAlgo);
+            StdDraw.theMain.fullGame.getAlgo().init((StdDraw.theMain.fullGame.getGraphM()));
+            ArrayList<Fruits> FruList = StdDraw.theMain.fullGame.getF();
+            double min = Double.MAX_VALUE;
+            int dest,Next;
+            for (Fruits f : FruList) {
 
+                if (f.getType() == -1) {
+                    dest = checkWhereTheFruit(f).getSrc();
+                    Next = checkWhereTheFruit(f).getDest();
+                    if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest) < min) {
+                        min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
+                        goToDest = dest;
+                        NextStep = Next;
+
+                    }
+                }
+                if (f.getType() == 1) {
+                    dest = checkWhereTheFruit(f).getDest();
+                    Next = checkWhereTheFruit(f).getSrc();
+                    if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest) < min) {
+                        min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
+                        goToDest = dest;
+                        NextStep = Next;
+
+                    }
                 }
             }
-            if(f.getType() == 1)
-            {
-                int dest = checkWhereTheFruit(f).getDest();
-                int Next = checkWhereTheFruit(f).getSrc();
-                if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) < min)
-                {
-                    min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) ;
-                    goToDest = dest ;
-                    NextStep = Next;
-
-                }
-            }
-        }
         return "" + goToDest + "," +NextStep ;
     }
 
+
+
+    public int ReturnTheNextID(Players p)
+    {
+        Graph_Algo newAlgo = new Graph_Algo();
+        StdDraw.theMain.fullGame.setAlgo(newAlgo);
+        StdDraw.theMain.fullGame.getAlgo().init((StdDraw.theMain.fullGame.getGraphM()));
+        ArrayList<Integer> TheAns = new ArrayList<>();
+        List<node_data> TheNodesList = new ArrayList<>();
+        String temp = findTheNearestBanana(p);
+        String[] tempARR = temp.split(",");
+        //System.out.println(StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , (int) Double.parseDouble(tempARR[0])));
+        TheNodesList = StdDraw.theMain.fullGame.getAlgo().shortestPath(p.getSrc(), (int) Double.parseDouble(tempARR[1]));
+        for(node_data node : TheNodesList)
+        {
+            TheAns.add(node.getKey());
+        }
+        TheAns.add((int) Double.parseDouble(tempARR[1]));
+        if(TheAns.size()==1){return TheAns.get(0);}
+        return TheAns.get(1);
+    }
+
+
+    public void NavigateAUTO(Players p) {
+        if (p.getDest() == -1) {
+        int theWay = ReturnTheNextID(p);
+        StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
+        }
+    }
 
 }
