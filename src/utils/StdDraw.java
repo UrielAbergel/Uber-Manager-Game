@@ -29,7 +29,7 @@ package utils;
 
 import Server.Game_Server;
 import Server.game_service;
-import gameClient.MyGameGUI;
+import gameClient.*;
 import dataStructure.*;
 import gameClient.MyGameGUI;
 
@@ -44,8 +44,6 @@ import java.awt.MediaTracker;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import algorithms.*;
-import gameClient.Player;
-import gameClient.Players;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,6 +73,7 @@ import java.util.NoSuchElementException;
 
 import javax.swing.*;
 
+import static algorithms.GameAlgo.checkTheNearestFruits;
 import static java.lang.Thread.sleep;
 
 
@@ -771,12 +770,15 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		removeEdge.addActionListener(std);
 		removeNode.addActionListener(std);
 		JMenuItem newGame = new JMenuItem("Game Scenario");
+		JMenuItem checkNearBanaa = new JMenuItem("checkNearBanaa");
 		menu4.add(newGame);
+		menu4.add(checkNearBanaa);
 		JMenuItem Start = new JMenuItem("Start Game");
 		JMenuItem MoveRobot = new JMenuItem("Move Robot");
 		menu4.add(newGame);
 		menu4.add(Start);
 		menu4.add(MoveRobot);
+		checkNearBanaa.addActionListener(std);
 		MoveRobot.addActionListener(std);
 		Start.addActionListener(std);
 		newGame.addActionListener(std);
@@ -1800,6 +1802,16 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			tempP.MoveRobotToNextDest(Integer.parseInt(dest));
 			StdDraw.theMain.fullGame.getGame().chooseNextEdge(Integer.parseInt(Robot), Integer.parseInt(dest));
 			List<String> qq = StdDraw.theMain.fullGame.getGame().move();
+		}
+		if(e.getActionCommand().equals("checkNearBanaa"))
+		{
+			JFrame f = new JFrame();
+			edge_data temp = new EdgeData(0,0,0);
+			List<Fruits> fruList = StdDraw.theMain.fullGame.getF();
+			for(Fruits fru : fruList){
+				temp = checkTheNearestFruits(fru);
+				JOptionPane.showMessageDialog(f,""+temp.getSrc()+","+temp.getDest());
+			}
 		}
 
 	}

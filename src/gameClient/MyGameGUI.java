@@ -17,6 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.*;
 
+import algorithms.*;
+
+import static algorithms.GameAlgo.checkTheNearestFruits;
+
 public class MyGameGUI extends Thread {
     int CurrentMc = 0;
     public FullGameGraph fullGame= new FullGameGraph();
@@ -107,6 +111,8 @@ public class MyGameGUI extends Thread {
         }
         return  ans;
     }
+
+
     public void update(List<node_data> p){
         StdDraw.clear();
         Range x = returnTheX();
@@ -293,25 +299,38 @@ public class MyGameGUI extends Thread {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JSONException {
 
-        //game_service newgame = Game_Server.getServer(0);
+        game_service newgame = Game_Server.getServer(1);
         DGraph EEEE = new DGraph();
 
-      //  EEEE.init(newgame.getGraph());
+       EEEE.init(newgame.getGraph());
         ArrayList<Players> players = new ArrayList<>();
         ArrayList<Fruits> banana  = new ArrayList<>();
         Graph_Algo p = new Graph_Algo();
         p.init(EEEE);
         FullGameGraph fullgame = new FullGameGraph();
         fullgame.init(EEEE,players,banana,p);
-        fullgame.NewGAME(1);
+        fullgame.setGame(newgame);
+        fullgame.getGame().startGame();
+        List<String> fruitlist = new LinkedList<>();
+        fruitlist = fullgame.getGame().getFruits();
+        for(String s :fruitlist){
+            banana.add(new Fruit(s));
+        }
+        StdDraw.theMain.fullGame=fullgame;
+        edge_data edge = new EdgeData(0,0,0);
+        for(Fruits fruti : banana){
+            edge = checkTheNearestFruits(fruti);
+        }
+        System.out.println(fullgame.getGame().toString());
+//        fullgame.NewGAME(1);
         //fullgame.getGame().isRunning();
-        List<String> robotyala = new LinkedList<>();
+//        List<String> robotyala = new LinkedList<>();
 
        // robotyala = newgame.getRobots();
-        MyGameGUI game = new MyGameGUI();
-        game.init(fullgame);
-        game.MainDraw();
+//        MyGameGUI game = new MyGameGUI();
+//        game.init(fullgame);
+//        game.MainDraw();
     }
 }
