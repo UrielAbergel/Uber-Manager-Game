@@ -270,12 +270,12 @@ public class MyGameGUI extends Thread {
                     update();
                     //  StdDraw.show();
                     counter++;
-
+                    //System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd());
                 }
               if(!StdDraw.theMain.fullGame.getGame().isRunning()){
                   if(counter>prevCounter){
                       prevCounter = counter;
-                      counter++;
+                      //counter++;
                       System.out.println(StdDraw.theMain.fullGame.getGame().toString());
                   }
 
