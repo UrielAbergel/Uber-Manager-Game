@@ -120,11 +120,12 @@ public class GameAlgo {
     }
 
 
+
     public void NavigateAUTO(Players p) {
         if (p.getDest() == -1) {
 
-        int theWay = ReturnTheNextID(p);
-        StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
+            int theWay = ReturnTheNextID(p);
+            StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
         }
     }
 

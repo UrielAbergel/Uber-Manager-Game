@@ -20,4 +20,6 @@ public interface Fruits extends node_data {
 
     public String getPicture();
 
+    public long getTime();
+
 }

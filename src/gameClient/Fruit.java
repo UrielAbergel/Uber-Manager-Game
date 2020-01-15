@@ -17,6 +17,7 @@ public class Fruit implements Fruits {
     double value;
     String info = "";
     String pic = "";
+    long time = 0 ;
 
 
     public Fruit(){
@@ -27,16 +28,20 @@ public class Fruit implements Fruits {
         this.location = loc;
         this.key = keyCounter++;
     }
-    public Fruit(String json) throws JSONException {
+    public Fruit(String json , long time) throws JSONException {
         JSONObject fruit = new JSONObject(json);
         JSONObject newFruit = fruit.getJSONObject("Fruit");
         this.type = newFruit.getInt("type");
         this.value = newFruit.getInt("value");
         this.location = new Point3D(newFruit.getString("pos"));
         setPicture(this.type);
+        this.time =time;
     }
 
 
+    public long getTime(){
+        return this.time;
+    }
 
     @Override
     public int getKey() {

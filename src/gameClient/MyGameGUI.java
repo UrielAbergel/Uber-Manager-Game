@@ -2,6 +2,7 @@ package gameClient;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ import Server.game_service;
 import algorithms.Graph_Algo;
 import com.sun.source.doctree.SerialDataTree;
 import dataStructure.* ;
+import de.micromata.opengis.kml.v_2_2_0.Kml;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.*;
@@ -23,6 +25,7 @@ import algorithms.*;
 
 public class MyGameGUI extends Thread {
     int CurrentMc = 0;
+    public Logger_KML kml = new Logger_KML();
     public FullGameGraph fullGame = new FullGameGraph();
 
     public Range returnTheX() {
@@ -240,7 +243,7 @@ public class MyGameGUI extends Thread {
 
         while (true) {
             try {
-                sleep(1);
+                sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -267,10 +270,11 @@ public class MyGameGUI extends Thread {
                     updateRobots();
                     updateFruits();
                     movePlayerAUTO();
+                    resetEdge();
                     update();
                     //  StdDraw.show();
                     counter++;
-                    //System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd());
+                    System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd());
                 }
               if(!StdDraw.theMain.fullGame.getGame().isRunning()){
                   if(counter>prevCounter){
@@ -286,12 +290,25 @@ public class MyGameGUI extends Thread {
         }
     }
 
+    private void resetEdge() {
+        Iterator<node_data> iter = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+        while (iter.hasNext()){
+            node_data n = iter.next();
+            if(StdDraw.theMain.fullGame.getGraphM().getE(n.getKey())!=null) {
+                Iterator<edge_data> iter2 = StdDraw.theMain.fullGame.getGraphM().getE(n.getKey()).iterator();
+                while (iter2.hasNext()) {
+                    iter2.next().setTag(0);
+                }
+            }
+        }
+    }
+
     private void updateFruits() throws JSONException {
         List<String> fruitlist = new LinkedList<>();
         fruitlist = this.fullGame.getGame().getFruits();
         ArrayList<Fruits> tempArr = new ArrayList<>();
         for (String s : fruitlist) {
-            Fruit tempFru = new Fruit(s);
+            Fruit tempFru = new Fruit(s,StdDraw.theMain.fullGame.getGame().timeToEnd());
             tempArr.add(tempFru);
         }
         this.fullGame.setFruitList(tempArr);
@@ -317,8 +334,13 @@ public class MyGameGUI extends Thread {
         StdDraw.theMain.fullGame = g;
     }
 
+    public  void createKML() throws JSONException, ParseException, InterruptedException {
+        this.kml.CreateOBJforKML();
 
-    public static void main(String[] args) throws JSONException {
+    }
+
+
+    public static void main(String[] args) throws JSONException, ParseException {
 
         game_service newgame = Game_Server.getServer(1);
         DGraph EEEE = new DGraph();
@@ -364,6 +386,5 @@ public class MyGameGUI extends Thread {
         MyGameGUI game = new MyGameGUI();
        game.init(fullgame);
         game.MainDraw();
-
     }
 }

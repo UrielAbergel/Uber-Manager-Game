@@ -66,6 +66,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
@@ -1790,6 +1791,18 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		if(e.getActionCommand().equals("Start Game"))
 		{
 			StdDraw.theMain.fullGame.getGame().startGame();
+			Logger_KML logger_kml = new Logger_KML();
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						logger_kml.CreateOBJforKML();
+					} catch (ParseException | InterruptedException ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
+			thread.start();
 		}
 		if(e.getActionCommand().equals("Move Robot")) {
 			JFrame f = new JFrame();
