@@ -39,9 +39,6 @@ public class Fruit implements Fruits {
     }
 
 
-    public long getTime(){
-        return this.time;
-    }
 
     @Override
     public int getKey() {
