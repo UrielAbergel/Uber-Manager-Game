@@ -76,7 +76,7 @@ public class MyGameGUI extends Thread {
         Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
-            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX * 0.6, rightScaleY * 0.6);
+            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
             Point3D tempP = theCurrent.getLocation();
             StdDraw.setPenColor(Color.black);
             StdDraw.text(tempP.x(), tempP.y() + TheYUp, "" + theCurrent.getKey());
@@ -133,7 +133,7 @@ public class MyGameGUI extends Thread {
         Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
-            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX * 0.6, rightScaleY * 0.6);
+            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
             Point3D tempP = theCurrent.getLocation();
             StdDraw.setPenColor(Color.black);
             StdDraw.text(tempP.x(), tempP.y() + TheYUp, "" + theCurrent.getKey());
@@ -186,7 +186,7 @@ public class MyGameGUI extends Thread {
         Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
-            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX * 0.6, rightScaleY * 0.6);
+            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
             Point3D tempP = theCurrent.getLocation();
             StdDraw.setPenColor(Color.black);
             StdDraw.text(tempP.x(), tempP.y() + TheYUp, "" + theCurrent.getKey());
@@ -217,10 +217,10 @@ public class MyGameGUI extends Thread {
         }
         if (StdDraw.theMain.fullGame.getGame().isRunning()) {
             for (Players pla : StdDraw.theMain.fullGame.getP()) {
-                StdDraw.picture(pla.getLocation().x(), pla.getLocation().y(), pla.getPicture(), 0.0005, 0.0005);
+                StdDraw.picture(pla.getLocation().x(), pla.getLocation().y(), pla.getPicture(), rightScaleX*1.4, rightScaleY*1.4);
             }
             for (Fruits fruty : StdDraw.theMain.fullGame.getF()) {
-                StdDraw.picture(fruty.getLocation().x(), fruty.getLocation().y(), fruty.getPicture(), 0.0005, 0.0005);
+                StdDraw.picture(fruty.getLocation().x(), fruty.getLocation().y(), fruty.getPicture(), rightScaleX*1.4, rightScaleY*1.4);
             }
         }
         StdDraw.createMenuBar();
