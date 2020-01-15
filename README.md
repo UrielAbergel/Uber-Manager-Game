@@ -12,6 +12,13 @@ The fuels that appear on the screen at arrival are automatically updated and go 
 # Class diagram
 ![sadasda](https://user-images.githubusercontent.com/54840897/72457041-6fff1480-37ce-11ea-8211-e4ff09f5ae23.PNG)
 
+# Game GUI JAVA
+![משחק גדול](https://user-images.githubusercontent.com/54840897/72461865-8611d280-37d8-11ea-8238-81beab126f9f.PNG)
+
+# Game GUI Google Earth
+![משחק גוגל](https://user-images.githubusercontent.com/54840897/72461781-5e226f00-37d8-11ea-8f0f-6cfd6750ebc0.PNG)
+
+
 ## NodeData : 
 
 ### descreption :
@@ -156,3 +163,5 @@ The class represents an object that holds all the data for the game, with which 
 - getTheGameAlgo : return the current algo of the Game
 - setTheGameAlgo : set the  algo of the Game
  
+## KML_LOGGER:
+A class that converts a game to a KML object so you can see the game and time in the Google World view
