@@ -2,14 +2,10 @@ package algorithms;
 
 
 import dataStructure.*;
-import gameClient.Fruit;
 import gameClient.Fruits;
-import gameClient.Player;
 import gameClient.Players;
 import utils.Point3D;
 import utils.StdDraw;
-
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -109,12 +105,6 @@ public class GameAlgo {
             TheAns.add(node.getKey());
         }
         TheAns.add((int) Double.parseDouble(tempARR[0]));
-//        String sarr = "[";
-//        for (int i = 0; i < TheAns.size(); i++) {
-//            sarr += ","+TheAns.get(i);
-//        }
-//        sarr += "]";
-//        System.out.println(sarr);
         if(TheAns.size()==1){return TheAns.get(0);}
         return TheAns.get(1);
     }
@@ -122,8 +112,8 @@ public class GameAlgo {
 
 
     public void NavigateAUTO(Players p) {
-        if (p.getDest() == -1) {
-
+        if (p.getDest() == -1)
+        {
             int theWay = ReturnTheNextID(p);
             StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
         }
