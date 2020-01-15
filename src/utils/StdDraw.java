@@ -1794,7 +1794,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		if(e.getActionCommand().equals("Start Game"))
 		{
 			StdDraw.theMain.fullGame.getGame().startGame();
-			Logger_KML logger_kml = new Logger_KML();
+			KML_Logger logger_kml = new KML_Logger();
 			Thread thread = new Thread(new Runnable() {
 				@Override
 				public void run() {

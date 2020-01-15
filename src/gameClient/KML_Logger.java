@@ -23,7 +23,7 @@ import java.util.Locale;
  * This class create KML file for each game
  * @author Yair Semama and Uriel Abergel
  */
-public class Logger_KML {
+public class KML_Logger {
 
     /**
      * this function collect add the information about the player and the fruits during the game

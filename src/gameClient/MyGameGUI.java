@@ -24,7 +24,7 @@ import algorithms.*;
 
 public class MyGameGUI extends Thread implements game_gui {
     int CurrentMc = 0;
-    public Logger_KML kml = new Logger_KML();
+    public KML_Logger kml = new KML_Logger();
     public FullGameGraph fullGame = new FullGameGraph();
 
     public Range returnTheX() {
