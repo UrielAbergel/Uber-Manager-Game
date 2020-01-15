@@ -1,5 +1,6 @@
-package gameClient;
+package Tests;
 
+import gameClient.Fruit;
 import org.junit.Test;
 import utils.Point3D;
 
@@ -7,20 +8,6 @@ import static org.junit.Assert.*;
 
 public class FruitTest {
 
-    @Test
-    public void getKey() {
-        Fruit f1 = new Fruit();
-        Fruit f2 = new Fruit();
-        Fruit f3 = new Fruit();
-        Fruit f4 = new Fruit();
-        Fruit f5 = new Fruit();
-        assertEquals(1,f1.getKey());
-        assertEquals(2,f2.getKey());
-        assertEquals(3,f3.getKey());
-        assertEquals(4,f4.getKey());
-        assertEquals(5,f5.getKey());
-
-    }
 
     @Test
     public void getLocation() {
@@ -71,38 +58,65 @@ public class FruitTest {
     }
 
     @Test
-    public void getWeight() {
-    }
-
-    @Test
-    public void setWeight() {
-    }
-
-    @Test
-    public void getInfo() {
-    }
-
-    @Test
-    public void setInfo() {
-    }
-
-    @Test
     public void getTag() {
+        Fruit f1 = new Fruit();
+        Fruit f2 = new Fruit();
+        Fruit f3 = new Fruit();
+        Fruit f4 = new Fruit();
+        Fruit f5 = new Fruit();
+        f1.setTag(1);
+        f2.setTag(2);
+        f3.setTag(3);
+        f4.setTag(4);
+        f5.setTag(5);
+        assertEquals(1,f1.getTag());
+        assertEquals(2,f2.getTag());
+        assertEquals(3,f3.getTag());
+        assertEquals(4,f4.getTag());
+        assertEquals(5,f5.getTag());
+
     }
 
     @Test
     public void setTag() {
+        Fruit f1 = new Fruit();
+        Fruit f2 = new Fruit();
+        Fruit f3 = new Fruit();
+        Fruit f4 = new Fruit();
+        Fruit f5 = new Fruit();
+        f1.setTag(1);
+        f2.setTag(2);
+        f3.setTag(3);
+        f4.setTag(4);
+        f5.setTag(5);
+        assertEquals(1,f1.getTag());
+        assertEquals(2,f2.getTag());
+        assertEquals(3,f3.getTag());
+        assertEquals(4,f4.getTag());
+        assertEquals(5,f5.getTag());
     }
 
     @Test
     public void setPicture() {
-    }
+        Fruit f1 = new Fruit();
+        Fruit f2 = new Fruit();
 
-    @Test
-    public void getType() {
+        f1.setPicture(1);
+        f2.setPicture(-1);
+
+        assertEquals("pic//Amazon.png",f1.getPicture());
+        assertEquals("pic//Ebay.png",f2.getPicture());
+
+
     }
 
     @Test
     public void getPicture() {
+        Fruit f1 = new Fruit();
+        Fruit f2 = new Fruit();
+        f1.setPicture(1);
+        f2.setPicture(-1);
+        assertEquals("pic//Amazon.png",f1.getPicture());
+        assertEquals("pic//Ebay.png",f2.getPicture());
     }
 }
