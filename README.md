@@ -12,6 +12,9 @@ The fuels that appear on the screen at arrival are automatically updated and go 
 # Class diagram
 ![sadasda](https://user-images.githubusercontent.com/54840897/72457041-6fff1480-37ce-11ea-8211-e4ff09f5ae23.PNG)
 
+# Welcome screen
+![מסך פתיחה](https://user-images.githubusercontent.com/54840897/72464728-81501d00-37de-11ea-845c-67ec1a411c14.PNG)
+
 # Game GUI JAVA
 ![משחק חדש](https://user-images.githubusercontent.com/54840897/72462212-34b61300-37d9-11ea-9c1c-a4ee4de7ab86.PNG)
 
