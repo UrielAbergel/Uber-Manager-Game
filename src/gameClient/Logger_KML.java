@@ -19,8 +19,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This class create KML file for each game
+ * @author Yair Semama and Uriel Abergel
+ */
 public class Logger_KML {
 
+    /**
+     * this function collect add the information about the player and the fruits during the game
+     * and then create KML file from the collected information
+     * @throws ParseException
+     * @throws InterruptedException
+     */
     public void CreateOBJforKML() throws ParseException, InterruptedException {
         Kml k = new Kml ();
         Document doc = k.createAndSetDocument();
@@ -94,14 +104,14 @@ public class Logger_KML {
     }
 
 
-    public String MillisToString(Long millis)
+    private String MillisToString(Long millis)
     {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date(millis));
     }
 
 
-    public long StringToMillis(String TimeAsString) throws ParseException
+    private long StringToMillis(String TimeAsString) throws ParseException
     {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         Date date = format.parse(TimeAsString.toString());
@@ -109,7 +119,7 @@ public class Logger_KML {
         return millis;
     }
 
-    public String TimeNow()
+    private String TimeNow()
     {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
     }

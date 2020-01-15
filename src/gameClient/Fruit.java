@@ -21,7 +21,7 @@ public class Fruit implements Fruits {
 
 
     public Fruit(){
-        //for the algo not for use of the user
+        this.key = keyCounter++;
     }
     public Fruit(Point3D loc , int type){
         this.type = type;
@@ -36,6 +36,7 @@ public class Fruit implements Fruits {
         this.location = new Point3D(newFruit.getString("pos"));
         setPicture(this.type);
         this.time =time;
+        this.key = keyCounter++;
     }
 
 

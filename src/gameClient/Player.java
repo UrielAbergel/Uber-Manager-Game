@@ -15,7 +15,9 @@ public class Player implements Players {
     Point3D location;
     String pic = "", info = "";
 
-
+    public Player(){
+        location = new Point3D(0,0,0);
+    }
     public Player(String json) throws JSONException {
         JSONObject fruit = new JSONObject(json);
         JSONObject newFruit = fruit.getJSONObject("Robot");
@@ -112,14 +114,10 @@ public class Player implements Players {
     public void setTag(int t) {
         this.tag = t;
     }
-
+    @Override
     public void MoveRobotToNextDest(int dest)
     {
         StdDraw.theMain.fullGame.getGame().chooseNextEdge(this.key, dest);
     }
 
-    public static void main(String[] args) throws JSONException {
-        Player p = new Player("{\"Robot\":{\"id\":0,\"value\":0.0,\"src\":1,\"dest\":-1,\"speed\":1.0,\"pos\":\"35.18958953510896,32.10785303529412,0.0\"}}");
-
-    }
 }

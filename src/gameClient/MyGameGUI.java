@@ -18,12 +18,11 @@ import de.micromata.opengis.kml.v_2_2_0.Kml;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.*;
-
 import algorithms.*;
 
 
 
-public class MyGameGUI extends Thread {
+public class MyGameGUI extends Thread implements game_gui {
     int CurrentMc = 0;
     public Logger_KML kml = new Logger_KML();
     public FullGameGraph fullGame = new FullGameGraph();
@@ -109,7 +108,7 @@ public class MyGameGUI extends Thread {
         StdDraw.enableDoubleBuffering();
     }
 
-    public ArrayList<Integer> MakeListInt(List<node_data> p) {
+    private ArrayList<Integer> MakeListInt(List<node_data> p) {
         ArrayList<Integer> ans = new ArrayList<>();
         Iterator<node_data> iter = p.iterator();
         while (iter.hasNext()) {
@@ -227,7 +226,7 @@ public class MyGameGUI extends Thread {
         StdDraw.show();
     }
 
-    public void movePlayerAUTO()
+    private void movePlayerAUTO()
     {
         ArrayList<Players> PlaList = StdDraw.theMain.fullGame.getP();
         for(Players pla : PlaList)
@@ -274,7 +273,7 @@ public class MyGameGUI extends Thread {
                     update();
                     //  StdDraw.show();
                     counter++;
-                    System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd());
+                    System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
                 }
               if(!StdDraw.theMain.fullGame.getGame().isRunning()){
                   if(counter>prevCounter){

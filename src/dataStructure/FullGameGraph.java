@@ -78,7 +78,6 @@ public class FullGameGraph implements full_graph_game{
         return find;
     }
 
-
     public void addPlayer(Player p) {
         PlayersList.add(p);
     }
