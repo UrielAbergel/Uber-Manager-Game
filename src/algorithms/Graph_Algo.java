@@ -433,8 +433,4 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
-
-	public static void main(String[] args) {
-	}
-
 }

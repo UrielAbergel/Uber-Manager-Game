@@ -1735,7 +1735,10 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			JFrame f = new JFrame();
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			List<node_data> ans = theMain.fullGame.getAlgo().shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
+			Graph_Algo p = new Graph_Algo();
+			p.init(StdDraw.theMain.fullGame.getGraphM());
+			List<node_data> ans = p.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
+			System.out.println(p.shortestPath(Integer.parseInt(src),Integer.parseInt(dest)));
 			theMain.update(ans);
 		}
 		if (e.getActionCommand().equals("TSP")){
