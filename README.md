@@ -13,7 +13,7 @@ The fuels that appear on the screen at arrival are automatically updated and go 
 ![sadasda](https://user-images.githubusercontent.com/54840897/72457041-6fff1480-37ce-11ea-8211-e4ff09f5ae23.PNG)
 
 # Game GUI JAVA
-![משחק גדול](https://user-images.githubusercontent.com/54840897/72461865-8611d280-37d8-11ea-8238-81beab126f9f.PNG)
+![משחק חדש](https://user-images.githubusercontent.com/54840897/72462212-34b61300-37d9-11ea-9c1c-a4ee4de7ab86.PNG)
 
 # Game GUI Google Earth
 ![משחק גוגל](https://user-images.githubusercontent.com/54840897/72461781-5e226f00-37d8-11ea-8f0f-6cfd6750ebc0.PNG)
