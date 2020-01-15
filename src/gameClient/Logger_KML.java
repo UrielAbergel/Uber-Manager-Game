@@ -34,6 +34,18 @@ public class Logger_KML {
 
                 for (Players p : pla) {
                     Placemark plmark = doc.createAndAddPlacemark();
+                    Icon ff = new Icon();
+
+                    ff.setHref("http://pngimg.com/uploads/acura/acura_PNG121.png");
+                    ff.setViewBoundScale(1);
+                    ff.setViewRefreshTime(1);
+                    ff.withRefreshInterval(1);
+                    IconStyle pp = new IconStyle();
+                    pp.setScale(1);
+                    pp.setHeading(1);
+                    pp.setColor("ff007db3");
+                    pp.setIcon(ff);
+                    plmark.createAndAddStyle().setIconStyle(pp);
                     plmark.withDescription("Mac: " + "\nType: CAR").withOpen(Boolean.TRUE).createAndSetPoint().addToCoordinates(p.getLocation().x(), p.getLocation().y());
                     String time1 = MillisToString(StringToMillis(TimeNow()) + i * 1000);
                     String time2 = MillisToString(StringToMillis(TimeNow()) + (i + 1) * 1000);
@@ -49,7 +61,8 @@ public class Logger_KML {
                 for (Fruits f : fru) {
                     Placemark placmark = doc.createAndAddPlacemark();
                     Icon ff = new Icon();
-                    ff.setHref("http://www.coal-ash.co.il/maps/sites/all/modules/coalash/icons/red.png");
+
+                    ff.setHref("http://pngimg.com/uploads/fuel/fuel_PNG56.png");
                     ff.setViewBoundScale(1);
                     ff.setViewRefreshTime(1);
                     ff.withRefreshInterval(1);
