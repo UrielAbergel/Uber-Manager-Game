@@ -1954,10 +1954,13 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			startGameOneTime = true;
 		}
 		if(addRobot){
-			double thex =e.getX();
-			double they = e.getY();
-			System.out.println("the mouse" + thex +  ", " +they);
-			int id = checkNodes(thex,they);
+			int id = -1;
+
+				double thex = mouseX;
+				double they = mouseY;
+				System.out.println("the mouse" + thex + ", " + they);
+				 id = checkNodes(thex, they);
+
 			System.out.println(id);
 		}
 
@@ -1988,16 +1991,27 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			if (p.y() < MinY) MinY = p.y();
 		}
 		Range ansy = new Range(MinY, MaxY);
-		double theYUp = (ansy.get_max() - ansy.get_min()) * 0.02;
-		double theXUp = (ansx.get_max() - ansx.get_min()) * 0.02;
+		double theYUp = (ansy.get_max() - ansy.get_min()) * 0.05;
+		double theXUp = (ansx.get_max() - ansx.get_min()) * 0.1;
+		System.out.println("x="+theXUp);
+		System.out.println("y="+theYUp);
+		boolean flag = true;
 
 		while (Nite.hasNext())
 		{
 			node_data node = Nite.next();
-			System.out.println("the node loc" +node.getLocation().x()+ "," + node.getLocation().y());
-			if( node.getLocation().x() < thex+3*theXUp && node.getLocation().x() > thex-3*theXUp && node.getLocation().y() < they+3*theYUp && node.getLocation().y() > thex-3*theYUp) {
-				id = node.getKey();
+			double Xminus = (thex-0.000006) , xPlus = thex+0.000006 , yMinus = they-0.002, yPlus = they+0.002;
+			if(flag){
+				System.out.println(".x+" + xPlus + " x-" +Xminus + " y+" + yPlus + " y-" + yMinus);
+				//System.out.println(thex + "," + they);
+				flag = false;
+			}
+				if(node.getKey() == 1) System.out.println("the node loc" +node.getLocation().x()+ "," + node.getLocation().y());
 
+			if( (node.getLocation().x() < (thex+0.0001)) && (node.getLocation().x() > (thex-0.0001)) && node.getLocation().y() < they+0.008 && node.getLocation().y() > they-0.008) {
+
+				id = node.getKey();
+				return id ;
 			}
 		}
 		return id ;
