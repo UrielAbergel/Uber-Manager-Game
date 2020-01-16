@@ -12,7 +12,7 @@ The game allows a view in the standard Gentile window and at the end of each gam
 There you can view the results and play with them on real maps of the world by a KML file that is automatically released in every game
 
 # Class diagram
-![sadasda](https://user-images.githubusercontent.com/54840897/72457041-6fff1480-37ce-11ea-8211-e4ff09f5ae23.PNG)
+![דיאגרמה](https://user-images.githubusercontent.com/54840897/72538180-15c18a80-3886-11ea-89d5-8f3491147f95.PNG)
 
 # Welcome screen
 ![מסך פתיחה](https://user-images.githubusercontent.com/54840897/72536849-b793a800-3883-11ea-9849-253ec300d97b.PNG)
@@ -171,3 +171,11 @@ The class represents an object that holds all the data for the game, with which 
  
 ## KML_LOGGER:
 A class that converts a game to a KML object so you can see the game and time in the Google World view
+
+# Play and have FUN!
+
+# Sources
+
+### JAVA-TO-KML JAR : https://labs.micromata.de/java-api-for-kml/
+### Dijkstra's algorithm INFO :https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+
