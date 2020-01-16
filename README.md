@@ -19,7 +19,7 @@ The fuels that appear on the screen at arrival are automatically updated and go 
 ![משחק עדכני](https://user-images.githubusercontent.com/54840897/72536902-d2661c80-3883-11ea-8506-a6139658bb61.PNG)
 
 # Game GUI Google Earth
-![משחק גוגל](https://user-images.githubusercontent.com/54840897/72461781-5e226f00-37d8-11ea-8f0f-6cfd6750ebc0.PNG)
+![גוגל](https://user-images.githubusercontent.com/54840897/72537198-5ae4bd00-3884-11ea-8825-d644cf122435.PNG)
 
 
 ## NodeData : 
