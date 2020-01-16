@@ -266,7 +266,10 @@ public class MyGameGUI extends Thread implements game_gui {
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateRobots();
                     updateFruits();
-                    movePlayerAUTO();
+                    if(StdDraw.theMain.fullGame.getAUTO())
+                    {
+                        movePlayerAUTO();
+                    }
                     resetEdge();
                     update();
                     //  StdDraw.show();

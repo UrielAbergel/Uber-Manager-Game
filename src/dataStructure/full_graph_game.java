@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public interface full_graph_game {
 
     /**
-     * Get new game by scenario number
+     * Get new game by scenario number and if the is auto or manual
      * @param sen
      */
-    public void NewGAME(int sen);
+    public void NewGAME(int sen , boolean isAuto);
 
     /**
      * init function.

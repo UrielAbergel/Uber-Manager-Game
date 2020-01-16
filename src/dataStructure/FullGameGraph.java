@@ -19,10 +19,12 @@ public class FullGameGraph implements full_graph_game{
     private game_service game ;
     private int currentCen = -1 ;
     private GameAlgo gameAlgo = new GameAlgo();
+    private boolean isAUTO = false ;
 
-    public void NewGAME(int sen){
+    public void NewGAME(int sen , boolean isAUTO){
         this.game = Game_Server.getServer(sen);
         this.currentCen = sen;
+        this.isAUTO =isAUTO;
     }
 
     public FullGameGraph(){}
@@ -64,7 +66,10 @@ public class FullGameGraph implements full_graph_game{
         g.init(this.graphM);
         this.algo = g ;
     }
-
+    public boolean getAUTO()
+    {
+        return this.isAUTO;
+    }
     public graph_algorithms getAlgo(){
         return this.algo;
     }

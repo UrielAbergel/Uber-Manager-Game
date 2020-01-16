@@ -67,10 +67,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.text.ParseException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -719,12 +716,16 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	public static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
-		JMenu menu4 = new JMenu("Game");
+		JMenu menu6 = new JMenu("Load Game");
+		JMenu menu4 = new JMenu("GameAuto");
+		JMenu menu5 = new JMenu("GameManual");
 		JMenu menu2 = new JMenu("Algo");
 		JMenu menu3 = new JMenu("Actions");
 
 		menuBar.add(menu);
+		menuBar.add(menu6);
 		menuBar.add(menu4);
+		menuBar.add(menu5);
 		menuBar.add(menu2);
 		menuBar.add(menu3);
 
@@ -771,15 +772,18 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		removeEdge.addActionListener(std);
 		removeNode.addActionListener(std);
 		JMenuItem newGame = new JMenuItem("Game Scenario");
-		JMenuItem checkNearBanaa = new JMenuItem("checkNearBanaa");
-		menu4.add(newGame);
-		menu4.add(checkNearBanaa);
+		JMenuItem StartgameManual = new JMenuItem("Start game Manual");
+		menu6.add(newGame);
+		menu4.add(StartgameManual);
 		JMenuItem Start = new JMenuItem("Start Game");
 		JMenuItem MoveRobot = new JMenuItem("Move Robot");
-		menu4.add(newGame);
+		JMenuItem addRobots = new JMenuItem("Add Robot");
 		menu4.add(Start);
-		menu4.add(MoveRobot);
-		checkNearBanaa.addActionListener(std);
+		menu5.add(StartgameManual);
+		menu5.add(addRobots);
+		menu5.add(MoveRobot);
+		addRobots.addActionListener(std);
+		StartgameManual.addActionListener(std);
 		MoveRobot.addActionListener(std);
 		Start.addActionListener(std);
 		newGame.addActionListener(std);
@@ -1687,6 +1691,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	boolean flag1 = false;
 	boolean flag2 = false;
 	boolean flag3 = false;
+	boolean addRobot = false ;
 	@Override
 	public void actionPerformed(ActionEvent e) {//menu bar
 		if(e.getActionCommand().equals("Remove Node")){
@@ -1785,7 +1790,14 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		{
 			JFrame f = new JFrame();
 			String scenario_num  = JOptionPane.showInputDialog(f,"please enter a the scenario number");
-			StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num));
+			String[] chooseGame = {"Manually Game","Auto Game"};
+			Object selctedGame = JOptionPane.showInputDialog(null,"Choose a Game mode","Message",JOptionPane.INFORMATION_MESSAGE,null,chooseGame,chooseGame[0]);
+			if(selctedGame=="Manually Game") {
+				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , false);
+			}
+			else {
+				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , true);
+			}
 			DGraph r = new DGraph();
 			r.init(StdDraw.theMain.fullGame.getGame().getGraph());
 			StdDraw.theMain.fullGame.setGraphM(r);
@@ -1817,16 +1829,28 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			StdDraw.theMain.fullGame.getGame().chooseNextEdge(Integer.parseInt(Robot), Integer.parseInt(dest));
 			List<String> qq = StdDraw.theMain.fullGame.getGame().move();
 		}
-		if(e.getActionCommand().equals("checkNearBanaa"))
+		if(e.getActionCommand().equals("Start game Manual"))
 		{
-			JFrame f = new JFrame();
-			String temp = "new EdgeData(0,0,0)";
-			List<Players> fruList = StdDraw.theMain.fullGame.getP();
-			for(Players fru : fruList){
+			StdDraw.theMain.fullGame.getGame().startGame();
+			KML_Logger logger_kml = new KML_Logger();
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						logger_kml.CreateOBJforKML();
+					} catch (ParseException | InterruptedException ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
+			thread.start();
 
-				StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(fru);
-//				JOptionPane.showMessageDialog(f,temp);
-			}
+
+		}
+		if(e.getActionCommand().equals("Add Robot"))
+		{
+			addRobot = true ;
+			frame.addMouseListener(this);
 		}
 
 	}
@@ -1921,7 +1945,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				JFrame f = new JFrame();
 				String scenario_num  = JOptionPane.showInputDialog(f,"please enter a the scenario number");
 				StdDraw.theMain.fullGame.setCen(Integer.parseInt(scenario_num));
-				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num));
+				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , true);
 				DGraph r = new DGraph();
 				r.init(StdDraw.theMain.fullGame.getGame().getGraph());
 				StdDraw.theMain.fullGame.setGraphM(r);
@@ -1929,9 +1953,54 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			}
 			startGameOneTime = true;
 		}
-		System.out.println(e.getX()+","+e.getY());
+		if(addRobot){
+			double thex =e.getX();
+			double they = e.getY();
+			System.out.println("the mouse" + thex +  ", " +they);
+			int id = checkNodes(thex,they);
+			System.out.println(id);
+		}
 
 
+	}
+
+	private int checkNodes(double thex, double they) {
+		Iterator<node_data> Nite = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+		int id = -1 ;
+		graph current = StdDraw.theMain.fullGame.getGraphM();
+		double MaxX = Integer.MIN_VALUE;
+		double MinX = Integer.MAX_VALUE;
+		Iterator<node_data> iter = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+		while (iter.hasNext()) {
+			node_data currentNode = iter.next();
+			Point3D p = currentNode.getLocation();
+			if (p.x() > MaxX) MaxX = p.x();
+			if (p.x() < MinX) MinX = p.x();
+		}
+		Range ansx = new Range(MinX, MaxX);
+		double MaxY = Integer.MIN_VALUE;
+		double MinY = Integer.MAX_VALUE;
+		Iterator<node_data> iter2 = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+		while (iter2.hasNext()) {
+			node_data currentNode = iter2.next();
+			Point3D p = currentNode.getLocation();
+			if (p.y() > MaxY) MaxY = p.y();
+			if (p.y() < MinY) MinY = p.y();
+		}
+		Range ansy = new Range(MinY, MaxY);
+		double theYUp = (ansy.get_max() - ansy.get_min()) * 0.02;
+		double theXUp = (ansx.get_max() - ansx.get_min()) * 0.02;
+
+		while (Nite.hasNext())
+		{
+			node_data node = Nite.next();
+			System.out.println("the node loc" +node.getLocation().x()+ "," + node.getLocation().y());
+			if( node.getLocation().x() < thex+3*theXUp && node.getLocation().x() > thex-3*theXUp && node.getLocation().y() < they+3*theYUp && node.getLocation().y() > thex-3*theYUp) {
+				id = node.getKey();
+
+			}
+		}
+		return id ;
 	}
 
 	/**
