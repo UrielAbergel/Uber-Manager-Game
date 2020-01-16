@@ -8,6 +8,8 @@ The game works according to the dijkstra algorithm.
  When it calculates the shortest distances, and takes the distance and value of the fuel and moves to there
  The goal of the game is to win as many points as possible and beat the existing algorithm.
 The fuels that appear on the screen at arrival are automatically updated and go statistically to another side on the graph
+The game allows a view in the standard Gentile window and at the end of each game allows a look at the game in Google Earth.
+There you can view the results and play with them on real maps of the world by a KML file that is automatically released in every game
 
 # Class diagram
 ![sadasda](https://user-images.githubusercontent.com/54840897/72457041-6fff1480-37ce-11ea-8211-e4ff09f5ae23.PNG)
@@ -36,6 +38,7 @@ Represents a single vertex in the graph receives an id and receives the point it
 Each method has a set method Represented by set "value"
 
 
+# Play and Have FUN!
 ## EdgeData : 
 
 ### descreption :
