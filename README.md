@@ -13,10 +13,10 @@ The fuels that appear on the screen at arrival are automatically updated and go 
 ![sadasda](https://user-images.githubusercontent.com/54840897/72457041-6fff1480-37ce-11ea-8211-e4ff09f5ae23.PNG)
 
 # Welcome screen
-![מסך פתיחה](https://user-images.githubusercontent.com/54840897/72464728-81501d00-37de-11ea-845c-67ec1a411c14.PNG)
+![מסך פתיחה](https://user-images.githubusercontent.com/54840897/72536849-b793a800-3883-11ea-9849-253ec300d97b.PNG)
 
 # Game GUI JAVA
-![משחק חדש](https://user-images.githubusercontent.com/54840897/72462212-34b61300-37d9-11ea-9c1c-a4ee4de7ab86.PNG)
+![משחק עדכני](https://user-images.githubusercontent.com/54840897/72536902-d2661c80-3883-11ea-8506-a6139658bb61.PNG)
 
 # Game GUI Google Earth
 ![משחק גוגל](https://user-images.githubusercontent.com/54840897/72461781-5e226f00-37d8-11ea-8f0f-6cfd6750ebc0.PNG)
