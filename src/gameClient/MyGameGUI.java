@@ -24,7 +24,7 @@ import algorithms.*;
 
 public class MyGameGUI extends Thread implements game_gui {
     int CurrentMc = 0;
-    public Logger_KML kml = new Logger_KML();
+    public KML_Logger kml = new KML_Logger();
     public FullGameGraph fullGame = new FullGameGraph();
 
     public Range returnTheX() {
@@ -59,6 +59,7 @@ public class MyGameGUI extends Thread implements game_gui {
 
     public void MainDraw() {
         this.start();
+        StdDraw.setCanvasSize(1400, 1000);
         StdDraw.theMain.fullGame = this.fullGame;
         StdDraw.theMain.fullGame.setGraphM(this.fullGame.getGraphM());
         StdDraw.theMain.CurrentMc = this.CurrentMc;
@@ -67,42 +68,9 @@ public class MyGameGUI extends Thread implements game_gui {
         StdDraw.setCanvasSize(1400, 1000);
         double FixXscale = (x.get_max() - x.get_min()) * 0.2;
         double FixYscale = (y.get_max() - y.get_min()) * 0.2;
-        StdDraw.setXscale(x.get_min() - FixXscale, x.get_max() * 1.00002);
-        StdDraw.setYscale(y.get_min() - FixYscale, y.get_max() * 1.00002);
-        double TheYUp = (y.get_max() - y.get_min()) * 0.02;
-        double rightScaleX = ((x.get_max() - x.get_min()) * 0.04);
-        double rightScaleY = ((y.get_max() - y.get_min()) * 0.04);
-        Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
-        while (iterNodes.hasNext()) {
-            node_data theCurrent = iterNodes.next();
-            StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
-            Point3D tempP = theCurrent.getLocation();
-            StdDraw.setPenColor(Color.black);
-            StdDraw.text(tempP.x(), tempP.y() + TheYUp, "" + theCurrent.getKey());
-            if (this.fullGame.getGraphM().getE(theCurrent.getKey()) != null) {
-                Iterator<edge_data> iterEdge = this.fullGame.getGraphM().getE(theCurrent.getKey()).iterator();
-                while (iterEdge.hasNext()) {
-                    edge_data tempEdge = iterEdge.next();
-                    node_data src = this.fullGame.getGraphM().getNode(tempEdge.getSrc());
-                    Point3D srcP = src.getLocation();
-                    node_data dest = this.fullGame.getGraphM().getNode(tempEdge.getDest());
-                    Point3D destP = dest.getLocation();
-                    StdDraw.setPenColor(Color.black);
-                    StdDraw.setPenRadius(0.003);
-                    StdDraw.line(srcP.x(), srcP.y(), destP.x(), destP.y());
-                    StdDraw.setPenColor(Color.black);
-                    StdDraw.setPenColor(Color.BLUE);
-                    DecimalFormat df2 = new DecimalFormat("#.#");
-                    StdDraw.text((srcP.x() * 0.2 + destP.x() * 0.8), (srcP.y() * 0.2 + destP.y() * 0.8) + TheYUp, df2.format(tempEdge.getWeight()));
-                    StdDraw.setPenColor(Color.magenta);
-                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.03);
-                    StdDraw.setPenColor(Color.magenta);
-                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.03);
-                    StdDraw.setPenColor(Color.red);
-                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.03);
-                }
-            }
-        }
+        StdDraw.setXscale(-80, 80);
+        StdDraw.setYscale(-80, 80);
+        StdDraw.picture(0,0,"pic\\open.PNG",160,140);
         StdDraw.createMenuBar();
         StdDraw.theMain.fullGame = this.fullGame;
         StdDraw.enableDoubleBuffering();
@@ -180,9 +148,28 @@ public class MyGameGUI extends Thread implements game_gui {
         StdDraw.setXscale(x.get_min() - FixXscale, x.get_max() * 1.00002);
         StdDraw.setYscale(y.get_min() - FixYscale, y.get_max() * 1.00006);
         double TheYUp = (y.get_max() - y.get_min()) * 0.02;
+        double TheXUp = (x.get_max() - x.get_min()) * 0.02;
         double rightScaleX = ((x.get_max() - x.get_min()) * 0.04);
         double rightScaleY = ((y.get_max() - y.get_min()) * 0.04);
         Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
+        StdDraw.picture((x.get_max()+x.get_min())/2,(y.get_max()+y.get_min())/2,"pic\\\u200F\u200Fbackround.PNG",(x.get_max()-x.get_min())*1.6,(y.get_max()-y.get_min())*1.6);
+        int grade = ReturnTheGrade();
+        if(StdDraw.theMain.fullGame.getCen() > 11)
+        {
+            StdDraw.picture(x.get_min() - 8 * TheXUp, y.get_max(), "pic\\clock.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.picture(x.get_min() - 3 * TheXUp, y.get_max(), "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()-3*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
+            StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()-3*TheYUp , ""+grade);
+        }
+        if(StdDraw.theMain.fullGame.getCen() <= 11)
+        {
+            StdDraw.picture(x.get_min()- 8 * TheXUp , y.get_max()+5.2*TheYUp, "pic\\clock.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.picture(x.get_min()- 3 * TheXUp , y.get_max()+5.2*TheYUp, "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()+2.5*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
+            StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()+2.5*TheYUp , ""+grade);
+
+        }
+        StdDraw.textLeft((x.get_max()+x.get_min())/2,(y.get_max()+y.get_min())/2,";fjksdal;");
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
             StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
@@ -217,13 +204,24 @@ public class MyGameGUI extends Thread implements game_gui {
         if (StdDraw.theMain.fullGame.getGame().isRunning()) {
             for (Players pla : StdDraw.theMain.fullGame.getP()) {
                 StdDraw.picture(pla.getLocation().x(), pla.getLocation().y(), pla.getPicture(), rightScaleX*1.4, rightScaleY*1.4);
+
             }
             for (Fruits fruty : StdDraw.theMain.fullGame.getF()) {
                 StdDraw.picture(fruty.getLocation().x(), fruty.getLocation().y(), fruty.getPicture(), rightScaleX*1.4, rightScaleY*1.4);
+//                StdDraw.picture(0,0,"pic\\\u200F\u200Fbackround.PNG",160,rightScaleY);
             }
         }
         StdDraw.createMenuBar();
         StdDraw.show();
+    }
+
+    private int ReturnTheGrade() {
+        String s = StdDraw.theMain.fullGame.getGame().toString();
+        String[] arr = s.split(",");
+        System.out.println(arr[2]);
+        s = arr[2].substring(8 , arr[2].length());
+        System.out.println(s);
+        return (Integer.parseInt(s));
     }
 
     private void movePlayerAUTO()
@@ -341,14 +339,16 @@ public class MyGameGUI extends Thread implements game_gui {
 
     public static void main(String[] args) throws JSONException, ParseException {
 
-        game_service newgame = Game_Server.getServer(1);
-        DGraph EEEE = new DGraph();
-
-        EEEE.init(newgame.getGraph());
-        ArrayList<Players> players = new ArrayList<>();
-        ArrayList<Fruits> banana = new ArrayList<>();
-        Graph_Algo p = new Graph_Algo();
-        p.init(EEEE);
+//        game_service newgame = Game_Server.getServer(1);
+//        newgame.startGame();
+//        System.out.println(newgame.isRunning());
+//        DGraph EEEE = new DGraph();
+//
+//        EEEE.init(newgame.getGraph());
+//        ArrayList<Players> players = new ArrayList<>();
+//        ArrayList<Fruits> banana = new ArrayList<>();
+//        Graph_Algo p = new Graph_Algo();
+//        p.init(EEEE);
 
         //  ===================================================test without stdraw============================================
 //        newgame.startGame();

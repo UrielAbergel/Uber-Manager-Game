@@ -17,10 +17,12 @@ public class FullGameGraph implements full_graph_game{
     private ArrayList<Players> PlayersList = new ArrayList<>();
     private ArrayList<Fruits> FruitList = new ArrayList<>();
     private game_service game ;
+    private int currentCen = -1 ;
     private GameAlgo gameAlgo = new GameAlgo();
 
     public void NewGAME(int sen){
         this.game = Game_Server.getServer(sen);
+        this.currentCen = sen;
     }
 
     public FullGameGraph(){}
@@ -78,6 +80,12 @@ public class FullGameGraph implements full_graph_game{
         return find;
     }
 
+    public void setCen(int c){
+        this.currentCen = c;
+    }
+    public int getCen(){
+        return this.currentCen;
+    }
     public void addPlayer(Player p) {
         PlayersList.add(p);
     }

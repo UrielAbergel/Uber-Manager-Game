@@ -23,7 +23,7 @@ import java.util.Locale;
  * This class create KML file for each game
  * @author Yair Semama and Uriel Abergel
  */
-public class Logger_KML {
+public class KML_Logger {
 
     /**
      * this function collect add the information about the player and the fruits during the game
@@ -72,7 +72,7 @@ public class Logger_KML {
                     Placemark placmark = doc.createAndAddPlacemark();
                     Icon ff = new Icon();
 
-                    ff.setHref("http://pngimg.com/uploads/fuel/fuel_PNG56.png");
+                    ff.setHref("https://png.pngtree.com/png-clipart/20190629/original/pngtree-vector-fuel-station-icon-png-image_4091224.jpg");
                     ff.setViewBoundScale(1);
                     ff.setViewRefreshTime(1);
                     ff.withRefreshInterval(1);

@@ -1794,7 +1794,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		if(e.getActionCommand().equals("Start Game"))
 		{
 			StdDraw.theMain.fullGame.getGame().startGame();
-			Logger_KML logger_kml = new Logger_KML();
+			KML_Logger logger_kml = new KML_Logger();
 			Thread thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -1887,6 +1887,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	/**
 	 * This method cannot be called directly.
 	 */
+	public static boolean startGameOneTime = false;
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(flag1){
@@ -1913,6 +1914,24 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			theMain.fullGame.getGraphM().connect((int)x,(int)y,weight);
 			flag3 = false;
 		}
+		if(e.getX() > 575 && e.getX() < 745 && e.getY() >585 && e.getY() <724)
+		{
+			if(startGameOneTime == false)
+			{
+				JFrame f = new JFrame();
+				String scenario_num  = JOptionPane.showInputDialog(f,"please enter a the scenario number");
+				StdDraw.theMain.fullGame.setCen(Integer.parseInt(scenario_num));
+				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num));
+				DGraph r = new DGraph();
+				r.init(StdDraw.theMain.fullGame.getGame().getGraph());
+				StdDraw.theMain.fullGame.setGraphM(r);
+				theMain.update();
+			}
+			startGameOneTime = true;
+		}
+		System.out.println(e.getX()+","+e.getY());
+
+
 	}
 
 	/**
