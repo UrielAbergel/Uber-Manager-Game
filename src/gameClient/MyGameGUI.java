@@ -211,6 +211,12 @@ public class MyGameGUI extends Thread implements game_gui {
 //                StdDraw.picture(0,0,"pic\\\u200F\u200Fbackround.PNG",160,rightScaleY);
             }
         }
+        else if(!StdDraw.theMain.fullGame.getAUTO()){
+            for (Players pla : StdDraw.theMain.fullGame.getP()) {
+                StdDraw.picture(pla.getLocation().x(), pla.getLocation().y(), pla.getPicture(), rightScaleX*1.4, rightScaleY*1.4);
+
+            }
+        }
         StdDraw.createMenuBar();
         StdDraw.show();
     }
@@ -256,13 +262,15 @@ public class MyGameGUI extends Thread implements game_gui {
                 JSONObject json = new JSONObject(robots);
                 JSONObject newBobot = json.getJSONObject("GameServer");
                 int size = newBobot.getInt("robots");
-
+                if(StdDraw.theMain.fullGame.getAUTO()){
                 for (int i = 0; i < size; i++) {
                     StdDraw.theMain.fullGame.getGame().addRobot(i);
                     Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
                     tempArr.add(tempPla);
                 }
-                StdDraw.theMain.fullGame.setPlayersList(tempArr);
+                    StdDraw.theMain.fullGame.setPlayersList(tempArr);
+                }
+
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateRobots();
                     updateFruits();
