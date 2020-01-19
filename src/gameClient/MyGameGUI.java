@@ -21,7 +21,9 @@ import utils.*;
 import algorithms.*;
 
 
-
+/**
+ !!!!Comments on Interface!!!!
+ */
 public class MyGameGUI extends Thread implements game_gui {
     int CurrentMc = 0;
     public KML_Logger kml = new KML_Logger();
@@ -91,13 +93,31 @@ public class MyGameGUI extends Thread implements game_gui {
         Range x = returnTheX();
         Range y = returnTheY();
         double FixXscale = (x.get_max() - x.get_min()) * 0.2;
-        double FixYscale = (y.get_max() - y.get_min()) * 0.2;
-        StdDraw.setXscale(x.get_min() - FixXscale, x.get_max());
-        StdDraw.setYscale(y.get_min() - FixYscale, y.get_max());
-        double TheYUp = (y.get_max() - y.get_min()) * 0.03;
+        double FixYscale = (y.get_max() - y.get_min()) * 0.3;
+        StdDraw.setXscale(x.get_min() - FixXscale, x.get_max() * 1.00002);
+        StdDraw.setYscale(y.get_min() - FixYscale, y.get_max() * 1.00006);
+        double TheYUp = (y.get_max() - y.get_min()) * 0.02;
+        double TheXUp = (x.get_max() - x.get_min()) * 0.02;
         double rightScaleX = ((x.get_max() - x.get_min()) * 0.04);
         double rightScaleY = ((y.get_max() - y.get_min()) * 0.04);
         Iterator<node_data> iterNodes = this.fullGame.getGraphM().getV().iterator();
+        StdDraw.picture((x.get_max()+x.get_min())/2,(y.get_max()+y.get_min())/2,"pic\\\u200F\u200Fbackround.PNG",(x.get_max()-x.get_min())*1.6,(y.get_max()-y.get_min())*1.6);
+        int grade = ReturnTheGrade();
+        if(StdDraw.theMain.fullGame.getCen() > 11)
+        {
+            StdDraw.picture(x.get_min() - 8 * TheXUp, y.get_max(), "pic\\clock.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.picture(x.get_min() - 3 * TheXUp, y.get_max(), "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()-3*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
+            StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()-3*TheYUp , ""+grade);
+        }
+        if(StdDraw.theMain.fullGame.getCen() <= 11)
+        {
+            StdDraw.picture(x.get_min()- 8 * TheXUp , y.get_max()+5.2*TheYUp, "pic\\clock.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.picture(x.get_min()- 3 * TheXUp , y.get_max()+5.2*TheYUp, "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
+            StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()+2.5*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
+            StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()+2.5*TheYUp , ""+grade);
+
+        }
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
             StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
@@ -117,11 +137,14 @@ public class MyGameGUI extends Thread implements game_gui {
                     StdDraw.line(srcP.x(), srcP.y(), destP.x(), destP.y());
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
-                    StdDraw.text((srcP.x() * 0.2 + destP.x() * 0.8), (srcP.y() * 0.2 + destP.y() * 0.8) + TheYUp, "" + tempEdge.getWeight());
+                    DecimalFormat df2 = new DecimalFormat("#.#");
+                    StdDraw.text((srcP.x() * 0.2 + destP.x() * 0.8), (srcP.y() * 0.2 + destP.y() * 0.8) + TheYUp, df2.format(tempEdge.getWeight()));
                     StdDraw.setPenColor(Color.magenta);
-                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.3);
+                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.06);
+                    StdDraw.setPenColor(Color.magenta);
+                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.06);
                     StdDraw.setPenColor(Color.red);
-                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.3);
+                    StdDraw.filledCircle((srcP.x() * 0.1 + destP.x() * 0.9), (srcP.y() * 0.1 + destP.y() * 0.9), rightScaleX * 0.06);
 
                 }
             }
@@ -132,7 +155,7 @@ public class MyGameGUI extends Thread implements game_gui {
             int dest = save.get(i + 1);
             StdDraw.setPenColor(Color.GREEN);
             StdDraw.line(this.fullGame.getGraphM().getNode(src).getLocation().x(), this.fullGame.getGraphM().getNode(src).getLocation().y(), this.fullGame.getGraphM().getNode(dest).getLocation().x(), this.fullGame.getGraphM().getNode(dest).getLocation().y());
-            StdDraw.picture((this.fullGame.getGraphM().getNode(src).getLocation().x() + this.fullGame.getGraphM().getNode(dest).getLocation().x()) / 2, (this.fullGame.getGraphM().getNode(src).getLocation().y() + this.fullGame.getGraphM().getNode(dest).getLocation().y()) / 2, "pic\\1.jfif", rightScaleX * 0.6, rightScaleY * 0.6);
+            //StdDraw.picture((this.fullGame.getGraphM().getNode(src).getLocation().x() + this.fullGame.getGraphM().getNode(dest).getLocation().x()) / 2, (this.fullGame.getGraphM().getNode(src).getLocation().y() + this.fullGame.getGraphM().getNode(dest).getLocation().y()) / 2, "pic\\1.jfif", rightScaleX * 0.6, rightScaleY * 0.6);
         }
         StdDraw.createMenuBar();
         StdDraw.show();
@@ -169,7 +192,6 @@ public class MyGameGUI extends Thread implements game_gui {
             StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()+2.5*TheYUp , ""+grade);
 
         }
-        StdDraw.textLeft((x.get_max()+x.get_min())/2,(y.get_max()+y.get_min())/2,";fjksdal;");
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
             StdDraw.picture(theCurrent.getLocation().x(), theCurrent.getLocation().y(), "pic\\light.jfif", rightScaleX , rightScaleY );
@@ -224,9 +246,7 @@ public class MyGameGUI extends Thread implements game_gui {
     private int ReturnTheGrade() {
         String s = StdDraw.theMain.fullGame.getGame().toString();
         String[] arr = s.split(",");
-        System.out.println(arr[2]);
         s = arr[2].substring(8 , arr[2].length());
-        System.out.println(s);
         return (Integer.parseInt(s));
     }
 
@@ -262,15 +282,26 @@ public class MyGameGUI extends Thread implements game_gui {
                 JSONObject json = new JSONObject(robots);
                 JSONObject newBobot = json.getJSONObject("GameServer");
                 int size = newBobot.getInt("robots");
-                if(StdDraw.theMain.fullGame.getAUTO()){
-                for (int i = 0; i < size; i++) {
-                    StdDraw.theMain.fullGame.getGame().addRobot(i);
-                    Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
-                    tempArr.add(tempPla);
-                }
-                    StdDraw.theMain.fullGame.setPlayersList(tempArr);
-                }
+                int NodesSize = StdDraw.theMain.fullGame.getGraphM().nodeSize();
+                if(NodesSize != 0) {
+                    ArrayList<Integer> Alist = new ArrayList<>();
+                    Alist.add(0);
+                    Alist.add((Integer) NodesSize / 2);
+                    Alist.add((NodesSize - 6));
+                    //System.out.println(Alist);
 
+
+                    if (StdDraw.theMain.fullGame.getAUTO()) {
+                        for (int i = 0; i < size; i++) {
+                            System.out.println(StdDraw.theMain.fullGame.getGame().addRobot(Alist.get(i)));
+                            System.out.println(Alist.get(i));
+                            Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
+                            tempArr.add(tempPla);
+                        }
+                        StdDraw.theMain.fullGame.setPlayersList(tempArr);
+                    }
+                }
+               // System.out.println(StdDraw.theMain.fullGame.getGame().getRobots());
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateRobots();
                     updateFruits();
@@ -282,13 +313,13 @@ public class MyGameGUI extends Thread implements game_gui {
                     update();
                     //  StdDraw.show();
                     counter++;
-                    System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
+                  //  System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
                 }
               if(!StdDraw.theMain.fullGame.getGame().isRunning()){
                   if(counter>prevCounter){
                       prevCounter = counter;
                       //counter++;
-                      System.out.println(StdDraw.theMain.fullGame.getGame().toString());
+                 //     System.out.println(StdDraw.theMain.fullGame.getGame().toString());
                   }
 
               }
