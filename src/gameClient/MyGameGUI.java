@@ -307,12 +307,12 @@ public class MyGameGUI extends Thread implements game_gui {
                     updateRobots();
                     updateFruits();
 
-                    System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd());
+
                     if(StdDraw.theMain.fullGame.getAUTO())
                     {
-                        System.out.println("AAA");
+
                         movePlayerAUTO();
-                        System.out.println("BBB");
+
 
                     }
                     resetEdge();
