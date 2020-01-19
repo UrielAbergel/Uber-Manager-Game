@@ -10,7 +10,9 @@ import utils.StdDraw;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ !!!!Comments on Interface!!!!
+ */
 public class FullGameGraph implements full_graph_game{
     private graph graphM = new DGraph();
     private Graph_Algo algo = new Graph_Algo();

@@ -1693,7 +1693,8 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	boolean flag1 = false;
 	boolean flag2 = false;
 	boolean flag3 = false;
-	boolean addRobot = false ;
+	static boolean MoveRobot = false ;
+	static boolean addRobot = false ;
 	@Override
 	public void actionPerformed(ActionEvent e) {//menu bar
 		if(e.getActionCommand().equals("Remove Node")){
@@ -1727,15 +1728,18 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			theMain.fullGame.getGraphM().connect(src,dest,weight);
 		}
 		if (e.getActionCommand().equals("isConnected")){
-			JFrame f = new JFrame();
-			System.out.println(theMain.fullGame.getAlgo().isConnected());
-			JOptionPane.showMessageDialog(f,""+theMain.fullGame.getAlgo().isConnected());
+			JFrame f = new JFrame();Graph_Algo w = new Graph_Algo();
+			w.init(StdDraw.theMain.fullGame.getGraphM());
+			System.out.println(w.isConnected());
+			JOptionPane.showMessageDialog(f,""+w.isConnected());
 		}
 		if(e.getActionCommand().equals("shortestPathDist")){
 			JFrame f = new JFrame();
+			Graph_Algo w = new Graph_Algo();
+			w.init(StdDraw.theMain.fullGame.getGraphM());
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			double ans = theMain.fullGame.getAlgo().shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
+			double ans = w.shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
 			JOptionPane.showMessageDialog(f,"the shortestPath is: "+ans);
 		}
 		if(e.getActionCommand().equals("shortestPath")){
@@ -1750,13 +1754,16 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		}
 		if (e.getActionCommand().equals("TSP")){
 			JFrame f = new JFrame();
+			Graph_Algo q = new Graph_Algo();
+			q.init(StdDraw.theMain.fullGame.getGraphM());
 			String point  = JOptionPane.showInputDialog(f,"please enter a the points for sales man travels <int,int,int..>");
 			String[] points = point.split(",");
 			List<Integer> IntList = new LinkedList<>();
 			for (int i = 0; i < points.length; i++) {
 				IntList.add(Integer.parseInt(points[i]));
 			}
-			List<node_data> ans = theMain.fullGame.getAlgo().TSP(IntList);
+			List<node_data> ans = q.TSP(IntList);
+			System.out.println(ans.size());
 			//need to fix this to here
 			//List<Integer> intList = theMain.fullGame.getAlgo().MakeListInt(ans);
 			String intListString = "the Travel Sales man Travel to :||";
@@ -1764,6 +1771,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				intListString += ""+p.getKey()+"-";
 			}
 			intListString += "||";
+			//System.out.println(intListString);
 			JOptionPane.showMessageDialog(f,intListString);
 
 
@@ -1801,6 +1809,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , true);
 			}
 			StdDraw.theMain.fullGame.getP().clear();
+
 			DGraph r = new DGraph();
 			r.init(StdDraw.theMain.fullGame.getGame().getGraph());
 			StdDraw.theMain.fullGame.setGraphM(r);
@@ -1823,15 +1832,11 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			thread.start();
 		}
 		if(e.getActionCommand().equals("Move Robot")) {
-			JFrame f = new JFrame();
-			String Robot = JOptionPane.showInputDialog(f, "please enter a the Robot id");
-			String dest = JOptionPane.showInputDialog(f, "please enter a dest");
-			//int index = StdDraw.theMain.fullGame.findIDplayer(Integer.parseInt(Robot));
-			Players tempP = StdDraw.theMain.fullGame.getP().get(Integer.parseInt(Robot));
-			tempP.MoveRobotToNextDest(Integer.parseInt(dest));
-			StdDraw.theMain.fullGame.getGame().chooseNextEdge(Integer.parseInt(Robot), Integer.parseInt(dest));
-			List<String> qq = StdDraw.theMain.fullGame.getGame().move();
-		}
+		MoveRobot = true;
+		frame.addMouseListener(this);
+
+
+	}
 		if(e.getActionCommand().equals("Start game Manual"))
 		{
 			StdDraw.theMain.fullGame.getGame().startGame();
@@ -1847,7 +1852,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				}
 			});
 			thread.start();
-
+			MoveRobot = true ;
 
 		}
 		if(e.getActionCommand().equals("Add Robot"))
@@ -1914,12 +1919,14 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	/**
 	 * This method cannot be called directly.
 	 */
-	public static boolean startGameOneTime = false;
+	private static boolean startGameOneTime = false;
+	private boolean getNodeLoc = false;
+	private static int idRob = -1;
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (flag1) {
 			double x = mouseX;
-			double y = mouseY;
+			double y = mouseY-0.001;
 			node_data newNode = new NodeData(x, y, 0);
 			theMain.fullGame.getGraphM().addNode(newNode);
 			flag1 = false;
@@ -1933,7 +1940,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			flag2 = false;
 		} else if (flag3) {
 			double x = mouseX;
-			double y = mouseY;
+			double y = mouseY-0.001;
 			String Weight = JOptionPane.showInputDialog("Weight");
 			double weight = Integer.parseInt(Weight);
 			theMain.fullGame.getGraphM().connect((int) x, (int) y, weight);
@@ -1959,6 +1966,8 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			}
 			startGameOneTime = true;
 		}
+
+
 		if (addRobot) {
 			ArrayList<Players> tempArr = new ArrayList<>();
 			String robots = StdDraw.theMain.fullGame.getGame().toString();
@@ -1972,10 +1981,88 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				ex.printStackTrace();
 			}
 		}
+
+		if(MoveRobot) {
+			double thex = mouseX;
+			double they = mouseY-0.001;
+			//System.out.println("click: " + thex + " , " + they);
+
+			idRob = checkNodes(thex,they) ;
+			int winner = -1;
+			ArrayList<Players> pList = StdDraw.theMain.fullGame.getP();
+			for (int j = 0; j <pList.size() ; j++) {
+
+				if(pList.get(j).getSrc() == idRob){
+					//System.out.println(StdDraw.theMain.fullGame.getGraphM().getNode(0).getLocation().toString());
+					//System.out.println(idRob);
+
+					Players p = StdDraw.theMain.fullGame.getP().get(j);
+					System.out.println(p.getKey());
+					idRob =  j ;
+					StdDraw.picture(p.getLocation().x(),p.getLocation().y()+0.001 , "pic\\pointer.png", 0.0005,0.0005);
+					//StdDraw.show();
+					MoveRobot = false ;
+					getNodeLoc = true;
+				}
+
+			}
+			return;
+		}
+
+		if(getNodeLoc)
+		{
+			double thex = mouseX;
+			double they = mouseY-0.001;
+			int NodeID = checkNodes(thex,they);
+			System.out.println("winner "  + idRob + " nodeID " + NodeID);
+			if(StdDraw.theMain.fullGame.getGame().chooseNextEdge(idRob,NodeID)!=-1L) {
+				getNodeLoc = false;
+				MoveRobot = true;
+			}
+		}
+	}
+
+	private int getRobID(double thex , double they) {
+		int winner = -1,id = -1; ;
+		if(StdDraw.theMain.fullGame.getP().size() == 0){
+			return -1 ;
+		}
+		boolean flag = true;
+		ArrayList<Players> pList = StdDraw.theMain.fullGame.getP();
+		for (int j = 0; j < StdDraw.theMain.fullGame.getP().size(); j++)
+		{
+			if( (pList.get(j).getLocation().x() < (thex+0.0004)) && (pList.get(j).getLocation().x() > (thex-0.0004)) && pList.get(j).getLocation().y() < they+0.009 && pList.get(j).getLocation().y() > they-0.009) {
+
+				id =pList.get(j).getKey();
+				if(id!=-1) {
+					if (flag) {
+						winner = id;
+						flag = false;
+					}
+
+					//	System.out.println("Robot id " + id);
+					//	if (Math.abs(pList.get(j).getLocation().x() - (thex + 0.0001)) < Math.abs(pList.get(j).getLocation().x() - StdDraw.theMain.fullGame.getP().get(winner).getLocation().x()) && (Math.abs(pList.get(j).getLocation().y() - (they + 0.0001)) < Math.abs(pList.get(j).getLocation().y() - StdDraw.theMain.fullGame.getP().get(winner).getLocation().y()))) {
+					if(returnDis(pList.get(j).getLocation().x() ,thex ,pList.get(j).getLocation().y(),they) < returnDis(pList.get(winner).getLocation().x() ,thex ,pList.get(winner).getLocation().y(),they) ) {
+						winner = id;
+						System.out.println("AAAA");
+					}
+					//}
+				}
+
+			}
+		}
+		//System.out.println("winner " + winner);
+
+		return winner ;
 	}
 
 
-
+	private double returnDis(double x1, double x2, double y1, double y2)
+	{
+		double x = Math.pow((x2-x1),2);
+		double y = Math.pow((y2-y1),2);
+		return Math.sqrt(x+y);
+	}
 
 
 	int i = 0;
@@ -1983,11 +2070,12 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		int id = -1;
 		//ArrayList<Players> tempArr = new ArrayList<>();
 		String robots = StdDraw.theMain.fullGame.getGame().toString();
+		StdDraw.theMain.fullGame.getGame().stopGame();
 		JSONObject json = null;
 		try {
 			//int i = 0;
 			double thex = mouseX;
-			double they = mouseY;
+			double they = mouseY-0.001;
 			boolean t= false;
 			id = checkNodes(thex, they);
 			if (id != -1 ) {
@@ -2010,52 +2098,59 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 	private int checkNodes(double thex, double they) {
 		Iterator<node_data> Nite = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
-		int id = -1 , winner = 0;
+		int id = -1 , winner = -1;
 		graph current = StdDraw.theMain.fullGame.getGraphM();
-		double MaxX = Integer.MIN_VALUE;
-		double MinX = Integer.MAX_VALUE;
-		Iterator<node_data> iter = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
-		while (iter.hasNext()) {
-			node_data currentNode = iter.next();
-			Point3D p = currentNode.getLocation();
-			if (p.x() > MaxX) MaxX = p.x();
-			if (p.x() < MinX) MinX = p.x();
-		}
-		Range ansx = new Range(MinX, MaxX);
-		double MaxY = Integer.MIN_VALUE;
-		double MinY = Integer.MAX_VALUE;
-		Iterator<node_data> iter2 = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
-		while (iter2.hasNext()) {
-			node_data currentNode = iter2.next();
-			Point3D p = currentNode.getLocation();
-			if (p.y() > MaxY) MaxY = p.y();
-			if (p.y() < MinY) MinY = p.y();
-		}
-		Range ansy = new Range(MinY, MaxY);
-		double theYUp = (ansy.get_max() - ansy.get_min()) * 0.05;
-		double theXUp = (ansx.get_max() - ansx.get_min()) * 0.1;
-		//System.out.println("x="+theXUp);
-		//System.out.println("y="+theYUp);
-		boolean flag = true;
-
+//		double MaxX = Integer.MIN_VALUE;
+//		double MinX = Integer.MAX_VALUE;
+//		Iterator<node_data> iter = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+//		while (iter.hasNext()) {
+//			node_data currentNode = iter.next();
+//			Point3D p = currentNode.getLocation();
+//			if (p.x() > MaxX) MaxX = p.x();
+//			if (p.x() < MinX) MinX = p.x();
+//		}
+//		Range ansx = new Range(MinX, MaxX);
+//		double MaxY = Integer.MIN_VALUE;
+//		double MinY = Integer.MAX_VALUE;
+//		Iterator<node_data> iter2 = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+//		while (iter2.hasNext()) {
+//			node_data currentNode = iter2.next();
+//			Point3D p = currentNode.getLocation();
+//			if (p.y() > MaxY) MaxY = p.y();
+//			if (p.y() < MinY) MinY = p.y();
+//		}
+//		Range ansy = new Range(MinY, MaxY);
+//		double theYUp = (ansy.get_max() - ansy.get_min()) * 0.05;
+//		double theXUp = (ansx.get_max() - ansx.get_min()) * 0.1;
+//		//System.out.println("x="+theXUp);
+//		//System.out.println("y="+theYUp);
+//		boolean flag = true;
+		boolean flag2 = true;
 		while (Nite.hasNext())
 		{
 			node_data node = Nite.next();
-			double Xminus = (thex-0.000006) , xPlus = thex+0.000006 , yMinus = they-0.002, yPlus = they+0.002;
-			if(flag){
+			//double Xminus = (thex-0.000006) , xPlus = thex+0.000006 , yMinus = they-0.002, yPlus = they+0.002;
+//			if(flag){
 		//		System.out.println(".x+" + xPlus + " x-" +Xminus + " y+" + yPlus + " y-" + yMinus);
 				//System.out.println(thex + "," + they);
-				flag = false;
-			}
+//				flag = false;
+//			}
 				//if(node.getKey() == 1) System.out.println("the node loc" +node.getLocation().x()+ "," + node.getLocation().y());
 
-			if( (node.getLocation().x() < (thex+0.0001)) && (node.getLocation().x() > (thex-0.0001)) && node.getLocation().y() < they+0.008 && node.getLocation().y() > they-0.008) {
+			if( (node.getLocation().x() < (thex+0.0004)) && (node.getLocation().x() > (thex-0.0004)) && node.getLocation().y() < they+0.0004 && node.getLocation().y() > they-0.0004) {
 
 				id = node.getKey();
-				if(Math.abs(node.getLocation().x() - (thex+0.0001)) < Math.abs(node.getLocation().x() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().x()) && (Math.abs(node.getLocation().y() - (they+0.0001)) < Math.abs(node.getLocation().y() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().y()))){
-					winner = id;
-				}
+				if (id != -1) {
+					if (flag2) {
+						winner = id;
+						flag2 = false;
+					}
+					if (Math.abs(node.getLocation().x() - (thex + 0.0004)) < Math.abs(node.getLocation().x() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().x()) && (Math.abs(node.getLocation().y() - (they + 0.0004)) < Math.abs(node.getLocation().y() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().y()))) {
+						System.out.println("AAAAAAAAAAAAAA");
+						winner = id;
+					}
 
+				}
 			}
 		}
 		return winner ;

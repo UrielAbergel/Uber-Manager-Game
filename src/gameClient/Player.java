@@ -8,7 +8,9 @@ import utils.StdDraw;
 
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ !!!!Comments on Interface!!!!
+ */
 public class Player implements Players {
     int key, tag=0,speed = 0 ,dest,src;
     double weight = 0;
@@ -119,5 +121,6 @@ public class Player implements Players {
     {
         StdDraw.theMain.fullGame.getGame().chooseNextEdge(this.key, dest);
     }
+
 
 }

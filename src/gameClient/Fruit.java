@@ -5,7 +5,9 @@ import netscape.javascript.JSObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.*;
-
+/**
+ !!!!Comments on Interface!!!!
+ */
 public class Fruit implements Fruits {
 
     // Amazon = -1

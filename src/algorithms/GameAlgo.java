@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ !!!!Comments on Interface!!!!
+ */
 public class GameAlgo {
 
     private final double  EPS = 0.000000000000001;
@@ -75,29 +79,26 @@ public class GameAlgo {
         double NextStep = -1 ;
         for(Fruits f : FruList)
         {
-
-            if(f.getType() == -1)
-            {
-                int dest = checkWhereTheFruit(f).getSrc();
-                int Next = checkWhereTheFruit(f).getDest();
-                if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) < min)
-                {
-                    min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) ;
-                    goToDest = dest ;
-                    NextStep = Next;
-
+            if(f.getTag()!=2) {
+                if (f.getType() == -1) {
+                    int dest = checkWhereTheFruit(f).getSrc();
+                    int Next = checkWhereTheFruit(f).getDest();
+                    if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest) < min) {
+                        min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
+                        goToDest = dest;
+                        NextStep = Next;
+                        f.setTag(2);
+                    }
                 }
-            }
-            if(f.getType() == 1)
-            {
-                int dest = checkWhereTheFruit(f).getDest();
-                int Next = checkWhereTheFruit(f).getSrc();
-                if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) < min)
-                {
-                    min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc() , dest) ;
-                    goToDest = dest ;
-                    NextStep = Next;
-
+                if (f.getType() == 1) {
+                    int dest = checkWhereTheFruit(f).getDest();
+                    int Next = checkWhereTheFruit(f).getSrc();
+                    if (StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest) < min) {
+                        min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
+                        goToDest = dest;
+                        NextStep = Next;
+                        f.setTag(2);
+                    }
                 }
             }
         }
