@@ -14,6 +14,11 @@ public class GameAlgo {
 
     private final double  EPS = 0.000000000000001;
 
+    /**
+     * function that get fruit the return the edge the fruit leaning on
+     * @param p
+     * @return edge
+     */
     public  edge_data checkWhereTheFruit(Fruits p)
     {
         node_data dest  = new NodeData(0,0,0);
@@ -39,6 +44,14 @@ public class GameAlgo {
         return ans ;
     }
 
+    /**
+     * return distance between two nodes
+     * @param x1
+     * @param x2
+     * @param y1
+     * @param y2
+     * @return
+     */
     private  double returnDis(double x1, double x2, double y1, double y2)
     {
         double x = Math.pow((x2-x1),2);
@@ -46,6 +59,11 @@ public class GameAlgo {
         return Math.sqrt(x+y);
     }
 
+    /**
+     * function that get player and return the nearest fruit
+     * @param p
+     * @return fruit
+     */
     public String findTheNearestBanana(Players p)
     {
         Graph_Algo newAlgo = new Graph_Algo();
@@ -87,10 +105,11 @@ public class GameAlgo {
     }
 
 
-
-
-
-
+    /**
+     * function that return the nextID node dest.
+     * @param p
+     * @return
+     */
     public int ReturnTheNextID(Players p)
     {
         Graph_Algo newAlgo = new Graph_Algo();
@@ -110,7 +129,10 @@ public class GameAlgo {
     }
 
 
-
+    /**
+     * move the player to next dest. work only for AUTO game
+     * @param p
+     */
     public void NavigateAUTO(Players p) {
         if (p.getDest() == -1)
         {
