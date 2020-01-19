@@ -6,12 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.*;
 /**
- !!!!Comments on Interface!!!!
+                            !!!!Comments on Interfaces!!!!
  */
 public class Fruit implements Fruits {
-
-    // Amazon = -1
-    // Ebay = -2
 
     private Point3D location;
     int key,type ,tag=0;

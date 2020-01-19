@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
- !!!!Comments on Interface!!!!
+                     !!!!Comments on Interface!!!!
  */
 public class FullGameGraph implements full_graph_game{
     private graph graphM = new DGraph();

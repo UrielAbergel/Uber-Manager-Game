@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
-/**
- !!!!Comments on Interface!!!!
- */
 public class GameAlgo {
 
     private final double  EPS = 0.000000000000001;
@@ -42,7 +38,7 @@ public class GameAlgo {
                 double disSD = returnDis(dest.getLocation().x(),src.getLocation().x(),dest.getLocation().y(),src.getLocation().y());
                 double disSF = returnDis(p.getLocation().x(),src.getLocation().x(),p.getLocation().y(),src.getLocation().y());
                 double disDF = returnDis(p.getLocation().x(),dest.getLocation().x(),p.getLocation().y(),dest.getLocation().y());
-                if(((disDF+disSF)-disSD)<=0.000000000000001) {ans =temp ;}
+                if(((disDF+disSF)-disSD)<=EPS) {ans =temp ;}
             }
         }
         return ans ;
@@ -62,13 +58,14 @@ public class GameAlgo {
         double y = Math.pow((y2-y1),2);
         return Math.sqrt(x+y);
     }
-
+    static int counter = 0;
     /**
      * function that get player and return the nearest fruit
      * @param p
      * @return fruit
      */
-    public String findTheNearestBanana(Players p)
+    public static int c= 0 ;
+    public String findTheNearestBanana(Players p , int sen)
     {
         Graph_Algo newAlgo = new Graph_Algo();
         StdDraw.theMain.fullGame.setAlgo(newAlgo);
@@ -77,9 +74,13 @@ public class GameAlgo {
         double min = Double.MAX_VALUE;
         double goToDest = -1 ;
         double NextStep = -1 ;
+        boolean t = false ;
         for(Fruits f : FruList)
         {
-            if(f.getTag()!=2) {
+
+            if(f.getTag()!=1) {
+                t=true;
+                c++;
                 if (f.getType() == -1) {
                     int dest = checkWhereTheFruit(f).getSrc();
                     int Next = checkWhereTheFruit(f).getDest();
@@ -87,7 +88,8 @@ public class GameAlgo {
                         min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
                         goToDest = dest;
                         NextStep = Next;
-                        f.setTag(2);
+                       f.setTag(1);
+
                     }
                 }
                 if (f.getType() == 1) {
@@ -97,12 +99,44 @@ public class GameAlgo {
                         min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
                         goToDest = dest;
                         NextStep = Next;
-                        f.setTag(2);
+                       f.setTag(1);
+
                     }
                 }
             }
+            else{
+              f.setTag(0);
+            }
+            if(!AllBananTag()) resetFruitTag();
+
         }
+
         return "" + goToDest + "," +NextStep ;
+    }
+
+    private boolean AllBananTag() {
+        ArrayList<Fruits> FruList = StdDraw.theMain.fullGame.getF();
+        for (Fruits fru : FruList)
+        {
+            if(fru.getTag() == 0) return true;
+        }
+        return false;
+    }
+
+    private void resetFruitTagOneToThree() {
+        int i = 0;
+        ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
+        for (Fruits f : fList){
+            if(i%3 == 0) f.setTag(0);
+            i++;
+        }
+    }
+    private void resetFruitTag() {
+        ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
+        for (Fruits f : fList){
+             f.setTag(0);
+
+        }
     }
 
 
@@ -111,13 +145,13 @@ public class GameAlgo {
      * @param p
      * @return
      */
-    public int ReturnTheNextID(Players p)
+    public int ReturnTheNextID(Players p , int sen)
     {
         Graph_Algo newAlgo = new Graph_Algo();
         StdDraw.theMain.fullGame.setAlgo(newAlgo);
         StdDraw.theMain.fullGame.getAlgo().init((StdDraw.theMain.fullGame.getGraphM()));
         ArrayList<Integer> TheAns = new ArrayList<>();
-        String temp = findTheNearestBanana(p);
+        String temp = findTheNearestBanana(p , sen);
         String[] tempARR = temp.split(",");
         List<node_data> TheNodesList = StdDraw.theMain.fullGame.getAlgo().shortestPath(p.getSrc(), (int) Double.parseDouble(tempARR[1]));
         for(node_data node : TheNodesList)
@@ -129,17 +163,13 @@ public class GameAlgo {
         return TheAns.get(1);
     }
 
-
     /**
      * move the player to next dest. work only for AUTO game
      * @param p
      */
-    public void NavigateAUTO(Players p) {
-        if (p.getDest() == -1)
-        {
-            int theWay = ReturnTheNextID(p);
+    public void NavigateAUTO(Players p , int sen) {
+            int theWay = ReturnTheNextID(p , sen);
             StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
-        }
     }
 
 }

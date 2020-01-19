@@ -103,14 +103,25 @@ public class KML_Logger {
         }
     }
 
+    // ---------------- Function that deal with time!!! -----------------------
 
+    /**
+     * convert millis to string
+     * @param millis
+     * @return
+     */
     private String MillisToString(Long millis)
     {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date(millis));
     }
 
-
+    /**
+     * convert string to millis
+     * @param TimeAsString
+     * @return
+     * @throws ParseException
+     */
     private long StringToMillis(String TimeAsString) throws ParseException
     {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -119,6 +130,10 @@ public class KML_Logger {
         return millis;
     }
 
+    /**
+     * return the current time (US)
+     * @return
+     */
     private String TimeNow()
     {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());

@@ -31,6 +31,11 @@ public class DGraph implements graph, Serializable {
 		this.GraphMap = new HashMap();
 		this.edgeHM = new HashMap();
 	}
+
+	/**
+	 * Init from Json file to graph
+	 * @param jsonSTR
+	 */
 	public void init(String jsonSTR) {
 		try {
 			OOP_NodeData.resetCount();
@@ -60,6 +65,11 @@ public class DGraph implements graph, Serializable {
 		}
 
 	}
+
+	/**
+	 * to String to json file
+	 * @return
+	 */
 	public String toJSON() {
 		JSONObject allEmps = new JSONObject();
 		JSONArray VArray = new JSONArray();
@@ -99,6 +109,10 @@ public class DGraph implements graph, Serializable {
 		return allEmps.toString();
 	}
 
+	/**
+	 * constructor from json file
+	 * @param file_name
+	 */
 	public DGraph(String file_name) {
 		try {
 			this.init();

@@ -30,6 +30,11 @@ public class NodeData implements node_data, Serializable {
     public void setKey(int key){
         this.key = key;
     }
+
+    /**
+     * copy function
+     * @return
+     */
     public node_data copy(){
         NodeData n = new NodeData(this.getLocation().ix(),this.getLocation().iy(),this.getLocation().iz());
         n.setTag(this.getTag());
@@ -37,6 +42,8 @@ public class NodeData implements node_data, Serializable {
         n.setWeight(this.getWeight());
         return n;
     }
+
+    // -------------------------------- getters and setters! ---------------------
     @Override
     public int getKey() {
         return this.key;
@@ -51,7 +58,6 @@ public class NodeData implements node_data, Serializable {
     public void setLocation(Point3D p) {
         Point3D s = new Point3D(p.x(),p.y(),p.z());
         this.P3D = s ;
-        //DGraph.MC++;
     }
 
     @Override
@@ -83,5 +89,5 @@ public class NodeData implements node_data, Serializable {
     public void setTag(int t) {
         this.tag = t;
     }
-
+// ----------------------------------------------------------------
 }

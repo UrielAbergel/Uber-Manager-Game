@@ -58,6 +58,8 @@ public class EdgeData implements edge_data, Serializable {
         p.setInfo(this.getInfo());
         return p ;
     }
+
+    // --------------------------------------- getters and setters
     @Override
     public int getSrc()
     {
@@ -95,6 +97,8 @@ public class EdgeData implements edge_data, Serializable {
     {
         this.Tag = t ;
     }
+
+    //---------------------------------------------
 
     /**
      * To String function

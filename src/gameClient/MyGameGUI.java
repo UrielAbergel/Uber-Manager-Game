@@ -22,13 +22,14 @@ import algorithms.*;
 
 
 /**
- !!!!Comments on Interface!!!!
+                                      !!!!Comments on Interface!!!!
  */
 public class MyGameGUI extends Thread implements game_gui {
     int CurrentMc = 0;
     public KML_Logger kml = new KML_Logger();
     public FullGameGraph fullGame = new FullGameGraph();
 
+    @Override
     public Range returnTheX() {
         graph current = StdDraw.theMain.fullGame.getGraphM();
         double MaxX = Integer.MIN_VALUE;
@@ -44,6 +45,7 @@ public class MyGameGUI extends Thread implements game_gui {
         return ans;
     }
 
+    @Override
     public Range returnTheY() {
         graph current = StdDraw.theMain.fullGame.getGraphM();
         double MaxY = Integer.MIN_VALUE;
@@ -59,6 +61,7 @@ public class MyGameGUI extends Thread implements game_gui {
         return ans;
     }
 
+    @Override
     public void MainDraw() {
         this.start();
         StdDraw.setCanvasSize(1400, 1000);
@@ -78,6 +81,11 @@ public class MyGameGUI extends Thread implements game_gui {
         StdDraw.enableDoubleBuffering();
     }
 
+    /**
+     * function that get node list and return integer list from the node keys
+     * @param p
+     * @return
+     */
     private ArrayList<Integer> MakeListInt(List<node_data> p) {
         ArrayList<Integer> ans = new ArrayList<>();
         Iterator<node_data> iter = p.iterator();
@@ -87,7 +95,7 @@ public class MyGameGUI extends Thread implements game_gui {
         return ans;
     }
 
-
+    @Override
     public void update(List<node_data> p) {
         StdDraw.clear();
         Range x = returnTheX();
@@ -155,7 +163,6 @@ public class MyGameGUI extends Thread implements game_gui {
             int dest = save.get(i + 1);
             StdDraw.setPenColor(Color.GREEN);
             StdDraw.line(this.fullGame.getGraphM().getNode(src).getLocation().x(), this.fullGame.getGraphM().getNode(src).getLocation().y(), this.fullGame.getGraphM().getNode(dest).getLocation().x(), this.fullGame.getGraphM().getNode(dest).getLocation().y());
-            //StdDraw.picture((this.fullGame.getGraphM().getNode(src).getLocation().x() + this.fullGame.getGraphM().getNode(dest).getLocation().x()) / 2, (this.fullGame.getGraphM().getNode(src).getLocation().y() + this.fullGame.getGraphM().getNode(dest).getLocation().y()) / 2, "pic\\1.jfif", rightScaleX * 0.6, rightScaleY * 0.6);
         }
         StdDraw.createMenuBar();
         StdDraw.show();
@@ -230,7 +237,6 @@ public class MyGameGUI extends Thread implements game_gui {
             }
             for (Fruits fruty : StdDraw.theMain.fullGame.getF()) {
                 StdDraw.picture(fruty.getLocation().x(), fruty.getLocation().y(), fruty.getPicture(), rightScaleX*1.4, rightScaleY*1.4);
-//                StdDraw.picture(0,0,"pic\\\u200F\u200Fbackround.PNG",160,rightScaleY);
             }
         }
         else if(!StdDraw.theMain.fullGame.getAUTO()){
@@ -250,12 +256,12 @@ public class MyGameGUI extends Thread implements game_gui {
         return (Integer.parseInt(s));
     }
 
-    private void movePlayerAUTO()
+    private void movePlayerAUTO(int sen)
     {
         ArrayList<Players> PlaList = StdDraw.theMain.fullGame.getP();
         for(Players pla : PlaList)
         {
-            StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(pla);
+            StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(pla,sen);
         }
     }
 
@@ -278,7 +284,7 @@ public class MyGameGUI extends Thread implements game_gui {
             try {
                 ArrayList<Players> tempArr = new ArrayList<>();
                 String robots = StdDraw.theMain.fullGame.getGame().toString();
-                //System.out.println(StdDraw.theMain.fullGame.getGame().toString());
+
                 JSONObject json = new JSONObject(robots);
                 JSONObject newBobot = json.getJSONObject("GameServer");
                 int size = newBobot.getInt("robots");
@@ -288,44 +294,49 @@ public class MyGameGUI extends Thread implements game_gui {
                     Alist.add(0);
                     Alist.add((Integer) NodesSize / 2);
                     Alist.add((NodesSize - 6));
-                    //System.out.println(Alist);
-
-
                     if (StdDraw.theMain.fullGame.getAUTO()) {
                         for (int i = 0; i < size; i++) {
-                            System.out.println(StdDraw.theMain.fullGame.getGame().addRobot(Alist.get(i)));
-                            System.out.println(Alist.get(i));
+                           StdDraw.theMain.fullGame.getGame().addRobot(Alist.get(i));
                             Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
                             tempArr.add(tempPla);
                         }
                         StdDraw.theMain.fullGame.setPlayersList(tempArr);
                     }
                 }
-               // System.out.println(StdDraw.theMain.fullGame.getGame().getRobots());
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateRobots();
                     updateFruits();
+
+                    System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd());
                     if(StdDraw.theMain.fullGame.getAUTO())
                     {
-                        movePlayerAUTO();
+                        System.out.println("AAA");
+                        movePlayerAUTO(StdDraw.theMain.fullGame.getCen());
+                        System.out.println("BBB");
+
                     }
                     resetEdge();
                     update();
-                    //  StdDraw.show();
                     counter++;
-                  //  System.out.println(StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
-                }
-              if(!StdDraw.theMain.fullGame.getGame().isRunning()){
-                  if(counter>prevCounter){
-                      prevCounter = counter;
-                      //counter++;
-                 //     System.out.println(StdDraw.theMain.fullGame.getGame().toString());
-                  }
 
-              }
+
+                }
+                if(!StdDraw.theMain.fullGame.getGame().isRunning()){
+                    if(counter>prevCounter){
+                        prevCounter = counter;
+                    }
+
+                }
             } catch (Exception e) {
 
             }
+        }
+    }
+
+    private void resetFruitTag() {
+        ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
+        for (Fruits f : fList){
+                f.setTag(0);
         }
     }
 
@@ -348,7 +359,9 @@ public class MyGameGUI extends Thread implements game_gui {
         ArrayList<Fruits> tempArr = new ArrayList<>();
         for (String s : fruitlist) {
             Fruit tempFru = new Fruit(s,StdDraw.theMain.fullGame.getGame().timeToEnd());
+            tempFru.setTag(0);
             tempArr.add(tempFru);
+
         }
         this.fullGame.setFruitList(tempArr);
 
@@ -380,52 +393,9 @@ public class MyGameGUI extends Thread implements game_gui {
 
 
     public static void main(String[] args) throws JSONException, ParseException {
-
-//        game_service newgame = Game_Server.getServer(1);
-//        newgame.startGame();
-//        System.out.println(newgame.isRunning());
-//        DGraph EEEE = new DGraph();
-//
-//        EEEE.init(newgame.getGraph());
-//        ArrayList<Players> players = new ArrayList<>();
-//        ArrayList<Fruits> banana = new ArrayList<>();
-//        Graph_Algo p = new Graph_Algo();
-//        p.init(EEEE);
-
-        //  ===================================================test without stdraw============================================
-//        newgame.startGame();
-//        newgame.addRobot(0);
-//        for(String s : newgame.getRobots()){
-//            players.add(new Player(s));
-//        }
-//        for(String s : newgame.getFruits()){
-//            banana.add(new Fruit(s));
-//        }
-//        FullGameGraph fullgame = new FullGameGraph();
-//        fullgame.init(EEEE,players,banana,p);
-//
-//        StdDraw.theMain.fullGame = fullgame;
-//        fullgame.getAlgo().shortestPath(8,4);
-//        String temp = "new EdgeData(0,0,0)";
-//           List<Players> fruList = StdDraw.theMain.fullGame.getP();
-//           newgame.startGame();
-//        for(Players fru : players) {
-//
-//            fullgame.getTheGameAlgo().NavigateAUTO(fru);
-//            System.out.println(temp);
-//        }
-        //fullgame.setGame(newgame);
-
-//        fullgame.NewGAME(1);
-        //fullgame.getGame().isRunning();
-//        List<String> robotyala = new LinkedList<>();
-
-        // robotyala = newgame.getRobots();
-
-        //===========================================end of the test without std==========================================
         FullGameGraph fullgame = new FullGameGraph();
         MyGameGUI game = new MyGameGUI();
-       game.init(fullgame);
+        game.init(fullgame);
         game.MainDraw();
     }
 }
