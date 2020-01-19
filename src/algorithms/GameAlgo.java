@@ -12,6 +12,7 @@ import java.util.List;
 
 public class GameAlgo {
 
+
     private final double  EPS = 0.000000000000001;
 
     /**
@@ -65,7 +66,7 @@ public class GameAlgo {
      * @return fruit
      */
     public static int c= 0 ;
-    public String findTheNearestBanana(Players p , int sen)
+    public String findTheNearestBanana(Players p )
     {
         Graph_Algo newAlgo = new Graph_Algo();
         StdDraw.theMain.fullGame.setAlgo(newAlgo);
@@ -107,9 +108,12 @@ public class GameAlgo {
             else{
               f.setTag(0);
             }
+
+
             if(!AllBananTag()) resetFruitTag();
 
         }
+
 
         return "" + goToDest + "," +NextStep ;
     }
@@ -123,14 +127,7 @@ public class GameAlgo {
         return false;
     }
 
-    private void resetFruitTagOneToThree() {
-        int i = 0;
-        ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
-        for (Fruits f : fList){
-            if(i%3 == 0) f.setTag(0);
-            i++;
-        }
-    }
+
     private void resetFruitTag() {
         ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
         for (Fruits f : fList){
@@ -145,13 +142,13 @@ public class GameAlgo {
      * @param p
      * @return
      */
-    public int ReturnTheNextID(Players p , int sen)
+    public int ReturnTheNextID(Players p )
     {
         Graph_Algo newAlgo = new Graph_Algo();
         StdDraw.theMain.fullGame.setAlgo(newAlgo);
         StdDraw.theMain.fullGame.getAlgo().init((StdDraw.theMain.fullGame.getGraphM()));
         ArrayList<Integer> TheAns = new ArrayList<>();
-        String temp = findTheNearestBanana(p , sen);
+        String temp = findTheNearestBanana(p);
         String[] tempARR = temp.split(",");
         List<node_data> TheNodesList = StdDraw.theMain.fullGame.getAlgo().shortestPath(p.getSrc(), (int) Double.parseDouble(tempARR[1]));
         for(node_data node : TheNodesList)
@@ -167,8 +164,8 @@ public class GameAlgo {
      * move the player to next dest. work only for AUTO game
      * @param p
      */
-    public void NavigateAUTO(Players p , int sen) {
-            int theWay = ReturnTheNextID(p , sen);
+    public void NavigateAUTO(Players p ) {
+            int theWay = ReturnTheNextID(p );
             StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
     }
 

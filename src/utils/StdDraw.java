@@ -778,17 +778,21 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		menu6.add(newGame);
 		menu4.add(StartgameManual);
 		JMenuItem Start = new JMenuItem("Start Game");
-		JMenuItem MoveRobot = new JMenuItem("Move Robot");
+		JMenuItem stopM = new JMenuItem("Stop Game Manual");
+		JMenuItem stopA = new JMenuItem("Stop Game Auto");
 		JMenuItem addRobots = new JMenuItem("Add Robot");
 		menu4.add(Start);
+		menu4.add(stopA);
 		menu5.add(StartgameManual);
+		menu5.add(stopM);
 		menu5.add(addRobots);
-		menu5.add(MoveRobot);
 		addRobots.addActionListener(std);
 		StartgameManual.addActionListener(std);
-		MoveRobot.addActionListener(std);
+
 		Start.addActionListener(std);
 		newGame.addActionListener(std);
+		stopA.addActionListener(std);
+		stopM.addActionListener(std);
 		return menuBar;
 	}
 
@@ -1826,12 +1830,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			});
 			thread.start();
 		}
-		if(e.getActionCommand().equals("Move Robot")) {
-		MoveRobot = true;
-		frame.addMouseListener(this);
 
-
-	}
 		if(e.getActionCommand().equals("Start game Manual"))
 		{
 			StdDraw.theMain.fullGame.getGame().startGame();
@@ -1854,6 +1853,14 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		{
 			addRobot = true ;
 			frame.addMouseListener(this);
+		}
+
+		if(e.getActionCommand().equals("Stop Game Manual")){
+			StdDraw.theMain.fullGame.getGame().stopGame();
+		}
+
+		if(e.getActionCommand().equals("Stop Game Auto")){
+			StdDraw.theMain.fullGame.getGame().stopGame();
 		}
 
 	}

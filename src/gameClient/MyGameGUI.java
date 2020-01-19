@@ -256,12 +256,12 @@ public class MyGameGUI extends Thread implements game_gui {
         return (Integer.parseInt(s));
     }
 
-    private void movePlayerAUTO(int sen)
+    private void movePlayerAUTO()
     {
         ArrayList<Players> PlaList = StdDraw.theMain.fullGame.getP();
         for(Players pla : PlaList)
         {
-            StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(pla,sen);
+            StdDraw.theMain.fullGame.getTheGameAlgo().NavigateAUTO(pla);
         }
     }
 
@@ -311,7 +311,7 @@ public class MyGameGUI extends Thread implements game_gui {
                     if(StdDraw.theMain.fullGame.getAUTO())
                     {
                         System.out.println("AAA");
-                        movePlayerAUTO(StdDraw.theMain.fullGame.getCen());
+                        movePlayerAUTO();
                         System.out.println("BBB");
 
                     }
