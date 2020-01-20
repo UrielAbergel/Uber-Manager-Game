@@ -68,6 +68,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.sql.*;
 import java.text.ParseException;
 import java.util.*;
 
@@ -80,7 +81,7 @@ import static java.lang.Thread.sleep;
 /**
  *  The {@code StdDraw} class provides a basic capability for
  *  creating drawings with your programs. It uses a simple graphics model that
- *  allows you to create drawings consisting of points, lines, squares, 
+ *  allows you to create drawings consisting of points, lines, squares,
  *  circles, and other geometric shapes in a window on your computer and
  *  to save the drawings to a file. Standard drawing also includes
  *  facilities for text, color, pictures, and animation, along with
@@ -249,7 +250,7 @@ import static java.lang.Thread.sleep;
  *  <li> {@link #setScale(double min, double max)}
  *  </ul>
  *  <p>
- *  The arguments are the coordinates of the minimum and maximum 
+ *  The arguments are the coordinates of the minimum and maximum
  *  <em>x</em>- or <em>y</em>-coordinates that will appear in the canvas.
  *  For example, if you  wish to use the default coordinate system but
  *  leave a small margin, you can call {@code StdDraw.setScale(-.05, 1.05)}.
@@ -313,7 +314,7 @@ import static java.lang.Thread.sleep;
  *  <p>
  *  The supported image formats are JPEG and PNG. The filename must have either the
  *  extension .jpg or .png.
- *  We recommend using PNG for drawing that consist solely of geometric shapes and JPEG 
+ *  We recommend using PNG for drawing that consist solely of geometric shapes and JPEG
  *  for drawings that contains pictures.
  *  <p>
  *  <b>Clearing the canvas.</b>
@@ -348,7 +349,7 @@ import static java.lang.Thread.sleep;
  *  all drawing takes place on the <em>offscreen canvas</em>. The offscreen canvas
  *  is not displayed. Only when you call
  *  {@link #show()} does your drawing get copied from the offscreen canvas to
- *  the onscreen canvas, where it is displayed in the standard drawing window. You 
+ *  the onscreen canvas, where it is displayed in the standard drawing window. You
  *  can think of double buffering as collecting all of the lines, points, shapes,
  *  and text that you tell it to draw, and then drawing them all
  *  <em>simultaneously</em>, upon request.
@@ -482,6 +483,9 @@ import static java.lang.Thread.sleep;
  */
 public class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 	public static MyGameGUI theMain = new MyGameGUI();
+	public static final String jdbcUrl="jdbc:mysql://db-mysql-ams3-67328-do-user-4468260-0.db.ondigitalocean.com:25060/oop?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
+	public static final String jdbcUser="student";
+	public static final String jdbcUserPassword="OOP2020student";
 	/**
 	 *  The color black.
 	 */
@@ -782,7 +786,8 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		JMenuItem stopA = new JMenuItem("Stop Game Auto");
 		JMenuItem addRobots = new JMenuItem("Add Robot");
 		JMenuItem LogIN = new JMenuItem("Log In");
-		JMenuItem Grades = new JMenuItem("Grades");
+		JMenuItem Grades = new JMenuItem("My Grades");
+		JMenuItem GlobalGrades = new JMenuItem("Global Grades");
 		menu4.add(Start);
 		menu4.add(stopA);
 		menu5.add(StartgameManual);
@@ -790,6 +795,8 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		menu5.add(addRobots);
 		menu.add(LogIN);
 		menu.add(Grades);
+		menu.add(GlobalGrades);
+		GlobalGrades.addActionListener(std);
 		Grades.addActionListener(std);
 		LogIN.addActionListener(std);
 		addRobots.addActionListener(std);
@@ -1268,7 +1275,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 
 	/**
-	 * Draws a polygon with the vertices 
+	 * Draws a polygon with the vertices
 	 * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
 	 * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
 	 * (<em>x</em><sub><em>n</em>–1</sub>, <em>y</em><sub><em>n</em>–1</sub>).
@@ -1297,7 +1304,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 	/**
-	 * Draws a polygon with the vertices 
+	 * Draws a polygon with the vertices
 	 * (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>),
 	 * (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), ...,
 	 * (<em>x</em><sub><em>n</em>–1</sub>, <em>y</em><sub><em>n</em>–1</sub>).
@@ -1380,7 +1387,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
             URL url = new URL(filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1390,7 +1397,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
             URL url = StdDraw.class.getResource(filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1400,7 +1407,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
             URL url = StdDraw.class.getResource("/" + filename);
             BufferedImage image = ImageIO.read(url);
             return image;
-        } 
+        }
         catch (IOException e) {
             // ignore
         }
@@ -1654,7 +1661,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 	/**
-	 * Enable double buffering. All subsequent calls to 
+	 * Enable double buffering. All subsequent calls to
 	 * drawing methods such as {@code line()}, {@code circle()},
 	 * and {@code square()} will be deffered until the next call
 	 * to show(). Useful for animations.
@@ -1664,7 +1671,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 	/**
-	 * Disable double buffering. All subsequent calls to 
+	 * Disable double buffering. All subsequent calls to
 	 * drawing methods such as {@code line()}, {@code circle()},
 	 * and {@code square()} will be displayed on screen when called.
 	 * This is the default.
@@ -1704,66 +1711,68 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	boolean flag3 = false;
 	static boolean MoveRobot = false ;
 	static boolean addRobot = false ;
+	private static int intID = 0;
 	@Override
 	public void actionPerformed(ActionEvent e) {//menu bar
-		if(e.getActionCommand().equals("Remove Node")){
+		if (e.getActionCommand().equals("Remove Node")) {
 			String key = JOptionPane.showInputDialog("Key");
 			theMain.fullGame.getGraphM().removeNode(Integer.parseInt(key));
 		}
-		if(e.getActionCommand().equals("Remove Edge")){
+		if (e.getActionCommand().equals("Remove Edge")) {
 			String src = JOptionPane.showInputDialog("src");
 			String dest = JOptionPane.showInputDialog("dest");
-			theMain.fullGame.getGraphM().removeEdge(Integer.parseInt(src),Integer.parseInt(dest));
+			theMain.fullGame.getGraphM().removeEdge(Integer.parseInt(src), Integer.parseInt(dest));
 		}
-		if(e.getActionCommand().equals("Node with mouse")){
+		if (e.getActionCommand().equals("Node with mouse")) {
 			flag1 = true;
 			frame.addMouseListener(this);
 		}
-		if(e.getActionCommand().equals("Node by write")){
+		if (e.getActionCommand().equals("Node by write")) {
 			flag2 = true;
 			frame.addMouseListener(this);
 		}
-		if(e.getActionCommand().equals("Edge with mouse")){
+		if (e.getActionCommand().equals("Edge with mouse")) {
 			flag3 = true;
 			frame.addMouseListener(this);
 		}
-		if(e.getActionCommand().equals("Edge by write")){
+		if (e.getActionCommand().equals("Edge by write")) {
 			String Src = JOptionPane.showInputDialog("Src");
-			String Dest  = JOptionPane.showInputDialog("Dest");
+			String Dest = JOptionPane.showInputDialog("Dest");
 			String Weight = JOptionPane.showInputDialog("Weight");
 			int dest = Integer.parseInt(Dest);
 			int src = Integer.parseInt(Src);
 			double weight = Integer.parseInt(Weight);
-			theMain.fullGame.getGraphM().connect(src,dest,weight);
+			theMain.fullGame.getGraphM().connect(src, dest, weight);
 		}
-		if (e.getActionCommand().equals("isConnected")){
-			JFrame f = new JFrame();Graph_Algo w = new Graph_Algo();
-			w.init(StdDraw.theMain.fullGame.getGraphM());
-			JOptionPane.showMessageDialog(f,""+w.isConnected());
-		}
-		if(e.getActionCommand().equals("shortestPathDist")){
+		if (e.getActionCommand().equals("isConnected")) {
 			JFrame f = new JFrame();
 			Graph_Algo w = new Graph_Algo();
 			w.init(StdDraw.theMain.fullGame.getGraphM());
-			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
-			String dest = JOptionPane.showInputDialog("please enter a the dest");
-			double ans = w.shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
-			JOptionPane.showMessageDialog(f,"the shortestPath is: "+ans);
+			JOptionPane.showMessageDialog(f, "" + w.isConnected());
 		}
-		if(e.getActionCommand().equals("shortestPath")){
+		if (e.getActionCommand().equals("shortestPathDist")) {
 			JFrame f = new JFrame();
-			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
+			Graph_Algo w = new Graph_Algo();
+			w.init(StdDraw.theMain.fullGame.getGraphM());
+			String src = JOptionPane.showInputDialog(f, "please enter a the src");
+			String dest = JOptionPane.showInputDialog("please enter a the dest");
+			double ans = w.shortestPathDist(Integer.parseInt(src), Integer.parseInt(dest));
+			JOptionPane.showMessageDialog(f, "the shortestPath is: " + ans);
+		}
+		if (e.getActionCommand().equals("shortestPath")) {
+			JFrame f = new JFrame();
+			String src = JOptionPane.showInputDialog(f, "please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
 			Graph_Algo p = new Graph_Algo();
 			p.init(StdDraw.theMain.fullGame.getGraphM());
-			List<node_data> ans = p.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
+			List<node_data> ans = p.shortestPath(Integer.parseInt(src), Integer.parseInt(dest));
 			theMain.update(ans);
 		}
-		if (e.getActionCommand().equals("TSP")){
+		if (e.getActionCommand().equals("TSP")) {
 			JFrame f = new JFrame();
 			Graph_Algo q = new Graph_Algo();
 			q.init(StdDraw.theMain.fullGame.getGraphM());
-			String point  = JOptionPane.showInputDialog(f,"please enter a the points for sales man travels <int,int,int..>");
+			String point = JOptionPane.showInputDialog(f, "please enter a the points for sales man travels <int,int,int..>");
 			String[] points = point.split(",");
 			List<Integer> IntList = new LinkedList<>();
 			for (int i = 0; i < points.length; i++) {
@@ -1773,18 +1782,18 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			//need to fix this to here
 			//List<Integer> intList = theMain.fullGame.getAlgo().MakeListInt(ans);
 			String intListString = "the Travel Sales man Travel to :||";
-			for(node_data p : ans){
-				intListString += ""+p.getKey()+"-";
+			for (node_data p : ans) {
+				intListString += "" + p.getKey() + "-";
 			}
 			intListString += "||";
-			JOptionPane.showMessageDialog(f,intListString);
+			JOptionPane.showMessageDialog(f, intListString);
 
 
-			if(ans!=null) theMain.update(ans);
-			
+			if (ans != null) theMain.update(ans);
+
 		}
 
-		if(e.getActionCommand().equals("Save...")) {
+		if (e.getActionCommand().equals("Save...")) {
 			FileDialog chooser = new FileDialog(StdDraw.frame, "Name", FileDialog.SAVE);
 			chooser.setVisible(true);
 			String filename = chooser.getFile();
@@ -1792,7 +1801,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
 			}
 		}
-		if(e.getActionCommand().equals("Load...")) {
+		if (e.getActionCommand().equals("Load...")) {
 			FileDialog chooser = new FileDialog(StdDraw.frame, "Load the graph", FileDialog.LOAD);
 			chooser.setVisible(true);
 			String filename = chooser.getFile();
@@ -1801,17 +1810,15 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 			}
 		}
-		if(e.getActionCommand().equals("Game Scenario"))
-		{
+		if (e.getActionCommand().equals("Game Scenario")) {
 			JFrame f = new JFrame();
-			String scenario_num  = JOptionPane.showInputDialog(f,"please enter a the scenario number");
-			String[] chooseGame = {"Manually Game","Auto Game"};
-			Object selctedGame = JOptionPane.showInputDialog(null,"Choose a Game mode","Message",JOptionPane.INFORMATION_MESSAGE,null,chooseGame,chooseGame[0]);
-			if(selctedGame=="Manually Game") {
-				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , false);
-			}
-			else {
-				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , true);
+			String scenario_num = JOptionPane.showInputDialog(f, "please enter a the scenario number");
+			String[] chooseGame = {"Manually Game", "Auto Game"};
+			Object selctedGame = JOptionPane.showInputDialog(null, "Choose a Game mode", "Message", JOptionPane.INFORMATION_MESSAGE, null, chooseGame, chooseGame[0]);
+			if (selctedGame == "Manually Game") {
+				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num), false);
+			} else {
+				StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num), true);
 			}
 			StdDraw.theMain.fullGame.getP().clear();
 
@@ -1820,8 +1827,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			StdDraw.theMain.fullGame.setGraphM(r);
 			theMain.update();
 		}
-		if(e.getActionCommand().equals("Start Game"))
-		{
+		if (e.getActionCommand().equals("Start Game")) {
 			StdDraw.theMain.fullGame.getGame().startGame();
 			KML_Logger logger_kml = new KML_Logger();
 			Thread thread = new Thread(new Runnable() {
@@ -1837,8 +1843,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			thread.start();
 		}
 
-		if(e.getActionCommand().equals("Start game Manual"))
-		{
+		if (e.getActionCommand().equals("Start game Manual")) {
 			StdDraw.theMain.fullGame.getGame().startGame();
 			KML_Logger logger_kml = new KML_Logger();
 			Thread thread = new Thread(new Runnable() {
@@ -1852,433 +1857,561 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				}
 			});
 			thread.start();
-			MoveRobot = true ;
+			MoveRobot = true;
 
 		}
-		if(e.getActionCommand().equals("Add Robot"))
-		{
-			addRobot = true ;
+		if (e.getActionCommand().equals("Add Robot")) {
+			addRobot = true;
 			frame.addMouseListener(this);
 		}
 
-		if(e.getActionCommand().equals("Stop Game Manual")){
+		if (e.getActionCommand().equals("Stop Game Manual")) {
 			StdDraw.theMain.fullGame.getGame().stopGame();
 		}
 
-		if(e.getActionCommand().equals("Stop Game Auto")){
+		if (e.getActionCommand().equals("Stop Game Auto")) {
 			StdDraw.theMain.fullGame.getGame().stopGame();
 		}
-		if(e.getActionCommand().equals("Log In")){
-			int intID = 0;
-			String ID  = JOptionPane.showInputDialog(null,"Please enter your ID number");
+		String ID = "";
+
+		if (e.getActionCommand().equals("Log In")) {
+			ID = JOptionPane.showInputDialog(null, "Please enter your ID number");
+			//System.out.printf(ID);
 			try {
 				intID = Integer.parseInt(ID);
-			}catch (Exception ex){
-				JOptionPane.showMessageDialog(null,"Numbers Only!\ntry again!");
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Numbers Only!\ntry again!");
 			}
 			Game_Server.login(intID);
 
 		}
-		if(e.getActionCommand().equals("Grades")){
-
-		}
-
-	}
-
-
-	/***************************************************************************
-	 *  Mouse interactions.
-	 ***************************************************************************/
-
-	/**
-	 * Returns true if the mouse is being pressed.
-	 *
-	 * @return {@code true} if the mouse is being pressed; {@code false} otherwise
-	 */
-	public static boolean isMousePressed() {
-		synchronized (mouseLock) {
-			return isMousePressed;
-		}
-	}
-
-
-	/**
-	 * Returns true if the mouse is being pressed.
-	 *
-	 * @return {@code true} if the mouse is being pressed; {@code false} otherwise
-	 * @deprecated replaced by {@link #isMousePressed()}
-	 */
-	@Deprecated
-	public static boolean mousePressed() {
-		synchronized (mouseLock) {
-			return isMousePressed;
-		}
-	}
-
-	/**
-	 * Returns the <em>x</em>-coordinate of the mouse.
-	 *
-	 * @return the <em>x</em>-coordinate of the mouse
-	 */
-	public static double mouseX() {
-		synchronized (mouseLock) {
-			return mouseX;
-		}
-	}
-
-	/**
-	 * Returns the <em>y</em>-coordinate of the mouse.
-	 *
-	 * @return <em>y</em>-coordinate of the mouse
-	 */
-	public static double mouseY() {
-		synchronized (mouseLock) {
-			return mouseY;
-		}
-	}
-
-
-	/**
-	 * This method cannot be called directly.
-	 */
-	private static boolean startGameOneTime = false;
-	private boolean getNodeLoc = false;
-	private static int idRob = -1;
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (flag1) {
-			double x = mouseX;
-			double y = mouseY-0.001;
-			node_data newNode = new NodeData(x, y, 0);
-			theMain.fullGame.getGraphM().addNode(newNode);
-			flag1 = false;
-		} else if (flag2) {
-			String X = JOptionPane.showInputDialog("X");
-			String Y = JOptionPane.showInputDialog("Y");
-			int x = Integer.parseInt(X);
-			int y = Integer.parseInt(Y);
-			node_data newNode = new NodeData(x, y, 0);
-			theMain.fullGame.getGraphM().addNode(newNode);
-			flag2 = false;
-		} else if (flag3) {
-			double x = mouseX;
-			double y = mouseY-0.001;
-			String Weight = JOptionPane.showInputDialog("Weight");
-			double weight = Integer.parseInt(Weight);
-			theMain.fullGame.getGraphM().connect((int) x, (int) y, weight);
-			flag3 = false;
-		}
-		if (e.getX() > 575 && e.getX() < 745 && e.getY() > 585 && e.getY() < 724) {
-			if (startGameOneTime == false) {
-				JFrame f = new JFrame();
-				String scenario_num = JOptionPane.showInputDialog(f, "please enter a the scenario number");
-				StdDraw.theMain.fullGame.setCen(Integer.parseInt(scenario_num));
-				String[] chooseGame = {"Manually Game","Auto Game"};
-				Object selctedGame = JOptionPane.showInputDialog(null,"Choose a Game mode","Message",JOptionPane.INFORMATION_MESSAGE,null,chooseGame,chooseGame[0]);
-				if(selctedGame=="Manually Game") {
-					StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , false);
+		if (e.getActionCommand().equals("My Grades")) {
+			String pll = "";
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection connection =
+						DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcUserPassword);
+				Statement statement = connection.createStatement();
+				String allCustomersQuery = "SELECT * FROM Logs WHERE UserID =" + intID + " ORDER BY levelID , moves;";
+				ResultSet resultSet = statement.executeQuery(allCustomersQuery);
+				while (resultSet.next()) {
+					pll += ("Id: " + resultSet.getInt("UserID") + "," + resultSet.getInt("levelID") + "," + resultSet.getInt("moves") + "," + resultSet.getDate("time") + "\n");
 				}
-				else {
-					StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , true);
+				//	System.out.println(pll);
+				String finalGrades = "UsedID = " + intID + "\n";
+				finalGrades += "You are at level " + StdDraw.theMain.fullGame.getCen() + ".\n";
+				int startIndex = 0, HowMuchIPlayed = 0;
+				int level = 0, grade = -1;
+				String date = "";
+				String[] tempArr;
+				for (int j = 0; j < pll.length(); j++) {
+					if (pll.charAt(j) == '\n') {
+						HowMuchIPlayed++;
+						String temp = pll.substring(startIndex, j);
+						startIndex = j;
+						tempArr = temp.split(",");
+						if (level != Integer.parseInt(tempArr[1])) {
+							if (grade != -1) {
+								finalGrades += "Level: " + level + " || Grade: " + grade + " || Date: " + date + "\n";
+							}
+						}
+						level = Integer.parseInt(tempArr[1]);
+						grade = Integer.parseInt(tempArr[2]);
+						date = tempArr[3];
+					}
+
 				}
-				DGraph r = new DGraph();
-				r.init(StdDraw.theMain.fullGame.getGame().getGraph());
-				StdDraw.theMain.fullGame.setGraphM(r);
-				theMain.update();
+				finalGrades += "Level:" + level + " || Grade: " + grade + " || Date: " + date + "\n";
+				finalGrades += "Played " + HowMuchIPlayed + " Games.";
+
+				JOptionPane.showMessageDialog(null, finalGrades);
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException sqle) {
+				System.out.println("SQLException: " + sqle.getMessage());
+				System.out.println("Vendor Error: " + sqle.getErrorCode());
+			} catch (ClassNotFoundException q) {
+				q.printStackTrace();
 			}
-			startGameOneTime = true;
+
+		}
+
+		if (e.getActionCommand().equals("Global Grades")) {
+			String pll = "";
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection connection =
+						DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcUserPassword);
+				Statement statement = connection.createStatement();
+				String allCustomersQuery = "SELECT * FROM Logs ORDER BY levelID , moves;";
+				ResultSet resultSet = statement.executeQuery(allCustomersQuery);
+				int startIndex = 0 ;
+				int CountTowinner = 1 ;
+				int currentLevel = 0 ;
+				int grade = -1;
+				String date = "";
+				boolean flag = false;
+				boolean flagForAdd = true;
+				int i = 1;
+				String str = "User ID : "+ intID +"\n"+ "Your grade in the class\n";
+				ArrayList<String> strArr = new ArrayList<>();
+				while (resultSet.next()) {
+					pll += ("Id: " + resultSet.getInt("UserID") + "," + resultSet.getInt("levelID") + "," + resultSet.getInt("moves") + "," + resultSet.getDate("time") + "\n");
+				}
+				pll += ("Id: " + "0" + "," + "25" + "," + "0" + "," + "0" + "\n");
+				System.out.println(pll);
+				for (int j = 0; j < pll.length(); j++) {
+					if(pll.charAt(j) == '\n')
+					{
+						flagForAdd = true;
+						String temp = pll.substring(startIndex , j);
+						startIndex = j ;
+						String[] tempArr = temp.split(",");
+						for (int k = 0; k < strArr.size(); k++) {
+							if(strArr.get(k).equals(tempArr[0])){
+								flagForAdd = false;
+								break;
+							}
+						}
+						if(flagForAdd){
+							strArr.add(tempArr[0]);
+							CountTowinner++;
+							flagForAdd = true;
+						}
+						if(Integer.parseInt(tempArr[1]) != currentLevel && grade!=-1 && flag)
+						{
+							str += "Level: " + currentLevel + " || Grade: " + grade +" || Date: " +date+ " || Place in Class:"+ CountTowinner+ "\n";
+							CountTowinner = 1;
+							currentLevel = Integer.parseInt(tempArr[1]);
+							flag = false;
+							strArr.clear();
+						}
+						if(Integer.parseInt(tempArr[1]) != currentLevel){
+							CountTowinner = 1 ;
+						}
+						if(tempArr[0].contains(""+intID))
+						{
+							currentLevel = Integer.parseInt(tempArr[1]);
+							flag = true;
+							grade = Integer.parseInt(tempArr[2]);
+							date = tempArr[3];
+							CountTowinner = 1;
+							strArr.clear();
+						}
+
+					}
+
+				}
+
+				JOptionPane.showMessageDialog(null,str);
+
+			} catch (SQLException sqle) {
+				System.out.println("SQLException: " + sqle.getMessage());
+				System.out.println("Vendor Error: " + sqle.getErrorCode());
+			} catch (ClassNotFoundException q) {
+				q.printStackTrace();
+			}
+
+		}
+	}
+
+
+
+
+		/***************************************************************************
+		 *  Mouse interactions.
+		 ***************************************************************************/
+
+		/**
+		 * Returns true if the mouse is being pressed.
+		 *
+		 * @return {@code true} if the mouse is being pressed; {@code false} otherwise
+		 */
+		public static boolean isMousePressed() {
+			synchronized (mouseLock) {
+				return isMousePressed;
+			}
 		}
 
 
-		if (addRobot) {
-			ArrayList<Players> tempArr = new ArrayList<>();
+		/**
+		 * Returns true if the mouse is being pressed.
+		 *
+		 * @return {@code true} if the mouse is being pressed; {@code false} otherwise
+		 * @deprecated replaced by {@link #isMousePressed()}
+		 */
+		@Deprecated
+		public static boolean mousePressed() {
+			synchronized (mouseLock) {
+				return isMousePressed;
+			}
+		}
+
+		/**
+		 * Returns the <em>x</em>-coordinate of the mouse.
+		 *
+		 * @return the <em>x</em>-coordinate of the mouse
+		 */
+		public static double mouseX() {
+			synchronized (mouseLock) {
+				return mouseX;
+			}
+		}
+
+		/**
+		 * Returns the <em>y</em>-coordinate of the mouse.
+		 *
+		 * @return <em>y</em>-coordinate of the mouse
+		 */
+		public static double mouseY() {
+			synchronized (mouseLock) {
+				return mouseY;
+			}
+		}
+
+
+		/**
+		 * This method cannot be called directly.
+		 */
+		private static boolean startGameOneTime = false;
+		private boolean getNodeLoc = false;
+		private static int idRob = -1;
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (flag1) {
+				double x = mouseX;
+				double y = mouseY-0.001;
+				node_data newNode = new NodeData(x, y, 0);
+				theMain.fullGame.getGraphM().addNode(newNode);
+				flag1 = false;
+			} else if (flag2) {
+				String X = JOptionPane.showInputDialog("X");
+				String Y = JOptionPane.showInputDialog("Y");
+				int x = Integer.parseInt(X);
+				int y = Integer.parseInt(Y);
+				node_data newNode = new NodeData(x, y, 0);
+				theMain.fullGame.getGraphM().addNode(newNode);
+				flag2 = false;
+			} else if (flag3) {
+				double x = mouseX;
+				double y = mouseY-0.001;
+				String Weight = JOptionPane.showInputDialog("Weight");
+				double weight = Integer.parseInt(Weight);
+				theMain.fullGame.getGraphM().connect((int) x, (int) y, weight);
+				flag3 = false;
+			}
+			if (e.getX() > 575 && e.getX() < 745 && e.getY() > 585 && e.getY() < 724) {
+				if (startGameOneTime == false) {
+					JFrame f = new JFrame();
+					String scenario_num = JOptionPane.showInputDialog(f, "please enter a the scenario number");
+					StdDraw.theMain.fullGame.setCen(Integer.parseInt(scenario_num));
+					String[] chooseGame = {"Manually Game","Auto Game"};
+					Object selctedGame = JOptionPane.showInputDialog(null,"Choose a Game mode","Message",JOptionPane.INFORMATION_MESSAGE,null,chooseGame,chooseGame[0]);
+					if(selctedGame=="Manually Game") {
+						StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , false);
+					}
+					else {
+						StdDraw.theMain.fullGame.NewGAME(Integer.parseInt(scenario_num) , true);
+					}
+					DGraph r = new DGraph();
+					r.init(StdDraw.theMain.fullGame.getGame().getGraph());
+					StdDraw.theMain.fullGame.setGraphM(r);
+					theMain.update();
+				}
+				startGameOneTime = true;
+			}
+
+
+			if (addRobot) {
+				ArrayList<Players> tempArr = new ArrayList<>();
+				String robots = StdDraw.theMain.fullGame.getGame().toString();
+				JSONObject json = null;
+				try {
+					json = new JSONObject(robots);
+					JSONObject newBobot = json.getJSONObject("GameServer");
+					int size = newBobot.getInt("robots");
+					addRob(size);
+				} catch (JSONException ex) {
+					ex.printStackTrace();
+				}
+			}
+
+			if(MoveRobot) {
+				double thex = mouseX;
+				double they = mouseY-0.001;
+				idRob = checkNodes(thex,they) ;
+				int winner = -1;
+				ArrayList<Players> pList = StdDraw.theMain.fullGame.getP();
+				for (int j = 0; j <pList.size() ; j++) {
+
+					if(pList.get(j).getSrc() == idRob){
+						Players p = StdDraw.theMain.fullGame.getP().get(j);
+						idRob =  j ;
+						StdDraw.picture(p.getLocation().x(),p.getLocation().y()+0.001 , "pic\\pointer.png", 0.0005,0.0005);
+						//StdDraw.show();
+						MoveRobot = false ;
+						getNodeLoc = true;
+					}
+
+				}
+				return;
+			}
+
+			if(getNodeLoc)
+			{
+				double thex = mouseX;
+				double they = mouseY-0.001;
+				int NodeID = checkNodes(thex,they);
+				if(StdDraw.theMain.fullGame.getGame().chooseNextEdge(idRob,NodeID)!=-1L) {
+					getNodeLoc = false;
+					MoveRobot = true;
+				}
+			}
+		}
+
+		private double returnDis(double x1, double x2, double y1, double y2)
+		{
+			double x = Math.pow((x2-x1),2);
+			double y = Math.pow((y2-y1),2);
+			return Math.sqrt(x+y);
+		}
+
+
+		int i = 0;
+		private void addRob(int size){
+			int id = -1;
 			String robots = StdDraw.theMain.fullGame.getGame().toString();
+			StdDraw.theMain.fullGame.getGame().stopGame();
 			JSONObject json = null;
 			try {
-				json = new JSONObject(robots);
-				JSONObject newBobot = json.getJSONObject("GameServer");
-				int size = newBobot.getInt("robots");
-				addRob(size);
+				//int i = 0;
+				double thex = mouseX;
+				double they = mouseY-0.001;
+				boolean t= false;
+				id = checkNodes(thex, they);
+				if (id != -1 ) {
+					StdDraw.theMain.fullGame.getGame().addRobot(id);
+					Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
+					i++;
+
+					StdDraw.theMain.fullGame.getP().add(tempPla);
+					StdDraw.theMain.update();
+				}
+
 			} catch (JSONException ex) {
 				ex.printStackTrace();
 			}
+			if(StdDraw.theMain.fullGame.getP().size() == size) addRobot = false;
 		}
 
-		if(MoveRobot) {
-			double thex = mouseX;
-			double they = mouseY-0.001;
-			idRob = checkNodes(thex,they) ;
-			int winner = -1;
-			ArrayList<Players> pList = StdDraw.theMain.fullGame.getP();
-			for (int j = 0; j <pList.size() ; j++) {
 
-				if(pList.get(j).getSrc() == idRob){
-					Players p = StdDraw.theMain.fullGame.getP().get(j);
-					idRob =  j ;
-					StdDraw.picture(p.getLocation().x(),p.getLocation().y()+0.001 , "pic\\pointer.png", 0.0005,0.0005);
-					//StdDraw.show();
-					MoveRobot = false ;
-					getNodeLoc = true;
-				}
+		private int checkNodes(double thex, double they) {
+			Iterator<node_data> Nite = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
+			int id = -1 , winner = -1;
+			boolean flag2 = true;
+			while (Nite.hasNext())
+			{
+				node_data node = Nite.next();
+				if( (node.getLocation().x() < (thex+0.0004)) && (node.getLocation().x() > (thex-0.0004)) && node.getLocation().y() < they+0.0004 && node.getLocation().y() > they-0.0004) {
 
-			}
-			return;
-		}
+					id = node.getKey();
+					if (id != -1) {
+						if (flag2) {
+							winner = id;
+							flag2 = false;
+						}
+						if (Math.abs(node.getLocation().x() - (thex + 0.0004)) < Math.abs(node.getLocation().x() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().x()) && (Math.abs(node.getLocation().y() - (they + 0.0004)) < Math.abs(node.getLocation().y() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().y()))) {
+							winner = id;
+						}
 
-		if(getNodeLoc)
-		{
-			double thex = mouseX;
-			double they = mouseY-0.001;
-			int NodeID = checkNodes(thex,they);
-			if(StdDraw.theMain.fullGame.getGame().chooseNextEdge(idRob,NodeID)!=-1L) {
-				getNodeLoc = false;
-				MoveRobot = true;
-			}
-		}
-	}
-
-	private double returnDis(double x1, double x2, double y1, double y2)
-	{
-		double x = Math.pow((x2-x1),2);
-		double y = Math.pow((y2-y1),2);
-		return Math.sqrt(x+y);
-	}
-
-
-	int i = 0;
-	private void addRob(int size){
-		int id = -1;
-		String robots = StdDraw.theMain.fullGame.getGame().toString();
-		StdDraw.theMain.fullGame.getGame().stopGame();
-		JSONObject json = null;
-		try {
-			//int i = 0;
-			double thex = mouseX;
-			double they = mouseY-0.001;
-			boolean t= false;
-			id = checkNodes(thex, they);
-			if (id != -1 ) {
-				StdDraw.theMain.fullGame.getGame().addRobot(id);
-				Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
-				i++;
-
-				StdDraw.theMain.fullGame.getP().add(tempPla);
-				StdDraw.theMain.update();
-			}
-
-		} catch (JSONException ex) {
-			ex.printStackTrace();
-		}
-		if(StdDraw.theMain.fullGame.getP().size() == size) addRobot = false;
-	}
-
-
-	private int checkNodes(double thex, double they) {
-		Iterator<node_data> Nite = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
-		int id = -1 , winner = -1;
-		boolean flag2 = true;
-		while (Nite.hasNext())
-		{
-			node_data node = Nite.next();
-			if( (node.getLocation().x() < (thex+0.0004)) && (node.getLocation().x() > (thex-0.0004)) && node.getLocation().y() < they+0.0004 && node.getLocation().y() > they-0.0004) {
-
-				id = node.getKey();
-				if (id != -1) {
-					if (flag2) {
-						winner = id;
-						flag2 = false;
 					}
-					if (Math.abs(node.getLocation().x() - (thex + 0.0004)) < Math.abs(node.getLocation().x() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().x()) && (Math.abs(node.getLocation().y() - (they + 0.0004)) < Math.abs(node.getLocation().y() - StdDraw.theMain.fullGame.getGraphM().getNode(winner).getLocation().y()))) {
-						winner = id;
-					}
-
 				}
 			}
+			return winner ;
 		}
-		return winner ;
-	}
 
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// this body is intentionally left empty
-	}
-
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// this body is intentionally left empty
-	}
-
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void mousePressed(MouseEvent e) {
-		synchronized (mouseLock) {
-			mouseX = StdDraw.userX(e.getX());
-			mouseY = StdDraw.userY(e.getY());
-			isMousePressed = true;
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// this body is intentionally left empty
 		}
-	}
 
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		synchronized (mouseLock) {
-			isMousePressed = false;
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// this body is intentionally left empty
 		}
-	}
 
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void mouseDragged(MouseEvent e)  {
-		synchronized (mouseLock) {
-			mouseX = StdDraw.userX(e.getX());
-			mouseY = StdDraw.userY(e.getY());
-		}
-	}
-
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		synchronized (mouseLock) {
-			mouseX = StdDraw.userX(e.getX());
-			mouseY = StdDraw.userY(e.getY());
-		}
-	}
-
-
-	/***************************************************************************
-	 *  Keyboard interactions.
-	 ***************************************************************************/
-
-	/**
-	 * Returns true if the user has typed a key (that has not yet been processed).
-	 *
-	 * @return {@code true} if the user has typed a key (that has not yet been processed
-	 *         by {@link #nextKeyTyped()}; {@code false} otherwise
-	 */
-	public static boolean hasNextKeyTyped() {
-		synchronized (keyLock) {
-			return !keysTyped.isEmpty();
-		}
-	}
-
-	/**
-	 * Returns the next key that was typed by the user (that your program has not already processed).
-	 * This method should be preceded by a call to {@link #hasNextKeyTyped()} to ensure
-	 * that there is a next key to process.
-	 * This method returns a Unicode character corresponding to the key
-	 * typed (such as {@code 'a'} or {@code 'A'}).
-	 * It cannot identify action keys (such as F1 and arrow keys)
-	 * or modifier keys (such as control).
-	 *
-	 * @return the next key typed by the user (that your program has not already processed).
-	 * @throws NoSuchElementException if there is no remaining key
-	 */
-	public static char nextKeyTyped() {
-		synchronized (keyLock) {
-			if (keysTyped.isEmpty()) {
-				throw new NoSuchElementException("your program has already processed all keystrokes");
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void mousePressed(MouseEvent e) {
+			synchronized (mouseLock) {
+				mouseX = StdDraw.userX(e.getX());
+				mouseY = StdDraw.userY(e.getY());
+				isMousePressed = true;
 			}
-			return keysTyped.remove(keysTyped.size() - 1);
-			// return keysTyped.removeLast();
 		}
-	}
 
-	/**
-	 * Returns true if the given key is being pressed.
-	 * <p>
-	 * This method takes the keycode (corresponding to a physical key)
-	 *  as an argument. It can handle action keys
-	 * (such as F1 and arrow keys) and modifier keys (such as shift and control).
-	 * See {@link KeyEvent} for a description of key codes.
-	 *
-	 * @param  keycode the key to check if it is being pressed
-	 * @return {@code true} if {@code keycode} is currently being pressed;
-	 *         {@code false} otherwise
-	 */
-	public static boolean isKeyPressed(int keycode) {
-		synchronized (keyLock) {
-			return keysDown.contains(keycode);
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			synchronized (mouseLock) {
+				isMousePressed = false;
+			}
 		}
-	}
 
-
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void keyTyped(KeyEvent e) {
-		synchronized (keyLock) {
-			keysTyped.addFirst(e.getKeyChar());
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void mouseDragged(MouseEvent e)  {
+			synchronized (mouseLock) {
+				mouseX = StdDraw.userX(e.getX());
+				mouseY = StdDraw.userY(e.getY());
+			}
 		}
-	}
 
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		synchronized (keyLock) {
-			keysDown.add(e.getKeyCode());
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			synchronized (mouseLock) {
+				mouseX = StdDraw.userX(e.getX());
+				mouseY = StdDraw.userY(e.getY());
+			}
 		}
-	}
 
-	/**
-	 * This method cannot be called directly.
-	 */
-	@Override
-	public void keyReleased(KeyEvent e) {
-		synchronized (keyLock) {
-			keysDown.remove(e.getKeyCode());
+
+		/***************************************************************************
+		 *  Keyboard interactions.
+		 ***************************************************************************/
+
+		/**
+		 * Returns true if the user has typed a key (that has not yet been processed).
+		 *
+		 * @return {@code true} if the user has typed a key (that has not yet been processed
+		 *         by {@link #nextKeyTyped()}; {@code false} otherwise
+		 */
+		public static boolean hasNextKeyTyped() {
+			synchronized (keyLock) {
+				return !keysTyped.isEmpty();
+			}
 		}
+
+		/**
+		 * Returns the next key that was typed by the user (that your program has not already processed).
+		 * This method should be preceded by a call to {@link #hasNextKeyTyped()} to ensure
+		 * that there is a next key to process.
+		 * This method returns a Unicode character corresponding to the key
+		 * typed (such as {@code 'a'} or {@code 'A'}).
+		 * It cannot identify action keys (such as F1 and arrow keys)
+		 * or modifier keys (such as control).
+		 *
+		 * @return the next key typed by the user (that your program has not already processed).
+		 * @throws NoSuchElementException if there is no remaining key
+		 */
+		public static char nextKeyTyped() {
+			synchronized (keyLock) {
+				if (keysTyped.isEmpty()) {
+					throw new NoSuchElementException("your program has already processed all keystrokes");
+				}
+				return keysTyped.remove(keysTyped.size() - 1);
+				// return keysTyped.removeLast();
+			}
+		}
+
+		/**
+		 * Returns true if the given key is being pressed.
+		 * <p>
+		 * This method takes the keycode (corresponding to a physical key)
+		 *  as an argument. It can handle action keys
+		 * (such as F1 and arrow keys) and modifier keys (such as shift and control).
+		 * See {@link KeyEvent} for a description of key codes.
+		 *
+		 * @param  keycode the key to check if it is being pressed
+		 * @return {@code true} if {@code keycode} is currently being pressed;
+		 *         {@code false} otherwise
+		 */
+		public static boolean isKeyPressed(int keycode) {
+			synchronized (keyLock) {
+				return keysDown.contains(keycode);
+			}
+		}
+
+
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void keyTyped(KeyEvent e) {
+			synchronized (keyLock) {
+				keysTyped.addFirst(e.getKeyChar());
+			}
+		}
+
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void keyPressed(KeyEvent e) {
+			synchronized (keyLock) {
+				keysDown.add(e.getKeyCode());
+			}
+		}
+
+		/**
+		 * This method cannot be called directly.
+		 */
+		@Override
+		public void keyReleased(KeyEvent e) {
+			synchronized (keyLock) {
+				keysDown.remove(e.getKeyCode());
+			}
+		}
+
+
+
+
+		/**
+		 * Test client.
+		 *
+		 * @param args the command-line arguments
+		 */
+		public static void main(String[] args) {
+			StdDraw.square(0.2, 0.8, 0.1);
+			StdDraw.filledSquare(0.8, 0.8, 0.2);
+			StdDraw.circle(0.8, 0.2, 0.2);
+
+			StdDraw.setPenColor(StdDraw.BOOK_RED);
+			StdDraw.setPenRadius(0.02);
+			StdDraw.arc(0.8, 0.2, 0.1, 200, 45);
+
+			// draw a blue diamond
+			StdDraw.setPenRadius();
+			StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+			double[] x = { 0.1, 0.2, 0.3, 0.2 };
+			double[] y = { 0.2, 0.3, 0.2, 0.1 };
+			StdDraw.filledPolygon(x, y);
+
+			// text
+			StdDraw.setPenColor(StdDraw.BLACK);
+			StdDraw.text(0.2, 0.5, "black text");
+			StdDraw.setPenColor(StdDraw.WHITE);
+			StdDraw.text(0.8, 0.8, "white text");
+		}
+
 	}
 
 
-
-
-	/**
-	 * Test client.
-	 *
-	 * @param args the command-line arguments
-	 */
-	public static void main(String[] args) {
-		StdDraw.square(0.2, 0.8, 0.1);
-		StdDraw.filledSquare(0.8, 0.8, 0.2);
-		StdDraw.circle(0.8, 0.2, 0.2);
-
-		StdDraw.setPenColor(StdDraw.BOOK_RED);
-		StdDraw.setPenRadius(0.02);
-		StdDraw.arc(0.8, 0.2, 0.1, 200, 45);
-
-		// draw a blue diamond
-		StdDraw.setPenRadius();
-		StdDraw.setPenColor(StdDraw.BOOK_BLUE);
-		double[] x = { 0.1, 0.2, 0.3, 0.2 };
-		double[] y = { 0.2, 0.3, 0.2, 0.1 };
-		StdDraw.filledPolygon(x, y);
-
-		// text
-		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(0.2, 0.5, "black text");
-		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.text(0.8, 0.8, "white text");
-	}
-
-}
-
-
-//Copyright © 2000–2017, Robert Sedgewick and Kevin Wayne. 
+//Copyright © 2000–2017, Robert Sedgewick and Kevin Wayne.
 //Last updated: Mon Aug 27 16:43:47 EDT 2018.

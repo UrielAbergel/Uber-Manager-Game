@@ -1,4 +1,5 @@
 	package gameClient;
+	import javax.swing.*;
 	import java.sql.Connection;
 	import java.sql.DriverManager;
 	import java.sql.ResultSet;
@@ -19,15 +20,17 @@ public class SimpleDB {
 	 * Simple main for demonstrating the use of the Data-base
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
+		    Connection connection = null;
 			int id1 = 205380215;  // "dummy existing ID
 			int level = 2;
 			//allUsers();
+		//	connection = DriverManager.getConnection(jdbcUrl);
 		//	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			printLog();
-			String kml = getKML(id1,level);
+		//	String kml = getKML(id1,level);
 			//System.out.println("***** KML file example: ******");
-			System.out.println(kml);
+			//System.out.println(kml);
 		}
 	/** simply prints all the games as played by the users (in the database).
 	 * 
@@ -38,13 +41,17 @@ public class SimpleDB {
 				Connection connection = 
 						DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcUserPassword);
 				Statement statement = connection.createStatement();
-				String allCustomersQuery = "SELECT * FROM Logs;";
+				String allCustomersQuery = "SELECT * FROM Logs WHERE UserID =" + 205380215 + " ORDER BY levelID , moves;";
+				JFrame f= new JFrame();
+
 				ResultSet resultSet = statement.executeQuery(allCustomersQuery);
-				
+				String pll = "";
 				while(resultSet.next())
 				{
-					System.out.println("Id: " + resultSet.getInt("UserID")+","+resultSet.getInt("levelID")+","+resultSet.getInt("moves")+","+resultSet.getDate("time"));
+					System.out.println("\n"+("Id: " + resultSet.getInt("UserID")+","+resultSet.getInt("levelID")+","+resultSet.getInt("moves")+","+resultSet.getDate("time")));
+
 				}
+
 				resultSet.close();
 				statement.close();		
 				connection.close();		
