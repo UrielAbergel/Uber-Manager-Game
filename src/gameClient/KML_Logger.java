@@ -9,9 +9,14 @@ import de.micromata.opengis.kml.v_2_2_0.Style;
 import de.micromata.opengis.kml.v_2_2_0.TimeSpan;
 import de.micromata.opengis.kml.v_2_2_0.TimeStamp;
 import org.junit.experimental.theories.Theories;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import utils.StdDraw;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,10 +101,16 @@ public class KML_Logger {
             }
         }
         try {
-            k.marshal(new File("KmlRun.kml"));
-            System.out.println("create");
+            File file = new File("KmlRun.kml");
+            k.marshal(file);
+
+            Path filePath = Paths.get("KmlRun.kml");
+            String kml = Files.readString(filePath, StandardCharsets.US_ASCII);
+            StdDraw.theMain.fullGame.setKML(kml);
+            StdDraw.theMain.fullGame.getGame().sendKML(kml);
+            System.out.println("KML created");
         } catch (Exception e) {
-            System.out.println("Fail create");
+            System.out.println("Fail to create KML");
         }
     }
 

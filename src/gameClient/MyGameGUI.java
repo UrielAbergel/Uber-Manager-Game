@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import Server.Game_Server;
 import Server.game_service;
 import algorithms.Graph_Algo;
@@ -312,14 +311,10 @@ public class MyGameGUI extends Thread implements game_gui {
                     {
 
                         movePlayerAUTO();
-
-
                     }
                     resetEdge();
                     update();
                     counter++;
-
-
                 }
                 if(!StdDraw.theMain.fullGame.getGame().isRunning()){
                     if(counter>prevCounter){

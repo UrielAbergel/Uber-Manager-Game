@@ -781,11 +781,17 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		JMenuItem stopM = new JMenuItem("Stop Game Manual");
 		JMenuItem stopA = new JMenuItem("Stop Game Auto");
 		JMenuItem addRobots = new JMenuItem("Add Robot");
+		JMenuItem LogIN = new JMenuItem("Log In");
+		JMenuItem Grades = new JMenuItem("Grades");
 		menu4.add(Start);
 		menu4.add(stopA);
 		menu5.add(StartgameManual);
 		menu5.add(stopM);
 		menu5.add(addRobots);
+		menu.add(LogIN);
+		menu.add(Grades);
+		Grades.addActionListener(std);
+		LogIN.addActionListener(std);
 		addRobots.addActionListener(std);
 		StartgameManual.addActionListener(std);
 
@@ -1861,6 +1867,20 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 		if(e.getActionCommand().equals("Stop Game Auto")){
 			StdDraw.theMain.fullGame.getGame().stopGame();
+		}
+		if(e.getActionCommand().equals("Log In")){
+			int intID = 0;
+			String ID  = JOptionPane.showInputDialog(null,"Please enter your ID number");
+			try {
+				intID = Integer.parseInt(ID);
+			}catch (Exception ex){
+				JOptionPane.showMessageDialog(null,"Numbers Only!\ntry again!");
+			}
+			Game_Server.login(intID);
+
+		}
+		if(e.getActionCommand().equals("Grades")){
+
 		}
 
 	}
