@@ -5,10 +5,12 @@ import algorithms.*;
 import gameClient.*;
 import gameClient.Fruit;
 import netscape.javascript.JSObject;
+import org.json.JSONException;
 import utils.StdDraw;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 /**
                      !!!!Comments on Interface!!!!
@@ -22,6 +24,7 @@ public class FullGameGraph implements full_graph_game{
     private int currentCen = -1 ;
     private GameAlgo gameAlgo = new GameAlgo();
     private boolean isAUTO = false ;
+    private String KML = "";
 
     public void NewGAME(int sen , boolean isAUTO){
         this.game = Game_Server.getServer(sen);
@@ -46,8 +49,38 @@ public class FullGameGraph implements full_graph_game{
     public game_service getGame(){
         return this.game;
     }
-    public void setGame(game_service g){
+
+    public void setKML(String s ){
+        this.KML = s;
+
+    }
+
+    public String getKML(){
+        return this.KML;
+
+    }
+
+    public void setGame(game_service g) throws JSONException {
+//        this.graphM = new DGraph(g.getGraph());
+//        List<String> playerList = new LinkedList<>();
+//        List<String> qq = g.getRobots();
+//        ArrayList<Players> tempArr = new ArrayList<>();
+//        for (String s : playerList) {
+//            Player tempPla = new Player(s);
+//            tempArr.add(tempPla);
+//        }
+//       this.setPlayersList(tempArr);
         this.game = g;
+//        List<String> fruitlist = new LinkedList<>();
+//        fruitlist =g.getFruits();
+//        ArrayList<Fruits> tempArr1 = new ArrayList<>();
+//        for (String s : fruitlist) {
+//            Fruit tempFru = new Fruit(s,StdDraw.theMain.fullGame.getGame().timeToEnd());
+//            tempFru.setTag(0);
+//            tempArr1.add(tempFru);
+
+    //    }
+    //    this.setFruitList(tempArr1);
     }
     public ArrayList<Players> getP(){
         return this.PlayersList;

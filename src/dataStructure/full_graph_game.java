@@ -7,6 +7,7 @@ import algorithms.graph_algorithms;
 import gameClient.Fruits;
 import gameClient.Player;
 import gameClient.Players;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 /**
@@ -40,7 +41,7 @@ public interface full_graph_game {
      * sec game function
      * @param g
      */
-    public void setGame(game_service g);
+    public void setGame(game_service g) throws JSONException;
 
     /**
      * get player list
