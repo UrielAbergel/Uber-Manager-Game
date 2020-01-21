@@ -89,7 +89,7 @@ public class GameAlgo {
                         min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
                         goToDest = dest;
                         NextStep = Next;
-                       f.setTag(1);
+                        f.setTag(1);
 
                     }
                 }
@@ -100,16 +100,14 @@ public class GameAlgo {
                         min = StdDraw.theMain.fullGame.getAlgo().shortestPathDist(p.getSrc(), dest);
                         goToDest = dest;
                         NextStep = Next;
-                       f.setTag(1);
+                        f.setTag(1);
 
                     }
                 }
             }
             else{
-              f.setTag(0);
+                f.setTag(0);
             }
-
-
             if(!AllBananTag()) resetFruitTag();
 
         }
@@ -131,7 +129,7 @@ public class GameAlgo {
     private void resetFruitTag() {
         ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
         for (Fruits f : fList){
-             f.setTag(0);
+            f.setTag(0);
 
         }
     }
@@ -165,8 +163,8 @@ public class GameAlgo {
      * @param p
      */
     public void NavigateAUTO(Players p ) {
-            int theWay = ReturnTheNextID(p );
-            StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
+        int theWay = ReturnTheNextID(p );
+        StdDraw.theMain.fullGame.getGame().chooseNextEdge(p.getKey(),theWay);
     }
 
 }

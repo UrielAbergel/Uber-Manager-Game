@@ -184,7 +184,7 @@ public class GameAlgoTest {
 
 
     @Test
-    public void NavigateAUTO() throws JSONException {
+    public void NavigateAUTO() throws JSONException, InterruptedException {
         StdDraw.theMain.fullGame.NewGAME(23,true);
         DGraph r = new DGraph();
         r.init(StdDraw.theMain.fullGame.getGame().getGraph());
