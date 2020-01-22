@@ -200,7 +200,7 @@ In each connection, the record of that player will be updated and displayed by a
 
 
 # Play and have FUN!
-
+# More details about the game on WIKI
 # Sources
 
 ### JAVA-TO-KML JAR : https://labs.micromata.de/java-api-for-kml/
