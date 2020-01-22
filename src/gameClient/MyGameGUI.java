@@ -320,7 +320,7 @@ public class MyGameGUI extends Thread implements game_gui {
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateFruits();
                     try {
-                        sleep(60);
+                        sleep(48);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

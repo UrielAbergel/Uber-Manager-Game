@@ -115,20 +115,21 @@ public class GameAlgo {
 
         return "" + goToDest + "," +NextStep ;
     }
-
+    private double x = 1/3;
     private boolean AllBananTag() {
         ArrayList<Fruits> FruList = StdDraw.theMain.fullGame.getF();
         for (Fruits fru : FruList)
         {
-            if(fru.getTag() == 0) return true;
+            if(fru.getTag() == 0 && x%2 == 0) return true;
+            x = x + 1/3;
         }
         return false;
     }
 
-
     private void resetFruitTag() {
         ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
         for (Fruits f : fList){
+
             f.setTag(0);
 
         }
