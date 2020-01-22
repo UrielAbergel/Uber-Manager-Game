@@ -108,14 +108,26 @@ public class GameAlgo {
             else{
                 f.setTag(0);
             }
-            if(!AllBananTag()) resetFruitTag();
+            if(!AllBananTag() && moreRobot()) {
+                resetFruitTag();
+            }
 
         }
 
 
         return "" + goToDest + "," +NextStep ;
     }
+<<<<<<< HEAD
     private double x = 1/3;
+=======
+
+    private boolean moreRobot() {
+        int robots = StdDraw.theMain.fullGame.getP().size();
+        int banana = StdDraw.theMain.fullGame.getF().size();
+        return robots >= banana ;
+    }
+
+>>>>>>> 6ebd805fe0e00be24837d9216a26ca8da2f8d3af
     private boolean AllBananTag() {
         ArrayList<Fruits> FruList = StdDraw.theMain.fullGame.getF();
         for (Fruits fru : FruList)
@@ -131,7 +143,7 @@ public class GameAlgo {
         for (Fruits f : fList){
 
             f.setTag(0);
-
+            return;
         }
     }
 

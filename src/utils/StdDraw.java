@@ -1892,10 +1892,10 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				Connection connection =
 						DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcUserPassword);
 				Statement statement = connection.createStatement();
-				String allCustomersQuery = "SELECT * FROM Logs WHERE UserID =" + intID + " ORDER BY levelID , moves;";
+				String allCustomersQuery = "SELECT * FROM Logs WHERE UserID =" + intID + " ORDER BY levelID , score;";
 				ResultSet resultSet = statement.executeQuery(allCustomersQuery);
 				while (resultSet.next()) {
-					pll += ("Id: " + resultSet.getInt("UserID") + "," + resultSet.getInt("levelID") + "," + resultSet.getInt("moves") + "," + resultSet.getDate("time") + "\n");
+					pll += ("Id: " + resultSet.getInt("UserID") + "," + resultSet.getInt("levelID") + "," + resultSet.getInt("score") + "," + resultSet.getDate("time") + "\n");
 				}
 				//	System.out.println(pll);
 				String finalGrades = "UsedID = " + intID + "\n";
@@ -1944,7 +1944,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				Connection connection =
 						DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcUserPassword);
 				Statement statement = connection.createStatement();
-				String allCustomersQuery = "SELECT * FROM Logs ORDER BY levelID , moves;";
+				String allCustomersQuery = "SELECT * FROM Logs ORDER BY levelID , score;";
 				ResultSet resultSet = statement.executeQuery(allCustomersQuery);
 				int startIndex = 0 ;
 				int CountTowinner = 1 ;
@@ -1957,7 +1957,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				String str = "User ID : "+ intID +"\n"+ "Your grade in the class\n";
 				ArrayList<String> strArr = new ArrayList<>();
 				while (resultSet.next()) {
-					pll += ("Id: " + resultSet.getInt("UserID") + "," + resultSet.getInt("levelID") + "," + resultSet.getInt("moves") + "," + resultSet.getDate("time") + "\n");
+					pll += ("Id: " + resultSet.getInt("UserID") + "," + resultSet.getInt("levelID") + "," + resultSet.getInt("score") + "," + resultSet.getDate("time") + "\n");
 				}
 				pll += ("Id: " + "0" + "," + "25" + "," + "0" + "," + "0" + "\n");
 				System.out.println(pll);
