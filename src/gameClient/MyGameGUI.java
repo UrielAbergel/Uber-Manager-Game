@@ -24,7 +24,7 @@ import javax.sound.midi.Soundbank;
 
 
 /**
- !!!!Comments on Interface!!!!
+ !!!! if Override Comments on Interface!!!!
  */
 public class MyGameGUI extends Thread implements game_gui {
     int CurrentMc = 0;
@@ -171,6 +171,7 @@ public class MyGameGUI extends Thread implements game_gui {
 
     }
 
+    @Override
     public void update() {
         StdDraw.clear();
         Range x = returnTheX();
@@ -370,14 +371,6 @@ public class MyGameGUI extends Thread implements game_gui {
         else return 0;
     }
 
-
-    private void resetFruitTag() {
-        ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
-        for (Fruits f : fList){
-            f.setTag(0);
-        }
-    }
-
     private void resetEdge() {
         Iterator<node_data> iter = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
         while (iter.hasNext()){
@@ -391,6 +384,10 @@ public class MyGameGUI extends Thread implements game_gui {
         }
     }
 
+    /**
+     * update fruit to the fruit list. and make the fruit tag 0;
+     * @throws JSONException
+     */
     private void updateFruits() throws JSONException {
         List<String> fruitlist = new LinkedList<>();
         fruitlist = this.fullGame.getGame().getFruits();
@@ -405,6 +402,11 @@ public class MyGameGUI extends Thread implements game_gui {
 
     }
 
+    /**
+     * update robot for the player list
+     * @throws JSONException
+     * @throws InterruptedException
+     */
     private void updateRobots() throws JSONException, InterruptedException {
         List<String> playerList = new LinkedList<>();
         if (this.fullGame.getGame().getRobots() == null) return;
@@ -423,6 +425,12 @@ public class MyGameGUI extends Thread implements game_gui {
         StdDraw.theMain.fullGame = g;
     }
 
+    /**
+     * create KML function. send this to create KML
+     * @throws JSONException
+     * @throws ParseException
+     * @throws InterruptedException
+     */
     public  void createKML() throws JSONException, ParseException, InterruptedException {
         this.kml.CreateOBJforKML();
     }

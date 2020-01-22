@@ -123,12 +123,21 @@ public class GameAlgo {
 
         return "" + goToDest + "," +NextStep ;
     }
+
+    /**
+     * check if the size of the robot is large then the size of the fruit
+     * @return
+     */
     private boolean moreRobot() {
         int robots = StdDraw.theMain.fullGame.getP().size();
         int banana = StdDraw.theMain.fullGame.getF().size();
         return robots >= banana ;
     }
 
+    /**
+     * check if all the fruit tags is 1
+     * @return
+     */
     private boolean AllBananTag() {
         ArrayList<Fruits> FruList = StdDraw.theMain.fullGame.getF();
         for (Fruits fru : FruList)
@@ -137,6 +146,9 @@ public class GameAlgo {
         }
         return false;
     }
+    /**
+     * reset the fruit tags.
+     */
     private void resetFruitTag2() {
         ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
         for (Fruits f : fList){
