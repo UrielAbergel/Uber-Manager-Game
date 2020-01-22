@@ -310,7 +310,9 @@ public class MyGameGUI extends Thread implements game_gui {
 
                     if (StdDraw.theMain.fullGame.getAUTO()) {
                         for (int i = 0; i < size; i++) {
+                           // if(i == size -1)   StdDraw.theMain.fullGame.getGame().addRobot(0);
                             StdDraw.theMain.fullGame.getGame().addRobot(Alist.get(i));
+
                             Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
                             tempArr.add(tempPla);
                         }
@@ -320,7 +322,7 @@ public class MyGameGUI extends Thread implements game_gui {
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateFruits();
                     try {
-                        sleep(60);
+                        sleep(0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
