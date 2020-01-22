@@ -322,7 +322,11 @@ public class MyGameGUI extends Thread implements game_gui {
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateFruits();
                     try {
+<<<<<<< HEAD
+                        sleep(48);
+=======
                         sleep(0);
+>>>>>>> 6ebd805fe0e00be24837d9216a26ca8da2f8d3af
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
