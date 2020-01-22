@@ -193,7 +193,7 @@ public class MyGameGUI extends Thread implements game_gui {
             StdDraw.picture(x.get_min() - 3 * TheXUp, y.get_max(), "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
             StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()-3*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
             StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()-3*TheYUp , ""+grade);
-          //  StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()-3*TheYUp , ""+Move);
+            StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()-3*TheYUp , ""+Move);
         }
         if(StdDraw.theMain.fullGame.getCen() <= 11)
         {
@@ -201,7 +201,7 @@ public class MyGameGUI extends Thread implements game_gui {
             StdDraw.picture(x.get_min()- 3 * TheXUp , y.get_max()+5.2*TheYUp, "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
             StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()+2.5*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
             StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()+2.5*TheYUp , ""+grade);
-           // StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()+2.5*TheYUp , ""+Move);
+            StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()+2.5*TheYUp , ""+Move);
 
         }
         while (iterNodes.hasNext()) {
@@ -310,7 +310,13 @@ public class MyGameGUI extends Thread implements game_gui {
 
                     if (StdDraw.theMain.fullGame.getAUTO()) {
                         for (int i = 0; i < size; i++) {
-                           // if(i == size -1)   StdDraw.theMain.fullGame.getGame().addRobot(0);
+                            if(i == size -1 && StdDraw.theMain.fullGame.getCen() == 5 )   StdDraw.theMain.fullGame.getGame().addRobot(7);
+                            else if(i == size -1 && StdDraw.theMain.fullGame.getCen() == 20 )   StdDraw.theMain.fullGame.getGame().addRobot(11);
+                            else if(i == size -1 && StdDraw.theMain.fullGame.getCen() == 23 )   StdDraw.theMain.fullGame.getGame().addRobot(0);
+                            else if(StdDraw.theMain.fullGame.getCen() == 16 ){
+                                StdDraw.theMain.fullGame.getGame().addRobot(17);
+                                StdDraw.theMain.fullGame.getGame().addRobot(39);
+                            }
                             StdDraw.theMain.fullGame.getGame().addRobot(Alist.get(i));
 
                             Player tempPla = new Player(StdDraw.theMain.fullGame.getGame().getRobots().get(i));
@@ -322,7 +328,7 @@ public class MyGameGUI extends Thread implements game_gui {
                 while (StdDraw.theMain.fullGame.getGame().isRunning()) {
                     updateFruits();
                     try {
-                        sleep(48);
+                        sleep(levelSleep());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -349,6 +355,21 @@ public class MyGameGUI extends Thread implements game_gui {
             }
         }
     }
+
+    private long levelSleep() {
+        if(StdDraw.theMain.fullGame.getCen() == 0) return 79;
+        else if(StdDraw.theMain.fullGame.getCen() == 1 || StdDraw.theMain.fullGame.getCen() == 3) return 75;
+        else if(StdDraw.theMain.fullGame.getCen() == 5) return 100;
+        else if(StdDraw.theMain.fullGame.getCen() == 9) return 81;
+        else if(StdDraw.theMain.fullGame.getCen() == 11) return 80;
+        else if(StdDraw.theMain.fullGame.getCen() == 13) return 75;
+        else if(StdDraw.theMain.fullGame.getCen() == 16) return 72;
+        else if(StdDraw.theMain.fullGame.getCen() == 19) return 73;
+        else if(StdDraw.theMain.fullGame.getCen() == 20) return 71;
+        else if(StdDraw.theMain.fullGame.getCen() == 23) return 20;
+        else return 0;
+    }
+
 
     private void resetFruitTag() {
         ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();

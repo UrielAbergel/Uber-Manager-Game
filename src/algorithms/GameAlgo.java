@@ -108,8 +108,14 @@ public class GameAlgo {
             else{
                 f.setTag(0);
             }
-            if(!AllBananTag() && moreRobot()) {
+            if((!AllBananTag() && moreRobot())||StdDraw.theMain.fullGame.getCen()==16) {
+                if(StdDraw.theMain.fullGame.getCen()!=23) resetFruitTag();
+            }
+            else if (StdDraw.theMain.fullGame.getCen()==20){
                 resetFruitTag();
+            }
+            else if (StdDraw.theMain.fullGame.getCen()==23){
+                resetFruitTag2();
             }
 
         }
@@ -131,13 +137,18 @@ public class GameAlgo {
         }
         return false;
     }
+    private void resetFruitTag2() {
+        ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
+        for (Fruits f : fList){
+            f.setTag(0);
+            break;
+        }
+    }
 
     private void resetFruitTag() {
         ArrayList<Fruits> fList = StdDraw.theMain.fullGame.getF();
         for (Fruits f : fList){
-
             f.setTag(0);
-            return;
         }
     }
 
