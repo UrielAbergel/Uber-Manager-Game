@@ -339,7 +339,6 @@ public class MyGameGUI extends Thread implements game_gui {
                     {
                         movePlayerAUTO();
                     }
-                    resetEdge();
                     update();
                     counter++;
 
@@ -369,19 +368,6 @@ public class MyGameGUI extends Thread implements game_gui {
         else if(StdDraw.theMain.fullGame.getCen() == 20) return 71;
         else if(StdDraw.theMain.fullGame.getCen() == 23) return 20;
         else return 0;
-    }
-
-    private void resetEdge() {
-        Iterator<node_data> iter = StdDraw.theMain.fullGame.getGraphM().getV().iterator();
-        while (iter.hasNext()){
-            node_data n = iter.next();
-            if(StdDraw.theMain.fullGame.getGraphM().getE(n.getKey())!=null) {
-                Iterator<edge_data> iter2 = StdDraw.theMain.fullGame.getGraphM().getE(n.getKey()).iterator();
-                while (iter2.hasNext()) {
-                    iter2.next().setTag(0);
-                }
-            }
-        }
     }
 
     /**

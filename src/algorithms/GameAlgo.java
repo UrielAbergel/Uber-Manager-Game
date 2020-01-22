@@ -4,7 +4,7 @@ package algorithms;
 import dataStructure.*;
 import gameClient.Fruits;
 import gameClient.Players;
-import utils.Point3D;
+
 import utils.StdDraw;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +25,6 @@ public class GameAlgo {
         node_data dest  = new NodeData(0,0,0);
         node_data src = new NodeData(0,0,0);
         edge_data ans = new EdgeData(0,0,0);
-        Point3D theLocOfTHEFRUIT = p.getLocation();
         Iterator<node_data> iterV =  StdDraw.theMain.fullGame.getGraphM().getV().iterator();
         while(iterV.hasNext())
         {
@@ -59,7 +58,6 @@ public class GameAlgo {
         double y = Math.pow((y2-y1),2);
         return Math.sqrt(x+y);
     }
-    static int counter = 0;
     /**
      * function that get player and return the nearest fruit
      * @param p
@@ -75,12 +73,10 @@ public class GameAlgo {
         double min = Double.MAX_VALUE;
         double goToDest = -1 ;
         double NextStep = -1 ;
-        boolean t = false ;
         for(Fruits f : FruList)
         {
 
             if(f.getTag()!=1) {
-                t=true;
                 c++;
                 if (f.getType() == -1) {
                     int dest = checkWhereTheFruit(f).getSrc();
@@ -163,8 +159,6 @@ public class GameAlgo {
             f.setTag(0);
         }
     }
-
-
     /**
      * function that return the nextID node dest.
      * @param p

@@ -1876,7 +1876,6 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 		if (e.getActionCommand().equals("Log In")) {
 			ID = JOptionPane.showInputDialog(null, "Please enter your ID number");
-			//System.out.printf(ID);
 			try {
 				intID = Integer.parseInt(ID);
 			} catch (Exception ex) {
