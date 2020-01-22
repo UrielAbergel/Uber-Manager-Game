@@ -193,7 +193,7 @@ public class MyGameGUI extends Thread implements game_gui {
             StdDraw.picture(x.get_min() - 3 * TheXUp, y.get_max(), "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
             StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()-3*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
             StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()-3*TheYUp , ""+grade);
-            StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()-3*TheYUp , ""+Move);
+          //  StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()-3*TheYUp , ""+Move);
         }
         if(StdDraw.theMain.fullGame.getCen() <= 11)
         {
@@ -201,7 +201,7 @@ public class MyGameGUI extends Thread implements game_gui {
             StdDraw.picture(x.get_min()- 3 * TheXUp , y.get_max()+5.2*TheYUp, "pic\\value.png", rightScaleX * 2, rightScaleY * 2);
             StdDraw.text(x.get_min()- 8 * TheXUp , y.get_max()+2.5*TheYUp , ""+StdDraw.theMain.fullGame.getGame().timeToEnd()/1000);
             StdDraw.text(x.get_min()- 3 * TheXUp , y.get_max()+2.5*TheYUp , ""+grade);
-            StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()+2.5*TheYUp , ""+Move);
+           // StdDraw.text(x.get_min()+1 * TheXUp , y.get_max()+2.5*TheYUp , ""+Move);
 
         }
         while (iterNodes.hasNext()) {
