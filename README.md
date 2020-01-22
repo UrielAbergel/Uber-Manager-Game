@@ -10,6 +10,12 @@ The game works according to the dijkstra algorithm.
 The fuels that appear on the screen at arrival are automatically updated and go statistically to another side on the graph
 The game allows a view in the standard Gentile window and at the end of each game allows a look at the game in Google Earth.
 There you can view the results and play with them on real maps of the world by a KML file that is automatically released in every game
+The game has a server on a network that stores data from the game.By SQL Database
+The second goal of the game is to win the best time and the lowest number of steps and beat the other users.
+## The step transition table:
+
+![טבלה](https://user-images.githubusercontent.com/54840897/72890124-e98c8a80-3d19-11ea-92be-e67c0df4aca8.PNG)
+
 
 # Class diagram
 ![דיאגרמה](https://user-images.githubusercontent.com/54840897/72538180-15c18a80-3886-11ea-89d5-8f3491147f95.PNG)
@@ -38,7 +44,6 @@ Represents a single vertex in the graph receives an id and receives the point it
 Each method has a set method Represented by set "value"
 
 
-# Play and Have FUN!
 ## EdgeData : 
 
 ### descreption :
@@ -171,6 +176,28 @@ The class represents an object that holds all the data for the game, with which 
  
 ## KML_LOGGER:
 A class that converts a game to a KML object so you can see the game and time in the Google World view
+The display allows you to see the course of the trip a trip to the fuel , And their real-time eating time by game
+
+## SQL DB Game:
+The game server allows connecting to the server for taking your data ,Information that lets you know your best results, and your results in relation to other players in the game .
+
+How to connect to the server : 
+- File
+- Log in 
+- Insert your ID into the game using the window
+
+![חיבור לסרבר](https://user-images.githubusercontent.com/54840897/72891189-5d2f9700-3d1c-11ea-9e1f-f6a76b937f44.PNG)
+
+Once the ID is inserted, every game starts The player result will be saved by the server, and a KML file will be sent to the server, a file that Can be returned by the server at the GetKML request () 
+
+In each connection, the record of that player will be updated and displayed by a table .
+
+### A table of the player's highs : 
+![טבלת משתמש](https://user-images.githubusercontent.com/54840897/72890920-b519ce00-3d1b-11ea-9184-70e8ec224ab3.PNG)
+
+### A table of the player's highs and their position relative to the other players : 
+![טבלה כללית](https://user-images.githubusercontent.com/54840897/72890923-b5b26480-3d1b-11ea-969e-1b2cbc3eb1e5.PNG)
+
 
 # Play and have FUN!
 
