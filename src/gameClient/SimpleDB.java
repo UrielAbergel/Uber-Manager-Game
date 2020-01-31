@@ -41,14 +41,14 @@ public class SimpleDB {
 				Connection connection = 
 						DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcUserPassword);
 				Statement statement = connection.createStatement();
-				String allCustomersQuery = "SELECT * FROM Logs WHERE UserID =" + 205380215 + " ORDER BY levelID , moves;";
+				String allCustomersQuery = "SELECT * FROM Logs WHERE UserID =" + 205380215 + " ORDER BY levelID , score;";
 				JFrame f= new JFrame();
 
 				ResultSet resultSet = statement.executeQuery(allCustomersQuery);
 				String pll = "";
 				while(resultSet.next())
 				{
-					System.out.println("\n"+("Id: " + resultSet.getInt("UserID")+","+resultSet.getInt("levelID")+","+resultSet.getInt("moves")+","+resultSet.getDate("time")));
+					System.out.println("\n"+("Id: " + resultSet.getInt("UserID")+","+resultSet.getInt("levelID")+","+resultSet.getInt("score")+","+resultSet.getDate("time")));
 
 				}
 

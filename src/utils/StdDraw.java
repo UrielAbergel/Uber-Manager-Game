@@ -1881,7 +1881,12 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(null, "Numbers Only!\ntry again!");
 			}
-			Game_Server.login(intID);
+			Thread log = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Game_Server.login(intID);
+				}
+			});
 
 		}
 		if (e.getActionCommand().equals("My Grades")) {
