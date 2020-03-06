@@ -5,9 +5,9 @@ The game allows the user to play on a graphic map,
 Where the game's data structures are a graph class, each node represents a road intersection.
 The game has an option to play automatically, or to let the user play manually by entering values
 The game works according to the dijkstra algorithm.
- When it calculates the shortest distances, and takes the distance and value of the fuel and moves to there
- The goal of the game is to win as many points as possible and beat the existing algorithm.
-The fuels that appear on the screen at arrival are automatically updated and go statistically to another side on the graph
+ When it calculates the shortest distances, and takes the distance and value of the customer and moves to there
+ The goal of the game is to win as many points as possible and beat the existing algorithm And take the largest number of customers.
+The customer that appear on the screen at arrival are automatically updated and go statistically to another side on the graph
 The game allows a view in the standard Gentile window and at the end of each game allows a look at the game in Google Earth.
 There you can view the results and play with them on real maps of the world by a KML file that is automatically released in every game
 The game has a server on a network that stores data from the game.By SQL Database
@@ -24,7 +24,7 @@ The second goal of the game is to win the best time and the lowest number of ste
 ![מסך פתיחה](https://user-images.githubusercontent.com/54840897/72536849-b793a800-3883-11ea-9849-253ec300d97b.PNG)
 
 # Game GUI JAVA
-![משחק עדכני](https://user-images.githubusercontent.com/54840897/72536902-d2661c80-3883-11ea-8506-a6139658bb61.PNG)
+![משחק 1](https://user-images.githubusercontent.com/54840897/76092589-4e4d2d00-5fc8-11ea-9fe2-4a23e72be330.PNG)
 
 # Game GUI Google Earth
 ![גוגל](https://user-images.githubusercontent.com/54840897/72537198-5ae4bd00-3884-11ea-8825-d644cf122435.PNG)
