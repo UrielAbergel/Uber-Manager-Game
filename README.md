@@ -1,4 +1,4 @@
-![MAIN](https://user-images.githubusercontent.com/54840897/72450402-fca3d580-37c2-11ea-855a-64cac976aff2.PNG)
+![כותרת](https://user-images.githubusercontent.com/54840897/76887989-c6023e00-688b-11ea-9a05-970fed791764.PNG)
 
 # descreption :
 The game allows the user to play on a graphic map,
@@ -21,7 +21,7 @@ The second goal of the game is to win the best time and the lowest number of ste
 ![דיאגרמה](https://user-images.githubusercontent.com/54840897/72538180-15c18a80-3886-11ea-89d5-8f3491147f95.PNG)
 
 # Welcome screen
-![מסך פתיחה](https://user-images.githubusercontent.com/54840897/72536849-b793a800-3883-11ea-9849-253ec300d97b.PNG)
+![welcome](https://user-images.githubusercontent.com/54840897/76889594-87ba4e00-688e-11ea-9feb-e00d40ee597e.PNG)
 
 # Game GUI JAVA
 ![משחק 1](https://user-images.githubusercontent.com/54840897/76092589-4e4d2d00-5fc8-11ea-9fe2-4a23e72be330.PNG)
