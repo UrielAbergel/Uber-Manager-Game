@@ -16,10 +16,6 @@ The second goal of the game is to win the best time and the lowest number of ste
 
 ![טבלה](https://user-images.githubusercontent.com/54840897/72890124-e98c8a80-3d19-11ea-92be-e67c0df4aca8.PNG)
 
-
-# Class diagram
-![דיאגרמה](https://user-images.githubusercontent.com/54840897/72538180-15c18a80-3886-11ea-89d5-8f3491147f95.PNG)
-
 # Welcome screen
 ![welcome](https://user-images.githubusercontent.com/54840897/76889594-87ba4e00-688e-11ea-9feb-e00d40ee597e.PNG)
 
